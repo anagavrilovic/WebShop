@@ -3,17 +3,24 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link href="../css/homepage.css" rel="stylesheet" />
+	<link href="../css/loginModal.css" rel="stylesheet" />
 	<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
 	<div id="cover">
 		<img src="../images/onion.png" class="logo">
 		<ul class="nav-area">
-			<li><a href="#">Prijavite se</a></li>
+			<li><a href="#" @click="showModal = true" >Prijavite se</a></li>
 			<li><a href="#">Registujte se</a></li>
 		</ul>
+		
+		<!-- Login modal -->
+		<login-modal v-if="showModal" @close="showModal = false">	</login-modal>
+
 	</div>
+	
 	<div class="main_body" id="restaurants">
 		<div class="container">
 			<div class="row">
@@ -140,6 +147,8 @@
 
 
 	</div>
+	
+
 
 
 
@@ -151,6 +160,8 @@
 	<script src="../js/vue.js"></script>
 	<script src="../js/axios.js"></script>
 	<script src="../app/app.js"></script>
+	<script src="../app/loginVue.js"></script>
+	<script src="../app/loginModalComponent.js"></script>
 </body>
 
 </html>
