@@ -1,0 +1,110 @@
+#cover {
+    background: url('../images/panorama.jpg');
+    background-repeat: no-repeat;
+    min-height: 40%;
+    max-height: 40%;
+  }
+
+body{
+    background-color: lightgray;
+}
+
+.logo{
+    margin-left: 12%;
+    margin-top: 10px;
+    width: 100px;
+    height: 100px;
+}
+
+.nav-area {
+	float: right;
+	list-style: none;
+	margin-top: 30px;
+    margin-right: 12%;
+}
+.nav-area li {
+	display: inline-block;
+}
+.nav-area li a {
+    background-color: #fff;
+	color: #000;
+	text-decoration: none;
+	padding: 5px 20px;
+	font-size: 16px;
+	text-transform: uppercase;
+}
+.nav-area li a:hover {
+	background: cornflowerblue;
+	color: #333;
+}
+
+.main_body{
+    margin-left: 12%;
+    margin-right: 12%;
+    margin-top: 2%;
+}
+
+.main_content{
+    min-height: 150px;
+}
+
+.search_bar{
+    margin-bottom: 3px;
+}
+
+.flex{
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.view_item img{
+	width: 75px;
+}
+
+.view_main{
+	background: #fff;
+	border-radius: 3px;
+	padding: 15px;
+}
+
+.list-view .view_item {
+	background: #fff;
+	border: 1px solid #e2efe1;
+    margin-top: 10px;
+	padding: 10px 20px;
+	display: flex;
+	align-items: center;
+}
+
+.list-view .view_item:last-child{
+	margin-bottom: 0;
+}
+
+.list-view .view_item .vi_left{
+	margin-right: 25px;
+}
+
+.view_item .title{
+	font-weight: 600;
+}
+
+.view_item .content{
+	margin: 5px 0;
+	font-size: 14px;
+	line-height: 22px;
+	font-weight: 200;
+}
+
+
+
+
