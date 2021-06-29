@@ -12,9 +12,9 @@ public class RestaurantDAO {
 	
 	public RestaurantDAO() {
 		restaurants = new ArrayList<Restaurant>();
-		Restaurant r1 = new Restaurant("images/tomato.png", "Tomato Restaurant", true, "Romanian", 5);
-		Restaurant r2 = new Restaurant("images/chilli.png", "Chilli Restaurant", true, "Barbeque", 4);
-		Restaurant r3 = new Restaurant("images/tomato.png", "Ketchup Restaurant", false, "Italian", 3);
+		Restaurant r1 = new Restaurant("Tomato Restaurant", "Romanian", "images/tomato.png");
+		Restaurant r2 = new Restaurant("Chilli Restaurant", "Barbeque", "images/chilli.png");
+		Restaurant r3 = new Restaurant("Ketchup Restaurant", "Italian", "images/tomato.png");
 		
 		restaurants.add(r1);
 		restaurants.add(r2);

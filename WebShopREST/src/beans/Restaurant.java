@@ -1,86 +1,73 @@
 package beans;
 
+import java.util.*;
+
 public class Restaurant {
-	private String imagePath;
-	private String name;
-	private boolean isOpen;
-	private String type;
-	private int mark;
-	
-	
-	
-	public Restaurant(String imagePath, String name, boolean isOpen, String type, int mark) {
-		super();
-		this.imagePath = imagePath;
-		this.name = name;
-		this.isOpen = isOpen;
-		this.type = type;
-		this.mark = mark;
+
+    private String id;
+    private String name;
+    private String type;
+    private String logoPath;
+    private String imagePath;
+    private Boolean isDeleted = false;
+   
+    private Location location;
+    public WorkTime workTime;
+   
+	public String getId() {
+		return id;
 	}
-
-
-
-	public String getImagePath() {
-		return imagePath;
+	public void setId(String id) {
+		this.id = id;
 	}
-
-
-
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
-	}
-
-
-
 	public String getName() {
 		return name;
 	}
-
-
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
-
-	public boolean isOpen() {
-		return isOpen;
-	}
-
-
-
-	public void setOpen(boolean isOpen) {
-		this.isOpen = isOpen;
-	}
-
-
-
 	public String getType() {
 		return type;
 	}
-
-
-
 	public void setType(String type) {
 		this.type = type;
 	}
-
-
-
-	public int getMark() {
-		return mark;
+	public String getLogoPath() {
+		return logoPath;
 	}
-
-
-
-	public void setMark(int mark) {
-		this.mark = mark;
+	public void setLogoPath(String logoPath) {
+		this.logoPath = logoPath;
 	}
-
-
-
-	public Restaurant() {
-		
+	public String getImagePath() {
+		return imagePath;
 	}
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+	public Location getLocation() {
+		return location;
+	}
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+	public WorkTime getWorkTime() {
+		return workTime;
+	}
+	public void setWorkTime(WorkTime workTime) {
+		this.workTime = workTime;
+	}
+	public Restaurant(String name, String type, String logoPath) {
+		super();
+		this.name = name;
+		this.type = type;
+		this.logoPath = logoPath;
+	}
+   
+	
 }

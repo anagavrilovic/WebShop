@@ -34,7 +34,7 @@ public class RestaurantService {
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Restaurant> getProducts() {
+	public Collection<Restaurant> getRestaurants() {
 		RestaurantDAO dao = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
 		return dao.getAll();
 	}
