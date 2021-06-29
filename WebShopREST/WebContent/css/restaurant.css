@@ -1,0 +1,79 @@
+#page { 
+    background-color: #f2f2f2;
+}
+
+.banner-image {
+    background-size: cover;
+    height: 50vh;
+}
+
+.mynavbar1 {
+    height: 8vh;
+}
+
+.navbar-item-style {
+    text-shadow: 1px 1px 3px #222;
+}
+
+.restaurant-logo {
+    -webkit-filter: drop-shadow(5px 5px 5px #222);
+    filter: drop-shadow(5px 5px 5px #222);
+}
+
+.restaurant-name {
+    text-shadow: 1px 1px 5px #222;
+    color: white;
+    font-size: 60px;
+}
+
+.navbar-custom {
+    background-color: #3b535f;
+}
+
+.navbar2-custom {
+    background-color: transparent;
+    padding: 0% 7%;
+    height: 15vh;
+}
+
+.nav-item {
+    width: 150px;
+}
+.navbar-nav .active a{
+    color: white;
+    background-color: #80B0CF;
+}
+.nav-item a:hover {
+    color: #3B535F;
+}
+.nav-item a {
+    color: #80B0CF;
+}
+
+.food-images {
+    padding: 15px;
+}
+
+.product-name {
+    color: #3b535f;
+    font-size: 27px;
+}
+.product-description {
+    color: #3b535f;
+}
+.product-price {
+    color: #C75D4F;
+    font-size: x-large;
+    font-weight: bold;
+    position:absolute;
+    bottom: 0;          
+    right: 20px;  
+}
+
+.card {
+    cursor: pointer;
+}
+.hovered {
+    margin-top: -1%;
+}
+
