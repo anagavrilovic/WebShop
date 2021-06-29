@@ -9,7 +9,7 @@ var app = new Vue({
 		error: ''
 	},
 	mounted() {
-		axios.get('rest/restaurants')
+		axios.get('../rest/restaurants')
 			.then(response => (this.restaurants = response.data))
 	},
 	methods: {
@@ -41,12 +41,12 @@ var app = new Vue({
 		},
 
 		sortNameAZ: function () {
-			axios.get('rest/restaurants/nameAtoZ')
+			axios.get('../rest/restaurants/nameAtoZ')
 			.then(response => (this.restaurants = response.data))
 		},
 
 		typeFilter: function () {
-			axios.post('rest/restaurants/typeFilter', this.checkedRestaurantTypes)
+			axios.post('../rest/restaurants/typeFilter', this.checkedRestaurantTypes)
 			.then(response => (this.restaurants = response.data))
 		}
 	}
