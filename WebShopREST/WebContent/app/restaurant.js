@@ -1,9 +1,22 @@
+const Products = { template: '<restaurant-products></restaurant-products>' }
+const Information = { template: '<restaurant-information></restaurant-information>' }
+const Comments = { template: '<restaurant-comments></restaurant-comments>' }
+
+const router = new VueRouter({
+    mode: 'hash',
+    routes: [
+        { path: '/', component: Products },
+        { path: '/info', component: Information },
+        { path: '/comments', component: Comments }
+    ]
+});
+
 var app = new Vue({
+    router,
     el: '#page',
     data: {
         tab: 1,
-        restaurant: null,
-        products: null
+        restaurant: null
     },
     created() {
         window.addEventListener('scroll', this.handleScroll);
@@ -13,14 +26,6 @@ var app = new Vue({
     },
     mounted() {
         this.restaurant = {image: '../images/girosMasterCover.jpg', logo: '../images/girosMasterLogo.png', name: 'GYROS MASTER'};
-        this.products = [
-            {name: 'Mali giros', description: 'Neki opis malog girosa', price: '230.00 RSD', image: '../images/girosMasterGiros.png'},
-            {name: 'Veliki giros', description: 'Neki opis velikog girosa', price: '330.00 RSD', image: '../images/girosMasterGiros.png'},
-            {name: 'Giros box', description: 'Neki opis giros boxa', price: '450.00 RSD', image: '../images/girosMasterGirosbox.png'},
-            {name: 'Giros box + Pepsi', description: 'Neki opis giros boxa i pepsija', price: '500.00 RSD', image: '../images/girosMasterGirosboxpepsi.png'},
-            {name: 'Pomfrit', description: 'Neki opis pomfrita', price: '120.00 RSD', image: '../images/girosMasterPomfrit.png'},
-            {name: 'Pepsi', description: 'Neki opis pepsija', price: '100.00 RSD', image: '../images/girosMasterPepsi.jpeg'}
-        ]
     },
     methods: {
         handleScroll(event){
@@ -30,15 +35,7 @@ var app = new Vue({
             } else {
                 nav.classList.remove('navbar-custom', 'shadow');
             }
-        },
-        addHoverClass: function (e) {
-            e.target.classList.add("hovered");
-            e.target.classList.add("shadow-lg");
-          },
-        removeHoverClass: function (e) {
-            e.target.classList.remove("hovered");
-            e.target.classList.remove("shadow-lg");
         }
-    },
+    }
 
 });
