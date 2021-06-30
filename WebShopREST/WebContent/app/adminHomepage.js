@@ -1,6 +1,6 @@
-const Restaurants = { template: '<restaurants></restaurants>' }
-const Users = { template: '<users></users>' }
-const Comments = { template: '<comments></comments>' }
+const Restaurants = { template: '<admin-restaurants></admin-restaurants>' }
+const Users = { template: '<admin-users></admin-users>' }
+const Comments = { template: '<admin-comments></admin-comments>' }
 
 const router = new VueRouter({
     mode: 'hash',
