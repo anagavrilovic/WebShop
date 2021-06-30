@@ -21,7 +21,8 @@ Vue.component("restaurant-products", {
                             <h5 class="product-price-dialog">{{product.price}}</h5>
                             <div class="itemQuantity">
                                 <span>
-                                    <button class="btn btn-secondary rounded-circle addRemoveItem" v-on:click="decreaseQuantity">
+                                    <button class="btn btn-secondary rounded-circle addRemoveItem" v-on:click="decreaseQuantity"
+                                        v-bind:class="{disabled : quantity === 1}">
                                         <img src="../images/minus.png" style="margin-top: -10px;">
                                     </button>
                                 </span>
@@ -84,13 +85,12 @@ Vue.component("restaurant-products", {
         },
         openModalForOrderingProduct: function(product) {
             this.product = product;
-            console.log(this.product);
             $('#orderProduct').modal('show');
         },
-        decreaseQuantity: function() {
+        decreaseQuantity: function(e) {
             this.quantity = this.quantity - 1;
         },
-        increaseQuantity: function() {
+        increaseQuantity: function(e) {
             this.quantity = this.quantity + 1;
         }
     }

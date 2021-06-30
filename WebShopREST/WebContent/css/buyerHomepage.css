@@ -1,0 +1,44 @@
+.cover-image {
+    background-size: cover;
+    height: 50vh;
+    background-image: url('../images/cover.jpg');
+}
+
+.flex{
+    width: 100%;
+}
+
+.btn-filter {
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: left !important;
+}
+.btn-filter, .btn-search {
+    background-color: #3b535f;
+    border-color: #3b535f;
+    color: white;
+}
+.btn-filter:hover, .btn-search:hover {
+    background-color: #597381;
+    border-color: #597381;
+    color: white;
+}
+
+.padding-0 {
+    padding-right: 3px;
+    padding-left: 3px;
+}
+.padding1-0 {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.restaurant-images {
+    width: 130px;
+    height: 130px;
+    text-align: center;
+}
+.restaurant-name-card {
+    color: #3b535f;
+    font-size: x-large;
+}
