@@ -66,6 +66,52 @@
   width: 350px;
   margin: 30px auto;
 }
+
+.modal-registration {
+  color: #636363;
+  width: 30vw;
+  height: 80vh;
+  margin: 30px auto;
+}
+
+.modal-registration .modal-content {
+  padding: 20px;
+  border-radius: 5px;
+  border: none;
+}
+.modal-registration .modal-header {
+  border-bottom: none;
+  position: relative;
+  justify-content: center;
+}
+.modal-registration h4 {
+  text-align: center;
+  font-size: 26px;
+}
+.modal-registration  .form-group {
+  position: relative;
+}
+
+.modal-registration .form-control:focus {
+  border-color: #00ce81;
+}
+.modal-registration .form-control, .modal-login .btn {
+  min-height: 30px;
+  border-radius: 3px; 
+}
+.modal-registration .hint-text {
+  text-align: center;
+  padding-top: 10px;
+}
+.modal-registration .btn-close {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  border: none;
+  background-color: transparent;
+  color:red;
+}
+
 .modal-login .modal-content {
   padding: 20px;
   border-radius: 5px;
@@ -113,7 +159,7 @@
 }
 
 .input-field{
-  margin-bottom: 4px;
+  margin-bottom: 2vh;
 }
 
 .submitButton{
@@ -122,4 +168,10 @@
 
 #submitButton{
 	margin-top: 5px;
+  width: 7vw;
+}
+
+.loginFromRegistrationLink{
+  text-align: center;
+  margin-top: 1vh;
 }

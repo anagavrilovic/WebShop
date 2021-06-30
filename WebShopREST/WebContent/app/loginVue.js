@@ -1,6 +1,7 @@
   new Vue({
     el: "#cover",
     data: {
-      showModal: false
+      showLoginModal: false,
+      showRegistrationModal: false
     }
   });

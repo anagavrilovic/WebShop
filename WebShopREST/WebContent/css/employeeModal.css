@@ -84,12 +84,7 @@
 .modal-login  .form-group {
   position: relative;
 }
-.modal-login i {
-  position: absolute;
-  left: 13px;
-  top: 11px;
-  font-size: 18px;
-}
+
 
 .modal-login .form-control:focus {
   border-color: #00ce81;
