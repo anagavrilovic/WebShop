@@ -5,7 +5,9 @@ Vue.component("admin-users", {
             sortDropdownOpen: false,
             userRoleDropdownOpen: false,
             buyerTypeDropdownOpen: false,
-            checkedRestaurantTypes: []
+            checkedRestaurantTypes: [],
+            showNewEmployee: false,
+            newEmployeeTitle: ''
         }
     },
     template:         
@@ -17,10 +19,10 @@ Vue.component("admin-users", {
                 <!-- New restaurant button -->
                 <div class="row justify-content-end">
                     <div class="col-md-2">
-                        <button class="btn btn-primary flex" type="button" id="newManagerButton"> Novi menadžer </button>	
+                        <button class="btn btn-primary flex" type="button" id="newManagerButton" v-on:click="onShowNewEmployee('Novi menadžer')"> Novi menadžer </button>	
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-primary flex" type="button" id="newDelivererButton"> Novi dostavljač </button>	
+                        <button class="btn btn-primary flex" type="button" id="newDelivererButton" v-on:click="onShowNewEmployee('Novi dostavljač')"> Novi dostavljač </button>	
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-primary flex" type="button" id="newRestaurantButton"> Izbriši </button>	
@@ -148,7 +150,7 @@ Vue.component("admin-users", {
                 </div>
             </div>
     
-    
+            <new-employee-modal v-if="showNewEmployee" @close="showNewEmployee = false" :title="newEmployeeTitle">	</new-employee-modal>
         </div>
         `,
     mounted() {
@@ -181,6 +183,11 @@ Vue.component("admin-users", {
 			else{
 				this.buyerTypeDropdownOpen = true;
 			}
-		}
+		},
+
+        onShowNewEmployee: function(newTitle){
+            this.showNewEmployee = true;
+            this.newEmployeeTitle = newTitle;
+        }
     }
 });

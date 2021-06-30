@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link href="../css/homepage.css" rel="stylesheet" />
-	<link href="../css/loginModal.css" rel="stylesheet" />
+	<link href="../css/employeeModal.css" rel="stylesheet" />
 	<link href="../css/adminHomepage.css" rel="stylesheet" />
 	<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -15,9 +15,7 @@
 		<ul class="nav-area">
 			<li><a href="#" class="btn">Moj profil</a></li>
 		</ul>
-		
-		<!-- Login modal -->
-		<login-modal v-if="showModal" @close="showModal = false">	</login-modal>
+
 
 	</div>
 	
@@ -62,6 +60,7 @@
 	<script src="../components/adminUsers.js"></script>
 	<script src="../components/adminComments.js"></script>
 	<script src="../app/adminHomepage.js"></script>
+	<script src="../components/newEmployee.js"></script>
 
 </body>
 
