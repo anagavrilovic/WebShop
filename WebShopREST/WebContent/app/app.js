@@ -1,5 +1,5 @@
 var app = new Vue({
-	el: '#restaurants',
+	el: '#page',
 	data: {
 		restaurants: null,
 		sortDropdownOpen: false,

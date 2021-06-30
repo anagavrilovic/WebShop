@@ -1,0 +1,28 @@
+.navbar2-custom {
+    background-color: transparent;
+    height: 7vh;
+}
+
+.nav-item {
+    width: 150px;
+}
+.navbar-nav .active a{
+    color: white;
+    background-color: #80B0CF;
+}
+.nav-item a:hover {
+    color: #3B535F;
+}
+.nav-item a {
+    color: #80B0CF;
+}
+
+#newRestaurantButton{
+    margin-bottom: 10px;
+    
+}
+
+.newRestaurant{
+    margin-right: 0;
+    margin-left: auto; 
+}
