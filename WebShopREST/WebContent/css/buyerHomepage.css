@@ -42,3 +42,18 @@
     color: #3b535f;
     font-size: x-large;
 }
+
+.checkbox-style {
+    background-color: #3b535f;
+    color: white;
+    height: 40px;
+    border-color: #3b535f;
+    padding-left: 45px;
+    padding-top: 7px;
+}
+
+.orderID {
+    color: #3b535f;
+    font-size: x-large;
+    font-weight: bold;
+}

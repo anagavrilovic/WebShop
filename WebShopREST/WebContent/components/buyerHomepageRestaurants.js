@@ -77,7 +77,7 @@ Vue.component('restaurants', {
 
                     <div class="row mb-3">
                         <div class="col-md-12">
-                            <div class="form-check">
+                            <div class="form-check checkbox-style rounded">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                 <label class="form-check-label" for="flexCheckDefault">
                                 Samo otvoreni restorani

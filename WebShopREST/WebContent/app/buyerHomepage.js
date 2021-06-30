@@ -22,7 +22,7 @@ var app = new Vue({
         window.removeEventListener('scroll', this.handleScroll);
     },
     mounted() {
-
+        
     },
     methods: {
         handleScroll(event){
