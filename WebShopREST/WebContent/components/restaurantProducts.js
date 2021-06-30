@@ -1,26 +1,60 @@
 Vue.component("restaurant-products", {
     data: function() {
         return {
-            products: null
+            products: null,
+            product: null,
+            quantity: 1
         }
     },
     template:
-        `<div class="container py-5 d-grid gap-5">
-            <div class="row">
-                <div v-for="p in products" class="col-md-6 py-2">
-                    <div class="card shadow" v-on:mouseenter="addHoverClass" v-on:mouseleave="removeHoverClass">
-                        <div class="row">
-                            <div class="col-md-5">
-                                <img :src="p.image" class="card-img-top h-100 food-images" :alt="p.name">
+        `
+        <div>
+            <!-- Modal popup -->
+            <div v-if="product !== null" class="modal fade" id="orderProduct">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header justify-content-center">
+                            <img :src="product.image" style="height: 200px; width: auto;">
+                        </div>
+                        <div class="modal-body text-center rounded" style="background-color: #f2f2f2;">
+                            <h2 class="product-name">{{product.name}}</h2>
+                            <h5 class="product-price-dialog">{{product.price}}</h5>
+                            <div class="itemQuantity">
+                                <span>
+                                    <button class="btn btn-secondary rounded-circle addRemoveItem" v-on:click="decreaseQuantity">
+                                        <img src="../images/minus.png" style="margin-top: -10px;">
+                                    </button>
+                                </span>
+                                <span class="product-quantity">&emsp;{{quantity}}&emsp;</span>
+                                <span>
+                                    <button class="btn btn-secondary rounded-circle addRemoveItem" v-on:click="increaseQuantity">
+                                        <img src="../images/plus.png" style="margin-top: -10px;">
+                                    </button>
+                                </span>
                             </div>
-                            <div class="col-md-7">
-                                <div class="card-body">
-                                    <div class="card-title">
-                                        <h2 class="product-name">{{p.name}}</h2>
-                                    </div>
-                                    <div class="card-text">
-                                        <p class="product-description">{{p.description}}</p>
-                                        <p class="product-price">{{p.price}}</p>
+                            <button type="button" class="btn btn-primary">Dodaj u korpu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container py-5 d-grid gap-5">
+                <div class="row">
+                    <div v-for="p in products" class="col-md-6 py-2" v-on:click="openModalForOrderingProduct(p)">
+                        <div class="card shadow" v-on:mouseenter="addHoverClass" v-on:mouseleave="removeHoverClass">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <img :src="p.image" class="card-img-top h-100 food-images" :alt="p.name">
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="card-body">
+                                        <div class="card-title">
+                                            <h2 class="product-name">{{p.name}}</h2>
+                                        </div>
+                                        <div class="card-text">
+                                            <p class="product-description">{{p.description}}</p>
+                                            <p class="product-price">{{p.price}}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -47,6 +81,17 @@ Vue.component("restaurant-products", {
         removeHoverClass: function (e) {
             e.target.classList.remove("hovered");
             e.target.classList.remove("shadow-lg");
+        },
+        openModalForOrderingProduct: function(product) {
+            this.product = product;
+            console.log(this.product);
+            $('#orderProduct').modal('show');
+        },
+        decreaseQuantity: function() {
+            this.quantity = this.quantity - 1;
+        },
+        increaseQuantity: function() {
+            this.quantity = this.quantity + 1;
         }
     }
 })

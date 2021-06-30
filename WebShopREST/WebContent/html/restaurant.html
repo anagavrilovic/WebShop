@@ -24,16 +24,25 @@
                 <div>
                     <div class="mx-auto"></div>
                     <ul class="navbar-nav">
-                        <li class="nav-item"><a href="#" class="nav-link text-white navbar-item-style">Prijavite se</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link text-white navbar-item-style">Registujte se</a></li>
+                        <li class="nav-item text-center" style="width: 100px;"><a href="#" class="nav-link text-white navbar-item-style disabled">Kupac</a></li>
+                        <li class="nav-item text-center">
+                            <a href="#" class="nav-link text-white navbar-item-style">
+                                <img src="../images/userWhite.png" class="my-profile" height="20px">&ensp;Moj profil
+                            </a>
+                        </li>
+                        <li class="nav-item text-center">
+                            <a href="#" class="nav-link text-white navbar-item-style">
+                                <img src="../images/cart.png" class="my-profile">&ensp;Moja korpa
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
 
         <!-- Cover image -->
-        <div class="banner-image w-100 d-flex justify-content-center align-items-center" 
-            v-bind:style="{ 'background-image': 'url(' + restaurant.image + ')'}">
+        <div v-if="restaurant !== null" class="banner-image w-100 d-flex justify-content-center align-items-center" 
+            v-bind:style="{ 'background-image': 'url(' + restaurant.image + ')'}" >
             <div class="content text-center">
                 <img :src="restaurant.logo" class="restaurant-logo">
                 <h1 class="restaurant-name">{{restaurant.name}}</h1>
@@ -60,9 +69,10 @@
                 </div>
             </nav>  
 
+            
+
             <!-- Main content -->
             <router-view></router-view>
-            
 
         </div>
  

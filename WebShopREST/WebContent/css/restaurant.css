@@ -19,6 +19,10 @@
     -webkit-filter: drop-shadow(5px 5px 5px #222);
     filter: drop-shadow(5px 5px 5px #222);
 }
+.my-profile {
+    -webkit-filter: drop-shadow(3px 3px 3px rgb(71, 71, 71));
+    filter: drop-shadow(3px 3px 3px rgb(68, 68, 68));
+}
 
 .restaurant-name {
     text-shadow: 1px 1px 5px #222;
@@ -75,4 +79,75 @@
 }
 .hovered {
     margin-top: -1%;
+}
+
+.usernameComment {
+    color: #3b535f;
+    font-size: large;
+    font-weight: 600
+}
+.markComment{
+    color: #f1a952;
+    font-size: large;
+    font-weight: bold;
+}
+.dateComment {
+    color: #3b535f;
+    font-size: medium;
+    font-weight: 600
+}
+.commentContent {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.contentComment {
+    text-align: justify;
+}
+
+.informationContent {
+    margin-left: 70px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+.informationTextBig {
+    font-size: larger;
+    font-weight: 600;
+}
+.informationTextMark {
+    font-size: larger;
+    font-weight: 600;
+    color: #f1a952;
+}
+.informationContentAddress {
+    margin-left: 130px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    color: #3B535F;
+    font-size: medium;
+}
+
+.itemQuantity {
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+.addRemoveItem {
+    font-size: x-large;
+    width: 45px;
+    height: 45px;
+}
+.product-price-dialog {
+    color: #C75D4F;
+}
+.product-quantity {
+    color: #3B535F;
+    font-size: larger;
+}
+
+.btn-primary {
+    background-color: #80B0CF;
+    border-color: #80B0CF;
+}
+.btn-primary:hover {
+    background-color: #638aa3;
+    border-color: #638aa3;
 }
