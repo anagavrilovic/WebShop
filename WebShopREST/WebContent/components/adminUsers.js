@@ -23,7 +23,7 @@ Vue.component("admin-users", {
                         <button class="btn btn-primary flex" type="button" id="newDelivererButton"> Novi dostavljač </button>	
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-primary flex" type="button" id="newRestaurantButton"> Novi restoran </button>	
+                        <button class="btn btn-primary flex" type="button" id="newRestaurantButton"> Izbriši </button>	
                     </div>
                 </div>
     
