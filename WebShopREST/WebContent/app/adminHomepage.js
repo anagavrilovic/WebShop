@@ -11,9 +11,9 @@ const router = new VueRouter({
     ]
 });
 
-var nav = new Vue({
+var app = new Vue({
     router,
-    el: '#page',
+    el: '#tabs',
     data: {
         tab: 1
     },
