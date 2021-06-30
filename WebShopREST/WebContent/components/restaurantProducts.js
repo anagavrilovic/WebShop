@@ -16,7 +16,7 @@ Vue.component("restaurant-products", {
                         <div class="modal-header justify-content-center">
                             <img :src="product.image" style="height: 200px; width: auto;">
                         </div>
-                        <div class="modal-body text-center">
+                        <div class="modal-body text-center rounded" style="background-color: #f2f2f2;">
                             <h2 class="product-name">{{product.name}}</h2>
                             <h5 class="product-price-dialog">{{product.price}}</h5>
                             <div class="itemQuantity">
