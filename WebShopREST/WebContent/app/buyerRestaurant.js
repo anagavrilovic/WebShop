@@ -35,6 +35,9 @@ var app = new Vue({
             } else {
                 nav.classList.remove('navbar-custom', 'shadow');
             }
+        },
+        openMyCart : function() {
+            window.location.href = '../html/buyerMyCart.html';
         }
     }
 
