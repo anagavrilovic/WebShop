@@ -21,8 +21,21 @@ var app = new Vue({
     mounted() {
 	
     },
+    created() {
+        window.addEventListener('scroll', this.handleScroll);
+    },
+    destroyed() {
+        window.removeEventListener('scroll', this.handleScroll);
+    },
     methods: {
-        
+        handleScroll(event){
+            var nav = document.querySelector('nav');
+            if (window.pageYOffset > 100) {
+                nav.classList.add('navbar-custom', 'shadow');
+            } else {
+                nav.classList.remove('navbar-custom', 'shadow');
+            }
+        }
     }
 
 });
