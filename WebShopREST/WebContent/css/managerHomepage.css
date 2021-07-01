@@ -61,3 +61,20 @@ input[type="file"] {
     padding: 6px 12px;
     cursor: pointer;
 }
+
+.table-container{
+    margin-top: 10vh;
+    
+}
+
+.search-bar{
+    max-width: 20vw;
+    margin-right: 0;
+    margin-left: auto;
+    margin-bottom: 2vh;
+}
+
+#search-addon{
+    margin-bottom: 2vh;
+}
+
