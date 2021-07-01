@@ -5,14 +5,15 @@ Vue.component("manager-products", {
                 {name: 'Paradajz',  description: 'Najjača stvar na svetu je paradajz. Najveći ljubitelj paradjza je Ančibald.', price: 180, imagePath: '../images/tomato.png'},
                 {name: 'Paprika',  description: 'Najjača stvar na svetu je paprika. Najveći ljubitelj paprike je Aranđel Golubović.', price: 230, imagePath: '../images/strawberry.png'},
                 {name: 'Jagorčevina',  description: 'Najjača stvar na svetu je jagorčevina. Najveći ljubitelj jagorčevine je komšija Godzila.', price: 20, imagePath: '../images/potato.png'}
-            ]
+            ],
+            showNewProduct: false
         }
     },
     template:         
         `<div class="container py-5">
             <div class="row">
                 <div class="col-md-2 newProductButton">
-                    <button class="btn btn-primary"> Novi proizvod </button>
+                    <button class="btn btn-primary" v-on:click="showNewProduct = true"> Novi proizvod </button>
                 </div>
             </div>
             
@@ -47,6 +48,9 @@ Vue.component("manager-products", {
                     </div>
                 </div>
             </div>
+
+            <new-product-modal v-if="showNewProduct" @close="showNewProduct = false">	</new-product-modal>
+
         </div>`,
     mounted() {
 

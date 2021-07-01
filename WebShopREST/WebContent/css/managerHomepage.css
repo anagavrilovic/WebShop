@@ -50,3 +50,14 @@
     margin-right: 12%;
     margin-bottom: 2vh;
 }
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
