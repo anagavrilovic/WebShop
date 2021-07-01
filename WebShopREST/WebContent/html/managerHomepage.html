@@ -3,16 +3,16 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link href="../css/homepage.css" rel="stylesheet" />
-	<link href="../css/employeeModal.css" rel="stylesheet" />
-	<link href="../css/adminHomepage.css" rel="stylesheet" />
+    <link href="../css/managerHomepage.css" rel="stylesheet" />
+	<link href="../css/employeeModal.css" rel="stylesheet" /> <!-- Used for new product modal dialog. -->
 	<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
 
-	<!-- Navigation bar 1  -->
-	<nav class="navbar mynavbar1 fixed-top navbar-expand-lg navbar-dark p-md-3">
+     <!-- Navigation bar 1  -->
+     <nav class="navbar mynavbar1 fixed-top navbar-expand-lg navbar-dark p-md-3">
         <div class="container">
             <a href="#" class="navbar-brand navbar-item-style">
                 LOGO
@@ -20,7 +20,7 @@
             <div>
                 <div class="mx-auto"></div>
                 <ul class="navbar-nav">
-                    <li class="nav-item text-center" style="width: 100px;"><a href="#" class="nav-link text-white navbar-item-style disabled">Administrator</a></li>
+                    <li class="nav-item text-center" style="width: 100px;"><a href="#" class="nav-link text-white navbar-item-style disabled">Menadžer</a></li>
                     <li class="nav-item text-center">
                         <a href="#" class="nav-link text-white navbar-item-style">
                             <img src="../images/userWhite.png" class="my-profile" height="20px">&ensp;Moj profil
@@ -37,7 +37,7 @@
 	
 
 
-	<!-- Navigation bar  -->
+	<!-- Navigation bar  2-->
 	<div id="tabs">
 		<nav class="navbar navbar-expand-lg navbar2-custom">
 			<div class="container justify-content-center">
@@ -46,22 +46,26 @@
 						<a href="#/" class="nav-link">Restorani</a>
 					</li>
 					<li class="nav-item" v-bind:class="{active : tab === 2}" v-on:click="tab = 2">
-						<a href="#/users" class="nav-link">Korisnici</a>
+						<a href="#/products" class="nav-link">Proizvodi</a>
 					</li>
 					<li class="nav-item" v-bind:class="{active : tab === 3}" v-on:click="tab = 3">
+						<a href="#/orders" class="nav-link">Porudžbine</a>
+					</li>
+                    <li class="nav-item" v-bind:class="{active : tab === 4}" v-on:click="tab = 4">
+						<a href="#/buyers" class="nav-link">Kupci</a>
+					</li>
+                    <li class="nav-item" v-bind:class="{active : tab === 5}" v-on:click="tab = 5">
+						<a href="#/info" class="nav-link">Informacije</a>
+					</li>
+                    <li class="nav-item" v-bind:class="{active : tab === 6}" v-on:click="tab = 6">
 						<a href="#/comments" class="nav-link">Komentari</a>
 					</li>
 				</ul>
 			</div>
 		</nav>  
-		<router-view></router-view>
+        <router-view></router-view>
 	</div>
 	
-	
-	
-
-
-
 
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -72,11 +76,13 @@
 	<script src="../js/vue.js"></script>
 	<script src="../js/vue-router.js"></script>
 	<script src="../js/axios.js"></script>
-	<script src="../components/adminRestaurants.js"></script>
-	<script src="../components/adminUsers.js"></script>
-	<script src="../components/adminComments.js"></script>
-	<script src="../app/adminHomepage.js"></script>
-	<script src="../components/newEmployee.js"></script>
+
+    <script src="../components/managerRestaurants.js"></script>
+	<script src="../components/managerProducts.js"></script>
+	<script src="../components/newProductModal.js"></script>
+
+    <script src="../app/managerHomepage.js"></script>
+    
 
 </body>
 
