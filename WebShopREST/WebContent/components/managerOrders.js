@@ -1,4 +1,4 @@
-Vue.component('my-orders', {
+Vue.component('manager-orders', {
     data: function() {
         return {
             sortDropdownOpen: false,
@@ -13,31 +13,6 @@ Vue.component('my-orders', {
     template: 
         `
         <div>
-            <!-- Modal popup leave comment-->
-            <div class="modal fade" id="leaveCommentPopup">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <span class="orderID">Komentar na restoran</span>
-                            <button class="btn float-end" v-on:click="closeCommentDialog"><img src="../images/x.png"></button>
-                        </div>
-                        <div class="modal-body rounded px-4" style="background-color: #f2f2f2;">
-                        <p class="restaurant-name-card" style="margin-bottom: 20px;">Restoran: ime restorana</p>
-                        <p class="product-description">Ocena: </p>
-                        <p class="product-description">Komentar (opciono): </p>
-                        <textarea style="height: 200px; width: 450px;" class="form-control ">
-
-                        </textarea>
-                        <br/><br/>
-                        <div class="text-center">
-                            <button class="btn btn-primary" style="width: 150px;">Pošalji</button>
-                            </div>
-                            <br/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- Modal popup order details-->
             <div v-if="order !== null" class="modal fade" id="orderDetails">
                 <div class="modal-dialog ">
@@ -47,29 +22,38 @@ Vue.component('my-orders', {
                             <button class="btn float-end" v-on:click="closeOrderDetails"><img src="../images/x.png"></button>
                         </div>
                         <div class="modal-body rounded"  style="background-color: #f2f2f2;">
-                            <span v-if="order.status === 0" class="product-description">
-                                Status: Obrada
-                                <button class="btn btn-primary float-end">Otkaži porudžbinu</button>
-                                <hr style="margin-top: 40px; margin-bottom: 20px;"/>
+                            <span v-if="order.status === 0" class="product-description"> Status: Obrada</span>
+                            <span v-if="order.status === 1" class="product-description">
+                                Status: U pripremi
+                                <button class="btn btn-primary float-end">Čekaj dostavljača</button>
                             </span>
-                            <span v-if="order.status === 1" class="product-description">Status: U pripremi</span>
                             <span v-if="order.status === 2" class="product-description">Status: Čeka dostavljača</span>
                             <span v-if="order.status === 3" class="product-description">Status: U transportu</span>
                             <span v-if="order.status === 4" class="product-description">Status: Dostavljena</span>
                             <span v-if="order.status === 5" class="product-description">Status: Otkazana</span>
 
-                            <hr v-if="order.status !== 0" style="margin-top: 20px; margin-bottom: 20px;"/>
+                            <!-- Ponude dostavljaca - prvi div u for petlju -->
+                            <div v-if="order.status === 2" style="margin-bottom: 10px; margin-top: 10px">
+                                <span class="product-description">Zahtev za dostavu: imeee
+                                    <span class="float-end">
+                                        <span><img src="../images/approve.png" style="cursor: pointer;"></span>
+                                        <span><img src="../images/disapprove.png" style="cursor: pointer;"></span>
+                                    </span>
+                                </span>
+                            </div>
+
+                            <hr style="margin-top: 30px; margin-bottom: 20px;"/>
                             <div class="my-2">
                                 <h1 class="orderID">Poručeni proizvodi</h1>
                             </div>
-
+ 
                             <div class="container py-2">
-                                <div class="row">
-                                    <div v-for="i in items" class="col-md-12 py-2 padding-0">
-                                        <div class="card">
-                                            <div class="row">
+                                <div class="row ">
+                                    <div v-for="i in items" class="col-md-12 py-2 padding-0 ">
+                                        <div class="card ">
+                                            <div class="row ">
                                                 <div class="col-md-5">
-                                                    <img :src="i.image" class="card-img-top h-100 food-images" :alt="i.name">
+                                                    <img :src="i.image" class="card-img-top food-images" :alt="i.name">
                                                 </div>
                                                 <div class="col-md-7">
                                                     <div class="card-body">
@@ -98,7 +82,7 @@ Vue.component('my-orders', {
                         
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <input type="text" id="restaurantName" placeholder="Naziv restorana" class="flex" style="height: 37px; padding-left: 10px;">
+                                <input type="text" id="restaurantName" placeholder="Naziv restorana" class="form-control flex" style="height: 37px; padding-left: 10px;">
                             </div>
                         </div>
 
@@ -184,16 +168,16 @@ Vue.component('my-orders', {
                     <div class="col-md-9">
                         <div class="row">
                             <div class="col-md-2 padding-0">
-                                <input type="text" id="priceFrom" placeholder="Cena od" class="flex" style="height: 37px; padding-left: 10px;">
+                                <input type="text" id="priceFrom" placeholder="Cena od" class="form-control flex" style="height: 37px; padding-left: 10px;">
                             </div>
                             <div class="col-md-2 padding-0">
-                                <input type="text" id="priceTo" placeholder="Cena do" class="flex" style="height: 37px; padding-left: 10px;">
+                                <input type="text" id="priceTo" placeholder="Cena do" class="form-control flex" style="height: 37px; padding-left: 10px;">
                             </div>
                             <div class="col-md-3 padding-0">
-                                <input type="text" id="dateFrom" placeholder="Datum od" class="flex" style="height: 37px; padding-left: 10px;">
+                                <input type="text" id="dateFrom" placeholder="Datum od" class="form-control flex" style="height: 37px; padding-left: 10px;">
                             </div>
                             <div class="col-md-3 padding-0">
-                                <input type="text" id="dateTo" placeholder="Datum do" class="flex" style="height: 37px; padding-left: 10px;">
+                                <input type="text" id="dateTo" placeholder="Datum do" class="form-control flex" style="height: 37px; padding-left: 10px;">
                             </div>
                             <div class="col-md-2 padding-0">
                                 <button type="button" id="searchButton" class="btn btn-search flex">
@@ -212,9 +196,12 @@ Vue.component('my-orders', {
                                             <div class="card shadow my-2" v-on:click="seeOrderDetails(o)">
                                                 <div class="row p-4 ">
                                                 <div class="col-md-6">
-                                                        <h1 class="orderID">PORUDŽBINA {{o.id}}</h1>
-                                                        <p style="margin-top: 15px;">{{o.time}}</p>
-                                                        <p style="margin-top: -13px;">Restoran: {{o.restaurantName}}</p>
+                                                    <h1 class="orderID">PORUDŽBINA {{o.id}}</h1>
+                                                    <p style="margin-top: 15px;">{{o.time}}</p>
+                                                    <p style="margin-top: -13px;">Kupac: {{o.buyerName}}</p>
+                                                    <p v-if="o.status === 3 || o.status === 4" style="margin-top: -13px;">
+                                                        Dostavljač: {{o.delivererName}}
+                                                    </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <p v-if="o.status === 0" class="text-end">
@@ -236,7 +223,9 @@ Vue.component('my-orders', {
                                                             <span style="color: #ff0000;"><img src="../images/canceled.png"> Otkazana</span>
                                                         </p>
                                                         <p class="text-end" style="margin-top: -3px;">{{o.price}}</p>
-                                                        <button class="btn btn-success float-end" v-if="o.status === 4" v-on:click="leaveComment(o)">Ostavi komentar</button>
+
+                                                        <!-- Ovo se prikaze samo ako ima ponuda od dostavljaca!!!! -->
+                                                        <span v-if="o.hasOffer" class="float-end"><img src="../images/deliveryOffer.png"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -295,20 +284,11 @@ Vue.component('my-orders', {
 
         seeOrderDetails: function(order) {
             this.order = order;
-            if(!$('body').hasClass('modal-open'))
-                $('#orderDetails').modal('show');
+            $('#orderDetails').modal('show');
         },
 
         closeOrderDetails: function() {
             $('#orderDetails').modal('hide');
-        },
-
-        leaveComment: function(order) {
-            $('#leaveCommentPopup').modal('show');
-        },
-
-        closeCommentDialog: function() {
-            $('#leaveCommentPopup').modal('hide');
-        },
+        }
     }
 });

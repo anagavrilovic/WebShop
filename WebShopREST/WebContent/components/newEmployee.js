@@ -9,14 +9,14 @@ Vue.component("new-employee-modal", {
       <transition name="modal">
           <div class="modal-mask">
             <div class="modal-wrapper">
-              <div class="modal-container modal-login" id="formId">
+              <div class="modal-container modal-container1 modal-login" id="formId">
   
                 <div class="modal-header">
                   <h4 class="modal-title">{{title}}</h4>
                   <button type="button" class="btn-close" aria-hidden="true" @click="$emit('close')"></button>
                 </div>
   
-                <div class="modal-body">
+                <div class="modal-body modal-body1">
                   <form>
                     <div class="form-group input-field">
                       <input type="text" class="form-control input-field" placeholder="Ime" required="required">
