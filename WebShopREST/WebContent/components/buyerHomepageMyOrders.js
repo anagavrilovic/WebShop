@@ -25,7 +25,7 @@ Vue.component('my-orders', {
                         <p class="restaurant-name-card" style="margin-bottom: 20px;">Restoran: ime restorana</p>
                         <p class="product-description">Ocena: </p>
                         <p class="product-description">Komentar (opciono): </p>
-                        <textarea style="height: 200px; width: 450px;">
+                        <textarea style="height: 200px; width: 450px;" class="form-control ">
 
                         </textarea>
                         <br/><br/>
@@ -40,7 +40,7 @@ Vue.component('my-orders', {
 
             <!-- Modal popup products details-->
             <div v-if="order !== null" class="modal fade" id="orderDetails">
-                <div class="modal-dialog">
+                <div class="modal-dialog ">
                     <div class="modal-content">
                         <div class="modal-header">
                             <span class="orderID">PORUDŽBINA {{order.id}}</span>
@@ -74,11 +74,11 @@ Vue.component('my-orders', {
                                                 <div class="col-md-7">
                                                     <div class="card-body">
                                                         <div class="card-title">
-                                                            <h2 class="product-name">{{i.name}}</h2>
+                                                            <h2 class="product-name" style="font-size: larger">{{i.name}}</h2>
                                                         </div>
                                                         <div class="card-text">
                                                             <p class="product-description">1x</p>
-                                                            <p class="product-price">{{i.price}}</p>
+                                                            <p class="product-price" style="font-size: larger">{{i.price}}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -92,7 +92,7 @@ Vue.component('my-orders', {
                 </div>
             </div>
 
-            <div class="container py-4">
+            <div class="container py-4 px-5">
                 <div class="row">
                     <div class="col-md-3 justify-content-center">
                         
