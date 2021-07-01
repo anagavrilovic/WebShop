@@ -68,7 +68,7 @@ input[type="file"] {
 
 .table-container{
     margin-top: 10vh;
-    
+
 }
 
 .search-bar{
@@ -80,6 +80,87 @@ input[type="file"] {
 
 #search-addon{
     margin-bottom: 2vh;
+}
+
+/* Container needed to position the button. Adjust the width as needed */
+.editProductHeader {
+    position: relative;
+    width: 50%;
+}
+
+/* Make the image responsive */
+.editProductHeader img {
+    width: 100%;
+    height: auto;
+}
+
+/* Style the button and place it in the middle of the container/image */
+.editProductHeader .btn-over-image-edit {
+    position: absolute;
+    top: 95%;
+    left: -30%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #80B0CF;
+    border-color: #80B0CF;
+    color: white;
+    font-size: 16px;
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.editProductHeader .btn-over-image-edit:hover {
+    background-color: #638aa3;
+    border-color: #638aa3;
+    color: white;
+}
+
+/* Style the button and place it in the middle of the container/image */
+.editProductHeader .btn-over-image-delete {
+    position: absolute;
+    top: 95%;
+    right: -80%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #80B0CF;
+    border-color: #80B0CF;
+    color: white;
+    font-size: 16px;
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.editProductHeader .btn-over-image-delete:hover {
+    background-color: #638aa3;
+    border-color: #638aa3;
+    color: white;
+}
+
+/* Style the button and place it in the middle of the container/image */
+.editProductHeader .btn-over-image-x {
+    position: absolute;
+    top: 3%;
+    right: -60%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: transparent;
+    border-color: #80B0CF;
+    color: white;
+    font-size: 16px;
+    padding: 6px 6px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.editProductHeader .btn-over-image-x:hover {
+    background-color: #dddddd;
+    border-color: #dddddd;
+    color: white;
 }
 
 

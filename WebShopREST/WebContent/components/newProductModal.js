@@ -35,7 +35,8 @@ Vue.component("new-product-modal", {
                             Izaberite sliku
                         </label>
                         <input id="file-upload" type="file" v-on:change="imagePathChanged" accept="image/*" /> 
-                        <input id="uploadFile" placeholder="File Name here" disabled="disabled" v-model="imagePath" class="input-field"/>
+                        <input id="uploadFile" placeholder="File Name here" disabled="disabled" v-model="imagePath" class="input-field" 
+                          style="height: 40px; width: 240px"/>
                     </div>
 
                     <div class="form-group">
