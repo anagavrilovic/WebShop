@@ -1,31 +1,17 @@
-const Restaurants = { template: '<admin-restaurants></admin-restaurants>' }
-const Users = { template: '<admin-users></admin-users>' }
-const Comments = { template: '<admin-comments></admin-comments>' }
-
-const router = new VueRouter({
-    mode: 'hash',
-    routes: [
-        { path: '/', component: Restaurants },
-        { path: '/users', component: Users },
-        { path: '/comments', component: Comments }
-    ]
-});
-
 var app = new Vue({
-    router,
-    el: '#tabs',
+    el: '#cover',
     data: {
-        tab: 1
-    },
-
-    mounted() {
-	
+        showLoginModal: false,
+        showRegistrationModal: false
     },
     created() {
         window.addEventListener('scroll', this.handleScroll);
     },
     destroyed() {
         window.removeEventListener('scroll', this.handleScroll);
+    },
+    mounted() {
+        
     },
     methods: {
         handleScroll(event){
@@ -35,7 +21,6 @@ var app = new Vue({
             } else {
                 nav.classList.remove('navbar-custom', 'shadow');
             }
-        }
+        },
     }
-
 });

@@ -1,31 +1,38 @@
-const Restaurants = { template: '<admin-restaurants></admin-restaurants>' }
-const Users = { template: '<admin-users></admin-users>' }
-const Comments = { template: '<admin-comments></admin-comments>' }
+const Restaurants = { template: '<manager-restaurants></manager-restaurants>' }
+const Products = { template: '<manager-products></manager-products>' }
+const Orders = { template: '<manager-orders></manager-orders>' }
+const Buyers = { template: '<manager-buyers></manager-buyers>' }
+const Information = { template: '<manager-information></manager-information>' }
+const Comments = { template: '<manager-comments></manager-comments>' }
+
 
 const router = new VueRouter({
     mode: 'hash',
     routes: [
         { path: '/', component: Restaurants },
-        { path: '/users', component: Users },
+        { path: '/products', component: Products },
+        { path: '/orders', component: Orders },
+        { path: '/buyers', component: Buyers },
+        { path: '/information', component: Information },
         { path: '/comments', component: Comments }
     ]
 });
 
-var app = new Vue({
-    router,
-    el: '#tabs',
-    data: {
-        tab: 1
-    },
 
-    mounted() {
-	
+var app = new Vue({
+    el: '#tabs',
+    router,
+    data: {
+        tab: 1,
     },
     created() {
         window.addEventListener('scroll', this.handleScroll);
     },
     destroyed() {
         window.removeEventListener('scroll', this.handleScroll);
+    },
+    mounted() {
+        
     },
     methods: {
         handleScroll(event){
@@ -35,7 +42,6 @@ var app = new Vue({
             } else {
                 nav.classList.remove('navbar-custom', 'shadow');
             }
-        }
+        },
     }
-
 });
