@@ -1,0 +1,46 @@
+.cover-image {
+    background-size: cover;
+    height: 50vh;
+    background-image: url('../images/cover.jpg');
+}
+
+.banner-image {
+    background-size: cover;
+    height: 50vh;
+}
+
+.mynavbar1 {
+    height: 8vh;
+}
+
+.navbar-item-style {
+    text-shadow: 1px 1px 3px #222;
+}
+
+.my-profile {
+    -webkit-filter: drop-shadow(3px 3px 3px rgb(71, 71, 71));
+    filter: drop-shadow(3px 3px 3px rgb(68, 68, 68));
+}
+
+.navbar-custom {
+    background-color: #3b535f;
+}
+
+.navbar2-custom {
+    background-color: transparent;
+    height: 7vh;
+}
+
+.nav-item {
+    width: 150px;
+}
+.navbar-nav .active a{
+    color: white;
+    background-color: #80B0CF;
+}
+.nav-item a:hover {
+    color: #3B535F;
+}
+.nav-item a {
+    color: #80B0CF;
+}
