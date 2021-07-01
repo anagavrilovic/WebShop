@@ -8,14 +8,14 @@ Vue.component("new-product-modal", {
       <transition name="modal">
           <div class="modal-mask">
             <div class="modal-wrapper">
-              <div class="modal-container modal-login" id="formId">
+              <div class="modal-container modal-container1 modal-login" id="formId">
   
                 <div class="modal-header">
                   <h4 class="modal-title"> Novi proizvod </h4>
                   <button type="button" class="btn-close" aria-hidden="true" @click="$emit('close')"></button>
                 </div>
   
-                <div class="modal-body">
+                <div class="modal-body modal-body1">
                   <form>
                     <div class="form-group input-field">
                       <input type="text" class="form-control input-field" placeholder="Naziv" required="required">
@@ -39,11 +39,11 @@ Vue.component("new-product-modal", {
                     </div>
 
                     <div class="form-group">
-                      <input type="text" class="form-control input-field" placeholder="Opis(Opciono)" required="required">					
+                      <input type="text" class="form-control input-field" placeholder="Opis (Opciono)" required="required">					
                     </div>
 
                     <div class="form-group">
-                      <input type="text" class="form-control input-field" placeholder="Količina(Opciono)" required="required">					
+                      <input type="text" class="form-control input-field" placeholder="Količina (Opciono)" required="required">					
                     </div>
 
                     <div class="form-group submitButton">
