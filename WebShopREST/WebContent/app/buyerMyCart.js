@@ -30,6 +30,10 @@ var app = new Vue({
         },
         increaseQuantity: function(item) {
             item.quantity = item.quantity + 1;
+        },
+        removeItem: function(item) {
+            let index = this.cart.indexOf(item);
+            this.cart.splice(index, 1);
         }
     }
 });

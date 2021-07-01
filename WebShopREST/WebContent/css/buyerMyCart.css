@@ -1,6 +1,12 @@
 .myCart {
     color: #3b535f;
-    font-size: 40px;
+    font-size: 35px;
+    margin-bottom: -20px;
+}
+
+.item-name {
+    color: #3b535f;
+    font-size: 30px;
 }
 
 .item-price {
@@ -13,3 +19,15 @@
     margin-top: 30px;
     margin-bottom: 30px;
 }
+
+.totalPrice {
+    font-size: x-large; 
+    font-weight: bold;
+}
+
+.btn-order {
+    width: 150px; 
+    font-size: x-large;
+}
+
+
