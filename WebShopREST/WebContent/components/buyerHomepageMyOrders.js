@@ -98,7 +98,7 @@ Vue.component('my-orders', {
                         
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <input type="text" id="restaurantName" placeholder="Naziv restorana" class="flex" style="height: 37px; padding-left: 10px;">
+                                <input type="text" id="restaurantName" placeholder="Naziv restorana" class="form-control flex" style="height: 37px; padding-left: 10px;">
                             </div>
                         </div>
 
@@ -184,16 +184,16 @@ Vue.component('my-orders', {
                     <div class="col-md-9">
                         <div class="row">
                             <div class="col-md-2 padding-0">
-                                <input type="text" id="priceFrom" placeholder="Cena od" class="flex" style="height: 37px; padding-left: 10px;">
+                                <input type="text" id="priceFrom" placeholder="Cena od" class="form-control flex" style="height: 37px; padding-left: 10px;">
                             </div>
                             <div class="col-md-2 padding-0">
-                                <input type="text" id="priceTo" placeholder="Cena do" class="flex" style="height: 37px; padding-left: 10px;">
+                                <input type="text" id="priceTo" placeholder="Cena do" class="form-control flex" style="height: 37px; padding-left: 10px;">
                             </div>
                             <div class="col-md-3 padding-0">
-                                <input type="text" id="dateFrom" placeholder="Datum od" class="flex" style="height: 37px; padding-left: 10px;">
+                                <input type="text" id="dateFrom" placeholder="Datum od" class="form-control flex" style="height: 37px; padding-left: 10px;">
                             </div>
                             <div class="col-md-3 padding-0">
-                                <input type="text" id="dateTo" placeholder="Datum do" class="flex" style="height: 37px; padding-left: 10px;">
+                                <input type="text" id="dateTo" placeholder="Datum do" class="form-control flex" style="height: 37px; padding-left: 10px;">
                             </div>
                             <div class="col-md-2 padding-0">
                                 <button type="button" id="searchButton" class="btn btn-search flex">
