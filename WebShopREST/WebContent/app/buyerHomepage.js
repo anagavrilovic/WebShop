@@ -35,6 +35,6 @@ var app = new Vue({
         },
         openMyCart : function() {
             window.location.href = '../html/buyerMyCart.html';
-        }
+        },
     }
 });
