@@ -9,18 +9,49 @@
 </head>
 
 <body>
-	<div id="cover">
+	<!--<div id="cover">
 		<img src="../images/onion.png" class="logo">
 		<ul class="nav-area">
 			<li><a href="#" @click="showLoginModal = true" >Prijavite se</a></li>
 			<li><a href="#" @click="showRegistrationModal = true">Registujte se</a></li>
 		</ul>
 		
-		<!-- Login/registration modals -->
+
+		<login-modal v-if="showLoginModal" @close="showLoginModal = false">	</login-modal>
+		<registration-modal v-if="showRegistrationModal" @close="showRegistrationModal = false">	</registration-modal>
+
+	</div>-->
+
+	<!-- Navigation bar 1  -->
+	<div id="cover">
+		<nav class="navbar mynavbar1 fixed-top navbar-expand-lg navbar-dark p-md-3">
+			<div class="container">
+				<a href="#" class="navbar-brand navbar-item-style">
+					LOGO
+				</a>
+				<div>
+					<div class="mx-auto"></div>
+					<ul class="navbar-nav">
+						<li class="nav-item text-center">
+							<a href="#" @click="showLoginModal = true"  class="nav-link text-white navbar-item-style">Prijavite se</a>
+						</li>   
+						<li class="nav-item text-center">
+							<a href="#" @click="showRegistrationModal = true"  class="nav-link text-white navbar-item-style">Registujte se</a>
+						</li>  
+					</ul>
+				</div>
+			</div>
+		</nav>
+	
+		<!-- Cover image -->
+		<div class="cover-image w-100 d-flex justify-content-center align-items-center" >
+		</div>
+
 		<login-modal v-if="showLoginModal" @close="showLoginModal = false">	</login-modal>
 		<registration-modal v-if="showRegistrationModal" @close="showRegistrationModal = false">	</registration-modal>
 
 	</div>
+	
 	
 	<div class="main_body" id="restaurants">
 		<div class="container">
@@ -161,7 +192,7 @@
 	<script src="../js/vue.js"></script>
 	<script src="../js/axios.js"></script>
 	<script src="../app/app.js"></script>
-	<script src="../app/loginVue.js"></script>
+	<script src="../app/homepage.js"></script>
 	<script src="../components/loginModal.js"></script>
 	<script src="../components/registrationModal.js"></script>
 </body>

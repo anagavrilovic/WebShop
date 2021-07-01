@@ -1,41 +1,48 @@
-#cover {
-    background: url('../images/panorama.jpg');
-    background-repeat: no-repeat;
-    min-height: 40%;
-    max-height: 40%;
-  }
-
-body{
-    background-color: lightgray;
+.cover-image {
+    background-size: cover;
+    height: 50vh;
+    background-image: url('../images/cover.jpg');
 }
 
-.logo{
-    margin-left: 12%;
-    margin-top: 10px;
-    width: 100px;
-    height: 100px;
+.banner-image {
+    background-size: cover;
+    height: 50vh;
 }
 
-.nav-area {
-	float: right;
-	list-style: none;
-	margin-top: 30px;
-    margin-right: 12%;
+.mynavbar1 {
+    height: 8vh;
 }
-.nav-area li {
-	display: inline-block;
+
+.navbar-item-style {
+    text-shadow: 1px 1px 3px #222;
 }
-.nav-area li a {
-    background-color: #fff;
-	color: #000;
-	text-decoration: none;
-	padding: 5px 20px;
-	font-size: 16px;
-	text-transform: uppercase;
+
+.my-profile {
+    -webkit-filter: drop-shadow(3px 3px 3px rgb(71, 71, 71));
+    filter: drop-shadow(3px 3px 3px rgb(68, 68, 68));
 }
-.nav-area li a:hover {
-	background: cornflowerblue;
-	color: #333;
+
+.navbar-custom {
+    background-color: #3b535f;
+}
+
+.navbar2-custom {
+    background-color: transparent;
+    height: 7vh;
+}
+
+.nav-item {
+    width: 150px;
+}
+.navbar-nav .active a{
+    color: white;
+    background-color: #80B0CF;
+}
+.nav-item a:hover {
+    color: #3B535F;
+}
+.nav-item a {
+    color: #80B0CF;
 }
 
 .main_body{
