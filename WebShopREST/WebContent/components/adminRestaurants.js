@@ -17,7 +17,7 @@ Vue.component("admin-restaurants", {
                 <!-- New restaurant button -->
                 <div class="row">
                     <div class="col-md-3 newRestaurant">
-                        <button class="btn btn-primary flex" type="button" id="newRestaurantButton"> Novi restoran </button>	
+                        <a href="#/newRestaurant"> <button class="btn btn-primary flex" type="button" id="newRestaurantButton"> Novi restoran </button> </a>	
                     </div>
                 </div>
     
