@@ -20,8 +20,11 @@ Vue.component("login-modal", {
                     <i class="fa fa-lock"></i>
                     <input type="password" class="form-control input-field" placeholder="Lozinka" required="required">					
                   </div>
+
+                  <br/><br/>
                   <div class="form-group submitButton">
-                    <input type="submit" class="btn btn-primary btn-block" value="Potvrdi" id="submitButton">
+                    <input type="submit" class="btn btn-secondary btn-block" value="Potvrdi" id="submitButton"
+                      >
                   </div>
                 </form>
               </div>

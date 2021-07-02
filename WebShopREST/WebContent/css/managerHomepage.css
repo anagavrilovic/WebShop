@@ -67,8 +67,8 @@ input[type="file"] {
 }
 
 .table-container{
-    margin-top: 10vh;
-
+    margin-top: 5vh;
+    padding-bottom: 10vh;
 }
 
 .search-bar{
@@ -162,5 +162,4 @@ input[type="file"] {
     border-color: #dddddd;
     color: white;
 }
-
 

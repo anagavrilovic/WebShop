@@ -48,7 +48,7 @@ Vue.component("new-product-modal", {
                     </div>
 
                     <div class="form-group submitButton">
-                      <input type="submit" class="btn btn-primary btn-block" value="Potvrdi" id="submitButton">
+                      <input type="submit" class="btn btn-primary btn-block" value="Potvrdi" id="submitButton" style="margin-top: 50px; width: 100px">
                     </div>
                   </form>
                 </div>

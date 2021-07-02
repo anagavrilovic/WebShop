@@ -19,76 +19,70 @@ Vue.component("manager-restaurants", {
                     <div class="col-md-3">
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <button class="btn btn-primary flex" type="button" v-on:click="toggleSortDropdownVisibility" id="sortButton">Sortiraj po: </button>
-    
-                                    <div class="list-group flex" v-if="sortDropdownOpen">
-                                        <button class="list-group-item list-group-item-action" v-on:click="sortNameAZ">Naziv restorana A - Z </button>
-                                        <button class="list-group-item list-group-item-action">Naziv restorana Z - A</button>
-                                        <button class="list-group-item list-group-item-action">Lokacija rastuće</button>
-                                        <button class="list-group-item list-group-item-action">Lokacija opadajuće</button>
-                                        <button class="list-group-item list-group-item-action">Ocena rastuće</button>
-                                        <button class="list-group-item list-group-item-action">Ocena opadajuće</button>
-                                    </div>
+                                <button class="btn btn-filter flex" type="button" v-on:click="toggleSortDropdownVisibility" id="sortButton">
+                                Sortiraj po <span style="float: right;"><img src="../images/arrow.png" style="margin-top: 5px"></span>
+                            </button>
+                            <div class="list-group flex" v-if="sortDropdownOpen">
+                                <button class="list-group-item list-group-item-action">Naziv restorana A - Z </button>
+                                <button class="list-group-item list-group-item-action">Naziv restorana Z - A</button>
+                                <button class="list-group-item list-group-item-action">Lokacija rastuće</button>
+                                <button class="list-group-item list-group-item-action">Lokacija opadajuće</button>
+                                <button class="list-group-item list-group-item-action">Ocena rastuće</button>
+                                <button class="list-group-item list-group-item-action">Ocena opadajuće</button>
+                            </div>
                             </div>
                         </div>
     
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <button class="btn btn-primary flex" type="button" v-on:click="toggleRestaurantTypeDropdownVisibility">Tip restorana </button>
-                                    <ul class="list-group flex" v-if="restaurantTypeDropdownOpen">
-                                        <label class="list-group-item">
-                                            <input class="form-check-input me-1" type="checkbox" value="Chineese" v-model="checkedRestaurantTypes" v-on:change="typeFilter">
-                                            Kineski
-                                        </label>
-                                        <label class="list-group-item">
-                                            <input class="form-check-input me-1" type="checkbox" value="Italian" v-model="checkedRestaurantTypes" v-on:change="typeFilter">
-                                            Italijanski
-                                        </label>
-                                        <label class="list-group-item">
-                                            <input class="form-check-input me-1" type="checkbox" value="Barbeque" v-model="checkedRestaurantTypes" v-on:change="typeFilter">
-                                            Roštilj
-                                        </label>
-                                        <label class="list-group-item">
-                                            <input class="form-check-input me-1" type="checkbox" value="Romanian" v-model="checkedRestaurantTypes" v-on:change="typeFilter">
-                                            Rumunski
-                                        </label>
-                                        
-                                    </ul>
+                                <button class="btn btn-filter flex" type="button" v-on:click="toggleRestaurantTypeDropdownVisibility">
+                                    Tip restorana <span style="float: right;"><img src="../images/arrow.png" style="margin-top: 5px"></span>
+                                </button>
+                                <ul class="list-group flex" v-if="restaurantTypeDropdownOpen">
+                                    <label class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="Chineese" v-model="checkedRestaurantTypes" v-on:change="">Kineski
+                                    </label>
+                                    <label class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="Italian" v-model="checkedRestaurantTypes" v-on:change="">Italijanski
+                                    </label>
+                                    <label class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="Barbeque" v-model="checkedRestaurantTypes" v-on:change="">Roštilj
+                                    </label>
+                                    <label class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="Romanian" v-model="checkedRestaurantTypes" v-on:change="">Rumunski
+                                    </label>
+                                </ul>
                             </div>
                         </div>
     
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <button class="btn btn-primary flex" type="button" v-on:click="toggleRestaurantMarkDropdownVisibility">Ocena restorana </button>
-                                    <ul class="list-group flex" v-if="restaurantMarkDropdownOpen">
-                                        <label class="list-group-item">
-                                            <input class="form-check-input me-1" type="checkbox" value="">
-                                            4 - 5
-                                        </label>
-                                        <label class="list-group-item">
-                                            <input class="form-check-input me-1" type="checkbox" value="">
-                                            3 - 4
-                                        </label>
-                                        <label class="list-group-item">
-                                            <input class="form-check-input me-1" type="checkbox" value="">
-                                            2 - 3
-                                        </label>
-                                        <label class="list-group-item">
-                                            <input class="form-check-input me-1" type="checkbox" value="">
-                                            1 - 2
-                                        </label>
-                                        <label class="list-group-item">
-                                            <input class="form-check-input me-1" type="checkbox" value="">
-                                            0 - 1
-                                        </label>
-                                        
-                                    </ul>
+                                <button class="btn btn-filter flex" type="button" v-on:click="toggleRestaurantMarkDropdownVisibility">
+                                    Ocena restorana <span style="float: right;"><img src="../images/arrow.png" style="margin-top: 5px"></span>
+                                </button>
+                                <ul class="list-group flex" v-if="restaurantMarkDropdownOpen">
+                                    <label class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="">4 - 5
+                                    </label>
+                                    <label class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="">3 - 4
+                                    </label>
+                                    <label class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="">2 - 3
+                                    </label>
+                                    <label class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="">1 - 2
+                                    </label>
+                                    <label class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="">0 - 1
+                                    </label>
+                                </ul>
                             </div>
                         </div>
     
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <div class="form-check">
+                                <div class="form-check checkbox-style rounded">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                     <label class="form-check-label" for="flexCheckDefault">
                                     Samo otvoreni restorani
@@ -101,19 +95,21 @@ Vue.component("manager-restaurants", {
     
                     <div class="col-md-9">
                         <div class="row search_bar">
-                            <div class="col-md-5">
+                            <div class="col-md-5 padding-0">
                                 <input type="text" id="restaurantName" placeholder="Naziv restorana" class="form-control flex">
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-5 padding-0">
                                 <input type="text" id="location" placeholder="Lokacija" class="form-control flex">
                             </div>
     
-                            <div class="col-md-2">
-                                <input type="submit" id="searchButton" value="Pretrazi" class="btn btn-primary flex">
+                            <div class="col-md-2 padding-0">
+                                <button type="button" id="searchButton" class="btn btn-search flex">
+                                    <span><img src="../images/search.png"></span>&ensp;&nbsp;Pretraži
+                                </button>
                             </div>
                         </div>
     
-                        <div class="row main_content">
+                        <div class="row main_content" style="margin-bottom: 50px;">
                             <div class="col-md-12">
     
                                 <div class="view_wrap list-view" style="display: block;" v-for="r in restaurants">

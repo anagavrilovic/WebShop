@@ -45,8 +45,9 @@ Vue.component("registration-modal", {
                       <input type="password" class="form-control input-field" placeholder="Lozinka" required="required">					
                     </div>
 
+                    <br/>
                     <div class="form-group submitButton">
-                      <input type="submit" class="btn btn-primary btn-block" value="Potvrdi" id="submitButton">
+                      <input type="submit" class="btn btn-secondary btn-block" value="Potvrdi" id="submitButton">
                     </div>
                     <div class="loginFromRegistrationLink">   
                       <a href="#"> Vec imate nalog? Prijavite se</a>

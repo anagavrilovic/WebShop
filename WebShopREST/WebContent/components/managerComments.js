@@ -14,7 +14,7 @@ Vue.component("manager-comments", {
         `
         <!-- Main body -->
         <div class="main_body" id="restaurants">
-            <div class="container">
+            <div class="container" style="padding-bottom: 10vh">
     
                 <div class="row">
                     <div class="col-md-2">

@@ -67,14 +67,14 @@ Vue.component("manager-products", {
                 </div>
             </div>
 
-            <div class="container py-5">
+            <div class="container py-3">
                 <div class="row">
                     <div class="col-md-2 newProductButton">
-                        <button class="btn btn-primary" v-on:click="showNewProduct = true"> Novi proizvod </button>
+                        <button class="btn" style="background-color: #3b535f; color: white;" v-on:click="showNewProduct = true"> Novi proizvod </button>
                     </div>
                 </div>
                 
-                <div class="row justify-content-center">
+                <div class="row justify-content-center" style="margin-bottom: 50px;">
                     <div class="col-md-8">
                         <div class="card shadow pt-4" style="height: auto">
 

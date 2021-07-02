@@ -63,3 +63,27 @@
     margin-right: 0;
     margin-left: auto; 
 }
+
+.checkbox-style {
+    background-color: #3b535f;
+    color: white;
+    height: 40px;
+    border-color: #3b535f;
+    padding-top: 7px;
+}
+
+.padding-0 {
+    padding-right: 3px;
+    padding-left: 3px;
+}
+
+#tabs {
+    background-color: #f2f2f2;
+}
+
+
+.navbar2-custom {
+    background-color: transparent;
+    padding: 0% 7%;
+    height: 15vh;
+}
