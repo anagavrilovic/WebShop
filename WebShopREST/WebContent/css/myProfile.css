@@ -1,0 +1,39 @@
+.my-profile-title {
+    color: #3b535f;
+    font-size: 40px;
+    margin-left: -10px;
+    display: inline-block;
+}
+
+.column-left-padding {
+    padding-left: 60px;
+    padding-right: 30px;
+}
+.column-right-padding {
+    padding-left: 30px;
+    padding-right: 60px;
+}
+
+.btn-cancel {
+    color: #90b4ca;
+    background-color: white;
+    border-color: #90b4ca;
+}
+.btn-cancel:hover {
+    color: #90b4ca;
+    background-color: #ebeff1;
+    border-color: #90b4ca;
+}
+
+.btn-edit {
+    background-color: #3b535f;
+    border-color: #3b535f;
+    color: white;
+    width: 120px;
+}
+.btn-edit:hover {
+    background-color: #546e7a;
+    border-color: #546e7a;
+    color: white;
+    width: 120px;
+}
