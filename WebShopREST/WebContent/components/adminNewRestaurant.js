@@ -7,7 +7,8 @@ Vue.component("admin-new-restaurant", {
                 {name: 'Branko',  surname: 'Branković',  dateOfBirth: '21.02.1980', username: 'branko_brat', restaurant: 'Mali Anagram'},
                 {name: 'Smiljka',  surname: 'Smiljković', dateOfBirth: '16.02.1973', username: 'smiljka_hraniteljka', restaurant: 'Mali Slavko'},
                 {name: 'Gavrilo',  surname: 'Gavrić', dateOfBirth: '11.02.1965', username: 'gavrilo_princip', restaurant: 'Mali Milojica'}
-            ]
+            ],
+            map: undefined
         }
     },
     template:
@@ -41,8 +42,8 @@ Vue.component("admin-new-restaurant", {
                     </div>
                 </div>
 
-                <div class="col-md-6"> 
-                    <p> Mapa </p>
+                <div class="col-md-6" id="map" style="min-height: 300px"> 
+                    
                 </div>                
                 
             </div>
@@ -113,6 +114,18 @@ Vue.component("admin-new-restaurant", {
         </div>
 		`,
     mounted() {
+        map = new ol.Map({
+            target: 'map',
+            layers: [
+              new ol.layer.Tile({
+                source: new ol.source.OSM()
+              })
+            ],
+            view: new ol.View({
+              center: ol.proj.fromLonLat([20.46,44.80]),
+              zoom: 10
+            })
+          });
     },
     methods: {
         imagePathChanged: function (e) {
