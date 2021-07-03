@@ -8,6 +8,8 @@
     <!-- Bootstrap CSS -->
     <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/buyerRestaurant.css" rel="stylesheet" />
+    <link href="../css/loginModal.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
 	<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
@@ -37,6 +39,10 @@
 				</div>
             </div>
         </nav>
+
+        <!-- Modal components -->
+        <login-modal v-if="showLoginModal" @close="showLoginModal = false">	</login-modal>
+		<registration-modal v-if="showRegistrationModal" @close="showRegistrationModal = false">	</registration-modal>
 
         <!-- Cover image -->
         <div v-if="restaurant !== null" class="banner-image w-100 d-flex justify-content-center align-items-center" 
