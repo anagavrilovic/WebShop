@@ -163,3 +163,10 @@ input[type="file"] {
     color: white;
 }
 
+.map {
+    margin-top: 50px;
+    height: 400px;
+    width: 650px;
+}
+
+

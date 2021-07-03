@@ -147,3 +147,9 @@
     background-color: #80B0CF;
     border-color: #80B0CF;
 }
+
+.map {
+    margin-top: 50px;
+    height: 400px;
+    width: 650px;
+}

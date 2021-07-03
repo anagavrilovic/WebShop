@@ -1,7 +1,7 @@
 Vue.component("manager-restaurant-information", {
     data: function() {
         return {
-
+            map: undefined
         }
     },
     template: 
@@ -36,8 +36,8 @@ Vue.component("manager-restaurant-information", {
                                     <span class="informationTextMark">&ensp;4.5</span>
                                 </div>
                             </div>
-                            <div class="col-md-7 text-center ">
-                                mapa
+                            <div id="map" class="col-md-7 map">
+                                
                             </div>
                         </div>
                     </div>
@@ -45,7 +45,18 @@ Vue.component("manager-restaurant-information", {
             </div>
         </div>`,
     mounted() {
-
+        this.map = new ol.Map({
+            target: 'map',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([19.83, 45.25]),
+                zoom: 13
+            })
+        });
     },
     methods: {
 
