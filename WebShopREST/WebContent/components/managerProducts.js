@@ -44,10 +44,15 @@ Vue.component("manager-products", {
                                 <input type="text" class="form-control input-field" placeholder="Cena" required="required"
                                 v-model="productForUpdate.price">					
                                 </div>
+
                                 <div class="form-group">
-                                <input type="text" class="form-control input-field" placeholder="Tip proizvoda" required="required"
-                                >					
+                                    <select class="form-select input-field" area-label="Pol">
+                                        <option selected disabled>Tip proizvoda</option>
+                                        <option value="1">Jelo</option>
+                                        <option value="2">Piće</option>
+                                    </select>					
                                 </div>
+
                                 <div class="form-group">
                                 <input type="text" class="form-control input-field" placeholder="Opis (Opciono)" required="required"
                                 v-model="productForUpdate.description">					
