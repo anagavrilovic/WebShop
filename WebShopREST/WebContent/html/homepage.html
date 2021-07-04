@@ -157,7 +157,7 @@
 	
 								<div class="view_wrap list-view" style="display: block;" v-for="r in restaurants">
 	
-									<div class="view_item">
+									<div class="view_item" v-on:click="showRestaurantDetails(r)" style="cursor: pointer;">
 										<div class="vi_left">
 											<img :src=r.logoPath>
 										</div>

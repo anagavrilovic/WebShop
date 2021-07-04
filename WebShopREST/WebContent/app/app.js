@@ -48,6 +48,10 @@ var app = new Vue({
 		typeFilter: function () {
 			axios.post('../rest/restaurants/typeFilter', this.checkedRestaurantTypes)
 			.then(response => (this.restaurants = response.data))
-		}
+		},
+
+		showRestaurantDetails: function(restaurant) {
+            window.location.href = '../html/unregistratedUserRestaurant.html';
+        }
 	}
 });
