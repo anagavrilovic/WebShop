@@ -11,7 +11,7 @@ Vue.component("login-modal", {
               </div>
 
               <div class="modal-body">
-                <form>
+                <form method="post">
                   <div class="form-group input-field">
                     <i class="fa fa-user"></i>
                     <input type="text" class="form-control input-field" placeholder="Korisničko ime" required="required">
@@ -24,7 +24,7 @@ Vue.component("login-modal", {
                   <br/><br/>
                   <div class="form-group submitButton">
                     <input type="submit" class="btn btn-secondary btn-block" value="Potvrdi" id="submitButton"
-                      >
+                      v-on:submit="logIn">
                   </div>
                 </form>
               </div>
