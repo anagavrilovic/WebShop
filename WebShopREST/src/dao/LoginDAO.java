@@ -1,6 +1,12 @@
 package dao;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import beans.Administrator;
 import beans.Buyer;
@@ -55,10 +61,21 @@ public class LoginDAO {
 
 
 
-	public User getUser(CredentialsDTO dto) {
+	public User getUser(CredentialsDTO dto){
 		for(User u : users) {
 			if(u.getUsername().equals(dto.getUsername())) {
 				if(u.getPassword().equals(dto.getPassword())) {
+					
+					ObjectMapper objectMapper = new ObjectMapper();
+					try {
+						File directory = new File("./");
+						  System.out.println(directory.getAbsolutePath());
+						//objectMapper.writeValue(new File("resources/users.json"), u);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
+					
 					return u;
 				}
 			}
