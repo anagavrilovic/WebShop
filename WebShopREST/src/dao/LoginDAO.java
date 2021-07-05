@@ -3,6 +3,7 @@ package dao;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -48,35 +49,33 @@ public class LoginDAO {
 	public User findUserByUsername(Credentials credentials) {
 		Role role = credentials.getRole();
 		ObjectMapper objectMapper = new ObjectMapper();
-		ArrayList<User> users = new ArrayList<User>();
+		List<User> users = new ArrayList<User>();
 		
 		switch(role) {
 			case ADMINISTRATOR:
 				try {
-					users = objectMapper.readValue(new File("resources/administrators.json"), new TypeReference<List<Administrator>>(){});
+					users = Arrays.asList(objectMapper.readValue(new File("resources/administrators.json"), Administrator[].class));
 				} catch (Exception e) {
 					e.printStackTrace();
 				} 
 				break;
 			case MANAGER:
 				try {
-					users = objectMapper.readValue(new File("resources/managers.json"), new TypeReference<List<Manager>>(){});
+					users = Arrays.asList(objectMapper.readValue(new File("resources/managers.json"), Manager[].class));
 				} catch (Exception e) {
 					e.printStackTrace();
 				} 
 				break;
 			case DELIVERER:
 				try {
-					users = objectMapper.readValue(new File("resources/deliverers.json"), new TypeReference<List<Deliverer>>(){});
+					users = Arrays.asList(objectMapper.readValue(new File("resources/deliverers.json"), Deliverer[].class));
 				} catch (Exception e) {
 					e.printStackTrace();
 				} 
 				break;
 			case BUYER:
 				try {
-					System.out.println("Nesto bezvezno.");
-					users = objectMapper.readValue(new File("resources/buyers.json"), new TypeReference<List<Buyer>>(){});
-					//System.out.println(users.size());
+					users = Arrays.asList(objectMapper.readValue(new File("resources/buyers.json"), Buyer[].class));
 				} catch (Exception e) {
 					e.printStackTrace();
 				} 

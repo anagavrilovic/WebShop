@@ -4,22 +4,22 @@ import java.util.*;
 
 public class ShoppingCart {
    
-   private Map<Item, Integer> items;
+   private Map<String, Integer> items;
    private double totalPrice;
    
    public ShoppingCart() {}
    
-	public ShoppingCart(Map<Item, Integer> items, double totalPrice) {
+	public ShoppingCart(Map<String, Integer> items, double totalPrice) {
 		super();
 		this.items = items;
 		this.totalPrice = totalPrice;
 	}
 
-	public Map<Item, Integer> getItems() {
+	public Map<String, Integer> getItems() {
 		return items;
 	}
 	
-	public void setItems(Map<Item, Integer> items) {
+	public void setItems(Map<String, Integer> items) {
 		this.items = items;
 	}
 	
