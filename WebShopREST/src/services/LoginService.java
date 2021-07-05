@@ -66,25 +66,5 @@ public class LoginService {
 	}
 	
 	
-	
-	
-	
-	
-	
-	@POST
-	@Path("/handleLogin2")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public String handleLogin2(CredentialsDTO anka) {
-		/*LoginDAO dao = (LoginDAO)ctx.getAttribute("loginDAO");
-		User user = dao.getUser(credentials);
-		if(user != null) {
-			HttpSession session= req.getSession(true);
-	        session.setAttribute("user", user);
-		}
-		System.out.println(user.getFirstName());
-		return user;*/
-		return "Gavrilo";
-		
-	}
+
 }
