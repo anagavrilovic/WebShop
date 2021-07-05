@@ -32,7 +32,29 @@ var app = new Vue({
         window.removeEventListener('scroll', this.handleScroll);
     },
     mounted() {
-        
+        axios.get('../rest/login/loginCheck')
+        .then(response => {
+            let roleStr = response.data.role;
+            console.log(roleStr);
+            switch(roleStr){
+                case 'ADMINISTRATOR':
+                    window.location.href = "../html/adminHomepage.html";
+                    break;
+                case 'MANAGER':
+                   
+                    break;
+                case 'BUYER':
+                    window.location.href = "../html/buyerHomepage.html";
+                    break;
+                case 'DELIVERER':
+                    window.location.href = "../html/delivererHomepage.html";
+                    break;
+                default:
+                    window.location.href = "../html/homepage.html";
+                    break;
+            }
+          
+        });
     },
     methods: {
         handleScroll(event){

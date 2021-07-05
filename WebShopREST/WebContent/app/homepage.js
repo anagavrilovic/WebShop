@@ -11,7 +11,6 @@ var app = new Vue({
         window.removeEventListener('scroll', this.handleScroll);
     },
     mounted() {
-        alert('U mountedu sam.');
         axios.get('../rest/login/loginCheck')
         .then(response => {
             let roleStr = response.data.role;
