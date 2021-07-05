@@ -48,15 +48,25 @@ var app = new Vue({
                 nav.classList.remove('navbar-custom', 'shadow');
             }
         },
+
         decreaseQuantity: function(item) {
             item.quantity = item.quantity - 1;
         },
+
         increaseQuantity: function(item) {
             item.quantity = item.quantity + 1;
         },
+
         removeItem: function(item) {
             let index = this.cart.indexOf(item);
             this.cart.splice(index, 1);
+        },
+
+        logOut: function() {
+            axios.post('../rest/login/logout')
+                .then(response => {
+                    window.location.href = "../html/homepage.html";
+                });
         }
     }
 });
