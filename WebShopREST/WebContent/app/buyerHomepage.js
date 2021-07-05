@@ -55,8 +55,16 @@ var app = new Vue({
                 nav.classList.remove('navbar-custom', 'shadow');
             }
         },
+
         openMyCart : function() {
             window.location.href = '../html/buyerMyCart.html';
         },
+
+        logOut: function() {
+            axios.post('../rest/login/logout')
+                .then(response => {
+                    window.location.href = "../html/homepage.html";
+                });
+        }
     }
 });

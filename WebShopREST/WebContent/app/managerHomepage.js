@@ -64,6 +64,13 @@ var app = new Vue({
             } else {
                 nav.classList.remove('navbar-custom', 'shadow');
             }
+        },
+
+        logOut: function() {
+            axios.post('../rest/login/logout')
+                .then(response => {
+                    window.location.href = "../html/homepage.html";
+                });
         }
     }
 });

@@ -21,6 +21,7 @@ import dto.CredentialsDTO;
 
 @Path("/login")
 public class LoginService {
+	
 	@Context
 	ServletContext ctx;
 	
@@ -54,14 +55,15 @@ public class LoginService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public User checkLogin(@Context HttpServletRequest req) {
 		HttpSession session= req.getSession(true);
-        User loggedUser = (User)session.getAttribute("user");
-        if(loggedUser != null)
-        	System.out.println(loggedUser.getFirstName());
-        else
-        	System.out.println();
-        return loggedUser;
+        return (User)session.getAttribute("user");
 	}
 	
+	
+	@POST
+	@Path("/logout")
+	public void logOut(@Context HttpServletRequest request) {
+		request.getSession().invalidate();
+	}
 	
 	
 	
