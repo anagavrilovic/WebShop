@@ -28,7 +28,9 @@ Vue.component("login-modal", {
                     <input type="password" class="form-control input-field" placeholder="Lozinka" required="required" v-model="password">					
                   </div>
 
-                  <br/><br/>
+                  <p id="errorMessage" class="text-center"> {{message}} </p>
+
+                  <br/>
                   <div class="form-group submitButton">
                     <input type="submit" class="btn btn-secondary btn-block" value="Potvrdi" id="submitButton" @click="handleLogin"
                       >
@@ -63,31 +65,14 @@ Vue.component("login-modal", {
           case 'DELIVERER':
             window.location.href = "../html/delivererHomepage.html";
             break;
+          default:
+            this.message = 'Neispravno korisničko ime i/ili lozinka!';
+            break;
           
         }
       });
       event.preventDefault();
-    },
-    handleLogin2: function () {
-			axios.post('../rest/login/handleLogin2', {username: this.username, password: this.password})
-			.then(response => (console.log(response.data)))
-      .catch(function (error) {
-        if (error.response) {
-          // Request made and server responded
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.log(error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.message);
-        }
-    
-      });
-      
-		}
+    }
   }
 
 });

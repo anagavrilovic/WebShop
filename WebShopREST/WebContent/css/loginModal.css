@@ -175,3 +175,8 @@
   text-align: center;
   margin-top: 1vh;
 }
+
+#errorMessage{
+  color: red;
+  font-size: smaller;
+}
