@@ -50,7 +50,6 @@ Vue.component("login-modal", {
     handleLogin: function(event){
       axios.post('../rest/login/handleLogin', {username: this.username, password: this.password})
 			.then(response => {
-        console.log(typeof response.data.role);
         let roleStr = response.data.role;
         switch(roleStr){
           case 'ADMINISTRATOR':
