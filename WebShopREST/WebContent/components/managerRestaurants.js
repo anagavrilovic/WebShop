@@ -110,22 +110,43 @@ Vue.component("manager-restaurants", {
                         </div>
     
                         <div class="row main_content" style="margin-bottom: 50px;">
-                            <div class="col-md-12">
-    
-                                <div class="view_wrap list-view" style="display: block;" v-for="r in restaurants">
-    
-                                    <div class="view_item">
-                                        <div class="vi_left">
-                                            <img :src=r.logoPath>
+
+                            <div class="col-md-12 padding1-0">
+                                
+                                <div class="container padding-0">
+                                    <div class="row">
+
+                                        <div v-for="r in restaurants" v-if="restaurants !== null">
+                                            <div class="card shadow my-2" v-on:click="seeRestaurantDetails(r)">
+                                                <div class="row p-4 ">
+                                                    <div class="col-md-2" style="padding-left: 10px; padding-right: 10px;">
+                                                        <img :src="r.logoPath" alt="r.name" class="mx-2 restaurant-images">
+                                                    </div>
+                                                    <div class="commentContent col-md-10" style="padding-left: 50px; padding-right: 0px;">
+                                                        <div class="row">
+                                                            <div class="col-md-10">
+                                                                <span class="restaurant-name-card">{{r.name}}</span>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <span><img src="../images/star.png"></span>
+                                                                <span class="markComment">{{r.mark}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <p style="margin-top: 10px;">{{r.type}}</p>
+                                                            <p v-if="r.isWorking" style="margin-top: -15px;">Otvoreno</p>
+                                                            <p v-else style="margin-top: -15px;">Zatvoreno</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="vi_right">
-                                            <p class="title">{{r.name}}</p>
-                                            <p class="content"> {{r.type}}</p>
-                                        </div>
+
                                     </div>
-    
                                 </div>
+
                             </div>
+
                         </div>
     
                     </div>

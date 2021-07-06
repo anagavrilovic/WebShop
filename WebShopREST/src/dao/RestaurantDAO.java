@@ -1,28 +1,37 @@
 package dao;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import beans.Administrator;
 import beans.Restaurant;
 
 public class RestaurantDAO {
 	private ArrayList<Restaurant> restaurants;
 	
 	public RestaurantDAO() {
-		restaurants = new ArrayList<Restaurant>();
-		Restaurant r1 = new Restaurant("Tomato Restaurant", "Romanian", "../images/tomato.png");
-		Restaurant r2 = new Restaurant("Chilli Restaurant", "Barbeque", "../images/chilli.png");
-		Restaurant r3 = new Restaurant("Ketchup Restaurant", "Italian", "../images/tomato.png");
-		
-		restaurants.add(r1);
-		restaurants.add(r2);
-		restaurants.add(r3);
+
 	}
 	
 	public Collection<Restaurant> getAll() {
-		return restaurants;
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<Restaurant> allRestaurants = new ArrayList<Restaurant>();
+		try {
+			allRestaurants = Arrays.asList(objectMapper.readValue(new File("resources/restaurants.json"), Restaurant[].class));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return allRestaurants;
 	}
 
 	public Collection<Restaurant> getSortedAtoZ() {
