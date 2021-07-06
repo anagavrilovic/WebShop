@@ -64,40 +64,7 @@ var app = new Vue({
 			.then(response => (this.restaurants = response.data))
 		},
 		filterSatisfied: function(type, mark, restaurant){
-			if(this.checkedRestaurantTypes.length == 0 && this.checkedRestaurantMarks.length == 0)
-				return true && this.openRestaurantsFilterSatisfied(restaurant);
-			else if(this.checkedRestaurantTypes.length != 0 && this.checkedRestaurantMarks.length == 0)
-				return (this.checkedRestaurantTypes.indexOf(type) > -1) && this.openRestaurantsFilterSatisfied(restaurant);
-			else if(this.checkedRestaurantTypes.length == 0 && this.checkedRestaurantMarks.length != 0){
-				let markBottoms = [];
-				let markTops = [];
-				for(let j=0; j < this.checkedRestaurantMarks.length; j++){
-					markBottoms.push(parseInt(this.checkedRestaurantMarks[j].split("-")[0]));
-					markTops.push(parseInt(this.checkedRestaurantMarks[j].split("-")[1]));
-				}
-
-				for(let i=0; i < markTops.length; i++){
-					if(parseFloat(mark) >= markBottoms[i] && parseFloat(mark) <= markTops[i]){
-						return true && this.openRestaurantsFilterSatisfied(restaurant);
-					}
-						
-				}
-				return false && this.openRestaurantsFilterSatisfied(restaurant);
-			}
-			else{
-				let markBottoms = [];
-				let markTops = [];
-				for(let j=0; j < this.checkedRestaurantMarks.length; j++){
-					markBottoms.push(parseInt(this.checkedRestaurantMarks[j].split("-")[0]));
-					markTops.push(parseInt(this.checkedRestaurantMarks[j].split("-")[1]));
-				}
-				for(let i=0; i < markTops.length; i++){
-					if(parseFloat(mark) >= markBottoms[i] && parseFloat(mark) <= markTops[i])
-						return (true && (this.checkedRestaurantTypes.indexOf(type) > -1)) && this.openRestaurantsFilterSatisfied(restaurant);
-				}
-				return (false && (this.checkedRestaurantTypes.indexOf(type) > -1)) && this.openRestaurantsFilterSatisfied(restaurant);
-			}
-				
+			return this.restaurantMarkFilterSatisfied(mark) && this.restaurantTypeFilterSatisfied(type) && this.openRestaurantsFilterSatisfied(restaurant);	
 		},
 		openRestaurantsFilterSatisfied: function(restaurant){
 			if(!this.onlyOpenRestaurants)
@@ -108,6 +75,31 @@ var app = new Vue({
 			else{
 				return false;
 			}
+		},
+		restaurantTypeFilterSatisfied: function(type){
+			if(this.checkedRestaurantTypes.length == 0){
+				return true;
+			}
+			return this.checkedRestaurantTypes.indexOf(type) > -1;
+		},
+		restaurantMarkFilterSatisfied: function(mark){
+			if(this.checkedRestaurantMarks.length == 0){
+				return true;
+			}
+			let markBottoms = [];
+			let markTops = [];
+			for(let j=0; j < this.checkedRestaurantMarks.length; j++){
+				markBottoms.push(parseInt(this.checkedRestaurantMarks[j].split("-")[0]));
+				markTops.push(parseInt(this.checkedRestaurantMarks[j].split("-")[1]));
+			}
+
+			for(let i=0; i < markTops.length; i++){
+				if(parseFloat(mark) >= markBottoms[i] && parseFloat(mark) <= markTops[i]){
+					return true;
+				}
+					
+			}
+			return false;
 		}
 	}
 });
