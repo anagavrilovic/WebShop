@@ -22,12 +22,12 @@ Vue.component('restaurants', {
                                 Sortiraj po <span style="float: right;"><img src="../images/arrow.png"></span>
                             </button>
                             <div class="list-group flex" v-if="sortDropdownOpen">
-                                <button class="list-group-item list-group-item-action">Naziv restorana A - Z </button>
-                                <button class="list-group-item list-group-item-action">Naziv restorana Z - A</button>
-                                <button class="list-group-item list-group-item-action">Lokacija rastuće</button>
-                                <button class="list-group-item list-group-item-action">Lokacija opadajuće</button>
-                                <button class="list-group-item list-group-item-action">Ocena rastuće</button>
-                                <button class="list-group-item list-group-item-action">Ocena opadajuće</button>
+                                <button class="list-group-item list-group-item-action" v-on:click="sortNameAZ">Naziv restorana A - Z </button>
+                                <button class="list-group-item list-group-item-action" v-on:click="sortNameZA">Naziv restorana Z - A</button>
+                                <button class="list-group-item list-group-item-action" v-on:click="sortLocationAscending">Lokacija rastuće</button>
+                                <button class="list-group-item list-group-item-action" v-on:click="sortLocationDescending">Lokacija opadajuće</button>
+                                <button class="list-group-item list-group-item-action" v-on:click="sortMarkAscending">Ocena rastuće</button>
+                                <button class="list-group-item list-group-item-action" v-on:click="sortMarkDescending">Ocena opadajuće</button>
                             </div>
                         </div>
                     </div>
@@ -155,6 +155,7 @@ Vue.component('restaurants', {
         axios.get('../rest/restaurants')
 			.then(response => {
                 this.allRestaurants = response.data;
+                this.allRestaurants.sort((a, b) => Number(this.isWorking(b)) - Number(this.isWorking(a)));
                 this.restaurants = this.allRestaurants.slice();
             });
     },
@@ -189,6 +190,27 @@ Vue.component('restaurants', {
         seeRestaurantDetails: function(restaurant) {
             window.location.href = '../html/buyerRestaurant.html';
         },
+
+
+        // SORT
+        sortNameAZ: function () {
+			this.restaurants.sort(compareNameAscending);
+		},
+		sortNameZA: function() {
+			this.restaurants.sort(compareNameDescending);
+		},
+		sortLocationAscending: function() {
+			this.restaurants.sort(compareLocationAscending);
+		},
+		sortLocationDescending: function() {
+			this.restaurants.sort(compareLocationDescending);
+		},
+		sortMarkAscending: function() {
+			this.restaurants.sort(compareMarkAscending);
+		},
+		sortMarkDescending: function() {
+			this.restaurants.sort(compareMarkDescending);
+		},
 
 
         // SEARCH
