@@ -1,7 +1,9 @@
 Vue.component('restaurants', {
     data: function() {
         return {
+            allRestaurants: null,
             restaurants: null,
+            searchParams: { name: '', location: ''},
             sortDropdownOpen: false,
             restaurantTypeDropdownOpen: false,
             restaurantMarkDropdownOpen: false,
@@ -91,13 +93,15 @@ Vue.component('restaurants', {
                 <div class="col-md-9">
                     <div class="row">
                         <div class="col-md-5 padding-0">
-                            <input type="text" id="restaurantName" placeholder="Naziv restorana" class="form-control flex" style="height: 37px; padding-left: 10px;">
+                            <input type="text" id="restaurantName" placeholder="Naziv restorana" class="form-control flex" style="height: 40px; padding-left: 10px;"
+                                v-model="searchParams.name">
                         </div>
                         <div class="col-md-5 padding-0">
-                            <input type="text" id="location" placeholder="Lokacija" class=" form-control flex" style="height: 37px; padding-left: 10px;">
+                            <input type="text" id="location" placeholder="Lokacija" class=" form-control flex" style="height: 40px; padding-left: 10px;"
+                                v-model="searchParams.location">
                         </div>
                         <div class="col-md-2 padding-0">
-                            <button type="button" id="searchButton" class="btn btn-search flex">
+                            <button type="button" id="searchButton" class="btn btn-search flex" v-on:click="search">
                             <span><img src="../images/search.png"></span>&ensp;&nbsp;Pretraži
                             </button>
                         </div>
@@ -147,7 +151,10 @@ Vue.component('restaurants', {
         </div>`,
     mounted() {
         axios.get('../rest/restaurants')
-			.then(response => (this.restaurants = response.data));
+			.then(response => {
+                this.allRestaurants = response.data;
+                this.restaurants = this.allRestaurants.slice();
+            });
     },
     methods: {
         toggleSortDropdownVisibility: function () {
@@ -179,6 +186,28 @@ Vue.component('restaurants', {
 
         seeRestaurantDetails: function(restaurant) {
             window.location.href = '../html/buyerRestaurant.html';
+        },
+
+        search: function() {
+            while(this.restaurants.length)
+                this.restaurants.pop()
+
+            let searchLocation = this.searchParams.location.split(' ');
+            for(let r of this.allRestaurants) {
+
+                let found = true;
+                for(let s of searchLocation){
+                    if(!(r.location.address.streetName.toLowerCase().includes(s.toLowerCase()) || 
+                        r.location.address.streetNumber.toLowerCase().includes(s.toLowerCase()) ||
+                        r.location.address.city.toLowerCase().includes(s.toLowerCase()) ||
+                        r.location.address.postalCode.includes(s))){
+                            found = false;
+                    }
+                }
+
+                if(r.name.toLowerCase().includes(this.searchParams.name.toLowerCase()) && found && !this.restaurants.includes(r))
+                    this.restaurants.push(r);
+            }
         }
     }
 });
