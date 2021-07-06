@@ -63,8 +63,8 @@ var app = new Vue({
 			axios.get('../rest/restaurants/nameAtoZ')
 			.then(response => (this.restaurants = response.data))
 		},
-		filterSatisfied: function(type, mark, restaurant){
-			return this.restaurantMarkFilterSatisfied(mark) && this.restaurantTypeFilterSatisfied(type) && this.openRestaurantsFilterSatisfied(restaurant);	
+		filterSatisfied: function(restaurant){
+			return this.restaurantMarkFilterSatisfied(restaurant.mark) && this.restaurantTypeFilterSatisfied(restaurant.type) && this.openRestaurantsFilterSatisfied(restaurant);	
 		},
 		openRestaurantsFilterSatisfied: function(restaurant){
 			if(!this.onlyOpenRestaurants)
