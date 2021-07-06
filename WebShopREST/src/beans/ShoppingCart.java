@@ -4,7 +4,7 @@ import java.util.*;
 
 public class ShoppingCart {
    
-   private Map<String, Integer> items;
+   private Map<String, Integer> items = new HashMap<String, Integer>();
    private double totalPrice;
    
    public ShoppingCart() {}

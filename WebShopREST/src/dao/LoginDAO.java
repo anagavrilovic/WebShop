@@ -14,21 +14,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import beans.Administrator;
 import beans.Buyer;
+import beans.BuyerType;
+import beans.BuyerTypeName;
 import beans.Credentials;
 import beans.Deliverer;
 import beans.Manager;
 import beans.Role;
+import beans.ShoppingCart;
 import beans.User;
 import dto.CredentialsDTO;
 
 public class LoginDAO {
 	
-	public LoginDAO() {
-
-	}
+	ObjectMapper objectMapper = new ObjectMapper();
+	
+	public LoginDAO() {}
 
 	public User getUser(CredentialsDTO dto){
-		ObjectMapper objectMapper = new ObjectMapper();
 		ArrayList<Credentials> credentials = new ArrayList<Credentials>();
 		try {
 			credentials = objectMapper.readValue(new File("resources/credentials.json"), new TypeReference<List<Credentials>>(){});
@@ -48,7 +50,6 @@ public class LoginDAO {
 	
 	public User findUserByUsername(Credentials credentials) {
 		Role role = credentials.getRole();
-		ObjectMapper objectMapper = new ObjectMapper();
 		List<User> users = new ArrayList<User>();
 		
 		switch(role) {
@@ -88,5 +89,45 @@ public class LoginDAO {
 		}
 		
 		return null;
+	}
+
+	public Buyer registerBuyer(Buyer buyer) {
+		buyer.setRole(Role.BUYER);
+		buyer.setCollectedPoints(0);
+		buyer.setShoppingCart(new ShoppingCart());
+		buyer.setBuyerType(new BuyerType(BuyerTypeName.REGULAR, 0, 1000));
+		
+		ArrayList<Buyer> buyers = getAllBuyers();
+		buyers.add(buyer);
+		saveBuyers(buyers);		
+		
+		return buyer;
+	}
+	
+	private ArrayList<Buyer> getAllBuyers() {
+		ArrayList<Buyer> buyers = new ArrayList<Buyer>();
+		try {
+			buyers = new ArrayList<Buyer>(Arrays.asList(objectMapper.readValue(new File("resources/buyers.json"), Buyer[].class)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return buyers;
+	}
+
+	private void saveBuyers(ArrayList<Buyer> buyers) {
+		try {
+			objectMapper.writeValue(new File("resources/buyers.json"), buyers);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+
+	public Boolean usernameExists(String username) {
+		ArrayList<Buyer> buyers = getAllBuyers();
+		for(Buyer buyer : buyers) {
+			if(buyer.getUsername().equals(username))
+				return true;
+		}
+		return false;
 	}
 }
