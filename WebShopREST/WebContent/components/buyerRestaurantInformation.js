@@ -5,7 +5,7 @@ Vue.component("restaurant-information", {
         }
     },
     template: 
-        `<div class="container py-5 px-5">
+        `<div class="container py-5" style="padding-left: 100px; padding-right: 100px;">
             <div class="row">
                     <div class="card shadow" style="height: 500px">
                         <div class="row">

@@ -11,7 +11,7 @@ Vue.component("manager-buyers", {
         }
     },
     template:         
-        `<div class="container table-container">
+        `<div class="container table-container" style="padding-left: 100px; padding-right: 100px;">
             <div class="card shadow py-5 px-5">
                 <div class="input-group rounded">
                     <input type="search" class="form-control rounded search-bar" placeholder="Search" aria-label="Search"/>

@@ -16,7 +16,7 @@ Vue.component("manager-restaurants", {
         `
         <!-- Main body -->
         <div class="main_body" id="restaurants">
-            <div class="container">
+            <div class="container" style="padding-left: 30px; padding-right: 30px;">
 
     
                 <div class="row">

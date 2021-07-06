@@ -76,7 +76,7 @@ Vue.component('manager-orders', {
                 </div>
             </div>
 
-            <div class="container py-4 px-5">
+            <div class="container py-4" style="padding-left: 150px; padding-right: 150px;">
                 <div class="row">
                     <div class="col-md-3 justify-content-center">
                         

@@ -27,7 +27,7 @@ Vue.component('my-orders', {
                 </div>
             </div>-->
 
-            <div class="container py-4 px-5">
+            <div class="container py-4" style="padding-left: 150px; padding-right: 150px;">
                 <div class="row">
                     <div class="col-md-3 justify-content-center">
                         
@@ -134,21 +134,22 @@ Vue.component('my-orders', {
                                         <div v-for="o in orders" v-if="orders !== null">
                                             <div class="card shadow my-2" style="cursor: default">
                                                 <div class="row p-4 ">
-                                                <div class="col-md-6">
-                                                    <h1 class="orderID">PORUDŽBINA {{o.id}}</h1>
-                                                    <p style="margin-top: 15px;">{{o.time}}</p>
-                                                    <p style="margin-top: -13px;">Kupac: {{o.buyerName}}</p>
-                                                    <p style="margin-top: -13px;">Restoran: {{o.restaurantName}}</p>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <p v-if="o.status === 3" class="text-end">
-                                                        <span style="color: #ffb854;"><img src="../images/inTransport.png"> U transportu</span>
-                                                    </p>
-                                                    <p v-if="o.status === 4" class="text-end">
-                                                        <span style="color: #27c250;"><img src="../images/delivered.png"> Dostavljena</span>
-                                                    </p>
-                                                    <p class="text-end" style="margin-top: -3px;">{{o.price}}</p>
-                                                    <button class="btn btn-deliver float-end" v-if="o.status === 3" v-on:click="deliverOrder(o)">Promeni status</button>
+                                                    <div class="col-md-6">
+                                                        <h1 class="orderID">PORUDŽBINA {{o.id}}</h1>
+                                                        <p style="margin-top: 15px;">{{o.time}}</p>
+                                                        <p style="margin-top: -13px;">Kupac: {{o.buyerName}}</p>
+                                                        <p style="margin-top: -13px;">Restoran: {{o.restaurantName}}</p>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p v-if="o.status === 3" class="text-end">
+                                                            <span style="color: #ffb854;"><img src="../images/inTransport.png"> U transportu</span>
+                                                        </p>
+                                                        <p v-if="o.status === 4" class="text-end">
+                                                            <span style="color: #27c250;"><img src="../images/delivered.png"> Dostavljena</span>
+                                                        </p>
+                                                        <p class="text-end" style="margin-top: -3px;">{{o.price}}</p>
+                                                        <button class="btn btn-deliver float-end" v-if="o.status === 3" v-on:click="deliverOrder(o)">Promeni status</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
