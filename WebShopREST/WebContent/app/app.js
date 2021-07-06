@@ -61,10 +61,28 @@ var app = new Vue({
 			}
 
 		},
+
+		// SORT
 		sortNameAZ: function () {
-			axios.get('../rest/restaurants/nameAtoZ')
-			.then(response => (this.restaurants = response.data))
+			this.restaurants.sort(compareNameAscending);
 		},
+		sortNameZA: function() {
+			this.restaurants.sort(compareNameDescending);
+		},
+		sortLocationAscending: function() {
+			this.restaurants.sort(compareLocationAscending);
+		},
+		sortLocationDescending: function() {
+			this.restaurants.sort(compareLocationDescending);
+		},
+		sortMarkAscending: function() {
+			this.restaurants.sort(compareMarkAscending);
+		},
+		sortMarkDescending: function() {
+			this.restaurants.sort(compareMarkDescending);
+		},
+
+		// FILTERS
 		filterSatisfied: function(restaurant){
 			return this.restaurantMarkFilterSatisfied(restaurant.mark) && this.restaurantTypeFilterSatisfied(restaurant.type) && this.openRestaurantsFilterSatisfied(restaurant);	
 		},

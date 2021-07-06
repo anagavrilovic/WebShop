@@ -54,11 +54,11 @@
 								</button>
 								<div class="list-group flex" v-if="sortDropdownOpen">
 									<button class="list-group-item list-group-item-action" v-on:click="sortNameAZ">Naziv restorana A - Z </button>
-									<button class="list-group-item list-group-item-action">Naziv restorana Z - A</button>
-									<button class="list-group-item list-group-item-action">Lokacija rastuće</button>
-									<button class="list-group-item list-group-item-action">Lokacija opadajuće</button>
-									<button class="list-group-item list-group-item-action">Ocena rastuće</button>
-									<button class="list-group-item list-group-item-action">Ocena opadajuće</button>
+									<button class="list-group-item list-group-item-action" v-on:click="sortNameZA">Naziv restorana Z - A</button>
+									<button class="list-group-item list-group-item-action" v-on:click="sortLocationAscending">Lokacija rastuće</button>
+									<button class="list-group-item list-group-item-action" v-on:click="sortLocationDescending">Lokacija opadajuće</button>
+									<button class="list-group-item list-group-item-action" v-on:click="sortMarkAscending">Ocena rastuće</button>
+									<button class="list-group-item list-group-item-action" v-on:click="sortMarkDescending">Ocena opadajuće</button>
 								</div>
 							</div>
 						</div>
@@ -224,6 +224,7 @@
 
 	<script src="../js/vue.js"></script>
 	<script src="../js/axios.js"></script>
+	<script src="../app/sorting.js"></script>
 	<script src="../app/app.js"></script>
 	<script src="../app/homepage.js"></script>
 	<script src="../components/loginModal.js"></script>
