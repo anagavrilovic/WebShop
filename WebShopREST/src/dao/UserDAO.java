@@ -22,26 +22,10 @@ public class UserDAO {
 	public Collection<User> getAll() {
 		ArrayList<User> users = new ArrayList<User>();
 		
-		User u1 = new Administrator();
-		u1.setFirstName("Rule");
-		u1.setLastName("Rulin");
-		
-		User u2 = new Manager();
-		u2.setFirstName("Gamzo");
-		u2.setLastName("Gamzigrad");
-		
-		User u3 = new Buyer();
-		u3.setFirstName("Kupko");
-		u3.setLastName("Kupina");
-		
-		User u4 = new Administrator();
-		u4.setFirstName("Sima");
-		u4.setLastName("Simic");
-		
-		users.add(u1);
-		users.add(u2);
-		users.add(u3);
-		users.add(u4);
+		users.addAll(getAllAdministrators());
+		users.addAll(getAllManagers());
+		users.addAll(getAllBuyers());
+		users.addAll(getAllDeliverers());
 		
 		return users;
 	}
@@ -107,5 +91,25 @@ public class UserDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
+	}
+	
+	private ArrayList<Buyer> getAllBuyers() {
+		ArrayList<Buyer> buyers = new ArrayList<Buyer>();
+		try {
+			buyers = new ArrayList<Buyer>(Arrays.asList(objectMapper.readValue(new File("resources/buyers.json"), Buyer[].class)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return buyers;
+	}
+	
+	private ArrayList<Administrator> getAllAdministrators() {
+		ArrayList<Administrator> administrators = new ArrayList<Administrator>();
+		try {
+			administrators = new ArrayList<Administrator>(Arrays.asList(objectMapper.readValue(new File("resources/administrators.json"), Administrator[].class)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return administrators;
 	}
 }

@@ -126,7 +126,7 @@ Vue.component("admin-restaurants", {
                             </div>
                         </div>
     
-                        <div class="row main_content">
+                        <div class="row main_content" style="margin-bottom: 50px;">
 
                             <div class="col-md-12 padding1-0">
                                 

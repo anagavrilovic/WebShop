@@ -87,3 +87,15 @@
     padding: 0% 7%;
     height: 15vh;
 }
+
+.user-name {
+    color: #3b535f;
+    font-size: large;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.users-text {
+    color: #3b535f;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}

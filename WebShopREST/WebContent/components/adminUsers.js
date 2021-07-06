@@ -140,20 +140,41 @@ Vue.component("admin-users", {
                             </div>
                         </div>
     
-                        <div class="row main_content">
-                            <div class="col-md-12">
+                        <div class="row main_content" style="margin-bottom: 50px;">
+                            <div class="col-md-12 padding1-0" >
     
-                                <div class="view_wrap list-view" style="display: block;" v-for="u in users">
-    
-                                    <div class="view_item">
-                                        <div class="vi_left">
-                                            <img src="../images/onion.png">
+                                <div class="container padding-0">
+                                    <div class="row">
+
+                                        <div v-for="u in users" v-if="users !== null">
+                                            <div class="card shadow my-2">
+                                                <div class="row p-4 ">
+                                                    <div class="col-md-2" style="padding-left: 10px; padding-right: 10px;">
+                                                        <img src="../images/users.png" alt="User" class="mx-2 restaurant-images" style="height: 70px; width: 70px;">
+                                                    </div>
+                                                    <div class="commentContent col-md-10">
+                                                        <div class="row">
+                                                            <div class="col-md-9">
+                                                                <p class="user-name">{{u.firstName}} {{u.lastName}} &ensp;|&ensp; {{u.username}}</p>
+                                                                <p class="users-text">Datum rođenja: {{u.dateOfBirth}}</p>
+                                                                <p class="users-text" v-if="u.role == 'KUPAC'">Broj sakupljenih bodova: {{u.collectedPoints}}</p>
+                                                                <p class="users-text" v-if="u.role == 'KUPAC'">Tip kupca: {{u.buyerType.buyerTypeName}}</p>
+                                                                <p class="users-text" v-if="u.role == 'MENADŽER'">Restoran: </p>
+                                                            </div>
+                                                            <div class="col-md-3 " style="padding-right: 30px;">
+                                                                <p class="text-end users-text">{{u.role}}</p>
+                                                                <div class="float-end" style="margin-top: 20px;">
+                                                                    <img src="../images/unblocked.png" v-if="!u.isBlocked && u.role !== 'ADMINISTRATOR'">
+                                                                    <img src="../images/blocked.png" v-if="u.isBlocked && u.role !== 'ADMINISTRATOR'">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="vi_right">
-                                            <p class="title">{{u.firstName}} {{u.lastName}}</p>
-                                        </div>
+
                                     </div>
-    
                                 </div>
                             </div>
                         </div>
@@ -168,7 +189,20 @@ Vue.component("admin-users", {
         `,
     mounted() {
         axios.get('../rest/users')
-        .then(response => (this.users = response.data))
+        .then(response => {
+            this.users = response.data;
+
+            for(let u of this.users){
+                if(u.role == 'ADMINISTRATOR')
+                    u.role = 'Administrator';
+                else if(u.role == 'MANAGER')
+                    u.role = 'Menadžer';
+                else if(u.role == 'BUYER')
+                    u.role = 'Kupac';
+                else if(u.role == 'DELIVERER')
+                    u.role = 'Dostavljač';
+            }
+        });
     },
     methods: {
         toggleSortDropdownVisibility: function () {
