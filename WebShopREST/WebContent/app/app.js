@@ -12,7 +12,10 @@ var app = new Vue({
 	},
 	mounted() {
 		axios.get('../rest/restaurants')
-			.then(response => (this.restaurants = response.data))
+			.then(response => {
+				this.restaurants = response.data;
+				this.restaurants.sort((a, b) => Number(this.isWorking(b)) - Number(this.isWorking(a)));
+			});
 	},
 	methods: {
 		toggleSortDropdownVisibility: function () {
