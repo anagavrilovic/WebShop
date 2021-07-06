@@ -35,7 +35,7 @@ public class LoginDAO {
 	public LoginDAO() {
 		
 		// DUMMY DATA
-		Address a1 = new Address("Dimitrija Tucovića", "3", "Novi Sad", "21000");
+		/*Address a1 = new Address("Dimitrija Tucovića", "3", "Novi Sad", "21000");
 		Address a2 = new Address("Stražilovska", "8", "Novi Sad", "21000");
 		Address a3 = new Address("Bulevar Oslobođenja", "119", "Novi Sad", "21000");
 		
@@ -58,9 +58,7 @@ public class LoginDAO {
 			objectMapper.writeValue(new File("resources/restaurants.json"), restaurants);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		
-		
+		}*/
 	}
 
 
