@@ -7,7 +7,9 @@ Vue.component("admin-restaurants", {
             sortDropdownOpen: false,
             restaurantTypeDropdownOpen: false,
             restaurantMarkDropdownOpen: false,
-            checkedRestaurantTypes: []
+            checkedRestaurantTypes: [],
+		    checkedRestaurantMarks: [],
+		    onlyOpenRestaurants: false
         }
     },
     template:
@@ -51,16 +53,16 @@ Vue.component("admin-restaurants", {
                                 </button>
                                 <ul class="list-group flex" v-if="restaurantTypeDropdownOpen">
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Chineese" v-model="checkedRestaurantTypes" v-on:change="">Kineski
+                                        <input class="form-check-input me-1" type="checkbox" value="Brza hrana" v-model="checkedRestaurantTypes" v-on:change="">Brza hrana
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Italian" v-model="checkedRestaurantTypes" v-on:change="">Italijanski
+                                        <input class="form-check-input me-1" type="checkbox" value="Italijanski" v-model="checkedRestaurantTypes" v-on:change="">Italijanski
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Barbeque" v-model="checkedRestaurantTypes" v-on:change="">Roštilj
+                                        <input class="form-check-input me-1" type="checkbox" value="Roštilj" v-model="checkedRestaurantTypes" v-on:change="">Roštilj
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Romanian" v-model="checkedRestaurantTypes" v-on:change="">Rumunski
+                                        <input class="form-check-input me-1" type="checkbox" value="Kineski" v-model="checkedRestaurantTypes" v-on:change="">Kineski
                                     </label>
                                 </ul>
                             </div>
@@ -74,19 +76,19 @@ Vue.component("admin-restaurants", {
                                 </button>
                                 <ul class="list-group flex" v-if="restaurantMarkDropdownOpen">
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">4 - 5
+                                        <input class="form-check-input me-1" type="checkbox" value="4-5" v-model="checkedRestaurantMarks">4 - 5
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">3 - 4
+                                        <input class="form-check-input me-1" type="checkbox" value="3-4" v-model="checkedRestaurantMarks">3 - 4
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">2 - 3
+                                        <input class="form-check-input me-1" type="checkbox" value="2-3" v-model="checkedRestaurantMarks">2 - 3
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">1 - 2
+                                        <input class="form-check-input me-1" type="checkbox" value="1-2" v-model="checkedRestaurantMarks">1 - 2
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">0 - 1
+                                        <input class="form-check-input me-1" type="checkbox" value="0-1" v-model="checkedRestaurantMarks">0 - 1
                                     </label>
                                 </ul>
                             </div>
@@ -95,7 +97,7 @@ Vue.component("admin-restaurants", {
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-check checkbox-style rounded" style="padding-left: 35px">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" v-model="onlyOpenRestaurants">
                                     <label class="form-check-label" for="flexCheckDefault">
                                     Samo otvoreni restorani
                                     </label>
@@ -132,7 +134,7 @@ Vue.component("admin-restaurants", {
                                     <div class="row">
 
                                         <div v-for="r in restaurants" v-if="restaurants !== null">
-                                            <div class="card shadow my-2" v-on:click="seeRestaurantDetails(r)">
+                                            <div class="card shadow my-2" v-on:click="seeRestaurantDetails(r)" v-if="filterSatisfied(r)">
                                                 <div class="row p-4 ">
                                                     <div class="col-md-2" style="padding-left: 10px; padding-right: 10px;">
                                                         <img :src="r.logoPath" alt="r.name" class="mx-2 restaurant-images">
@@ -149,7 +151,7 @@ Vue.component("admin-restaurants", {
                                                         </div>
                                                         <div class="row">
                                                             <p style="margin-top: 10px;">{{r.type}}</p>
-                                                            <p v-if="r.isWorking" style="margin-top: -15px;">Otvoreno</p>
+                                                            <p v-if="isWorking(r)" style="margin-top: -15px;">Otvoreno</p>
                                                             <p v-else style="margin-top: -15px;">Zatvoreno</p>
                                                         </div>
                                                     </div>
@@ -212,11 +214,6 @@ Vue.component("admin-restaurants", {
 			.then(response => (this.restaurants = response.data))
 		},
 
-		typeFilter: function () {
-			axios.post('../rest/restaurants/typeFilter', this.checkedRestaurantTypes)
-			.then(response => (this.restaurants = response.data))
-		},
-
         search: function() {
             while(this.restaurants.length)
                 this.restaurants.pop()
@@ -237,6 +234,65 @@ Vue.component("admin-restaurants", {
                 if(r.name.toLowerCase().includes(this.searchParams.name.toLowerCase()) && found && !this.restaurants.includes(r))
                     this.restaurants.push(r);
             }
-        }
+        },
+        isWorking: function(restaurant){
+			let workTimeStart = restaurant.workTime.workTimeStart;
+			let workTimeEnd = restaurant.workTime.workTimeEnd;
+			let workTimeStartHours = workTimeStart.split(':')[0];
+			let workTimeEndHours = workTimeEnd.split(':')[0];
+				
+			var today = new Date();
+			var currentTimeHours = today.getHours();
+
+			if(currentTimeHours >= workTimeStartHours && currentTimeHours < workTimeEndHours){
+				return true;
+			}
+			else{
+				return false;
+			}
+
+		},
+
+		filterSatisfied: function(restaurant){
+			return this.restaurantMarkFilterSatisfied(restaurant.mark) && this.restaurantTypeFilterSatisfied(restaurant.type) && this.openRestaurantsFilterSatisfied(restaurant);	
+		},
+
+		openRestaurantsFilterSatisfied: function(restaurant){
+			if(!this.onlyOpenRestaurants)
+				return true;
+			if(this.isWorking(restaurant)){
+				return true;
+			}
+			else{
+				return false;
+			}
+		},
+
+		restaurantTypeFilterSatisfied: function(type){
+			if(this.checkedRestaurantTypes.length == 0){
+				return true;
+			}
+			return this.checkedRestaurantTypes.indexOf(type) > -1;
+		},
+
+		restaurantMarkFilterSatisfied: function(mark){
+			if(this.checkedRestaurantMarks.length == 0){
+				return true;
+			}
+			let markBottoms = [];
+			let markTops = [];
+			for(let j=0; j < this.checkedRestaurantMarks.length; j++){
+				markBottoms.push(parseInt(this.checkedRestaurantMarks[j].split("-")[0]));
+				markTops.push(parseInt(this.checkedRestaurantMarks[j].split("-")[1]));
+			}
+
+			for(let i=0; i < markTops.length; i++){
+				if(parseFloat(mark) >= markBottoms[i] && parseFloat(mark) <= markTops[i]){
+					return true;
+				}
+					
+			}
+			return false;
+		}
     }
 })
