@@ -6,6 +6,8 @@ var app = new Vue({
 		restaurantTypeDropdownOpen: false,
 		restaurantMarkDropdownOpen: false,
 		checkedRestaurantTypes: [],
+		checkedRestaurantMarks: [],
+		onlyOpenRestaurants: false,
 		error: ''
 	},
 	mounted() {
@@ -39,15 +41,73 @@ var app = new Vue({
 				this.restaurantMarkDropdownOpen = true;
 			}
 		},
+		isWorking: function(restaurant){
+			let workTimeStart = restaurant.workTime.workTimeStart;
+			let workTimeEnd = restaurant.workTime.workTimeEnd;
 
+			let workTimeStartHours = workTimeStart.split(':')[0];
+			let workTimeEndHours = workTimeEnd.split(':')[0];
+				
+			var today = new Date();
+			var currentTimeHours = today.getHours();
+
+			if(currentTimeHours >= workTimeStartHours && currentTimeHours < workTimeEndHours){
+				return true;
+			}
+			else{
+				return false;
+			}
+
+		},
 		sortNameAZ: function () {
 			axios.get('../rest/restaurants/nameAtoZ')
 			.then(response => (this.restaurants = response.data))
 		},
+		filterSatisfied: function(type, mark, restaurant){
+			if(this.checkedRestaurantTypes.length == 0 && this.checkedRestaurantMarks.length == 0)
+				return true && this.openRestaurantsFilterSatisfied(restaurant);
+			else if(this.checkedRestaurantTypes.length != 0 && this.checkedRestaurantMarks.length == 0)
+				return (this.checkedRestaurantTypes.indexOf(type) > -1) && this.openRestaurantsFilterSatisfied(restaurant);
+			else if(this.checkedRestaurantTypes.length == 0 && this.checkedRestaurantMarks.length != 0){
+				let markBottoms = [];
+				let markTops = [];
+				for(let j=0; j < this.checkedRestaurantMarks.length; j++){
+					markBottoms.push(parseInt(this.checkedRestaurantMarks[j].split("-")[0]));
+					markTops.push(parseInt(this.checkedRestaurantMarks[j].split("-")[1]));
+				}
 
-		typeFilter: function () {
-			axios.post('../rest/restaurants/typeFilter', this.checkedRestaurantTypes)
-			.then(response => (this.restaurants = response.data))
+				for(let i=0; i < markTops.length; i++){
+					if(parseFloat(mark) >= markBottoms[i] && parseFloat(mark) <= markTops[i]){
+						return true && this.openRestaurantsFilterSatisfied(restaurant);
+					}
+						
+				}
+				return false && this.openRestaurantsFilterSatisfied(restaurant);
+			}
+			else{
+				let markBottoms = [];
+				let markTops = [];
+				for(let j=0; j < this.checkedRestaurantMarks.length; j++){
+					markBottoms.push(parseInt(this.checkedRestaurantMarks[j].split("-")[0]));
+					markTops.push(parseInt(this.checkedRestaurantMarks[j].split("-")[1]));
+				}
+				for(let i=0; i < markTops.length; i++){
+					if(parseFloat(mark) >= markBottoms[i] && parseFloat(mark) <= markTops[i])
+						return (true && (this.checkedRestaurantTypes.indexOf(type) > -1)) && this.openRestaurantsFilterSatisfied(restaurant);
+				}
+				return (false && (this.checkedRestaurantTypes.indexOf(type) > -1)) && this.openRestaurantsFilterSatisfied(restaurant);
+			}
+				
+		},
+		openRestaurantsFilterSatisfied: function(restaurant){
+			if(!this.onlyOpenRestaurants)
+				return true;
+			if(this.isWorking(restaurant)){
+				return true;
+			}
+			else{
+				return false;
+			}
 		}
 	}
 });
