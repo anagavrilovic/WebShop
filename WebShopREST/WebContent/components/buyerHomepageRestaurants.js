@@ -190,6 +190,8 @@ Vue.component('restaurants', {
             window.location.href = '../html/buyerRestaurant.html';
         },
 
+
+        // SEARCH
         search: function() {
             while(this.restaurants.length)
                 this.restaurants.pop()
@@ -230,6 +232,8 @@ Vue.component('restaurants', {
 
 		},
 
+
+        // FILTERS
 		filterSatisfied: function(restaurant){
 			return this.restaurantMarkFilterSatisfied(restaurant.mark) && this.restaurantTypeFilterSatisfied(restaurant.type) && this.openRestaurantsFilterSatisfied(restaurant);	
 		},

@@ -1,7 +1,9 @@
 var app = new Vue({
 	el: '#restaurants',
 	data: {
+		allRestaurants: null,
 		restaurants: null,
+		searchParams: { name: '', location: ''},
 		sortDropdownOpen: false,
 		restaurantTypeDropdownOpen: false,
 		restaurantMarkDropdownOpen: false,
@@ -13,8 +15,9 @@ var app = new Vue({
 	mounted() {
 		axios.get('../rest/restaurants')
 			.then(response => {
-				this.restaurants = response.data;
-				this.restaurants.sort((a, b) => Number(this.isWorking(b)) - Number(this.isWorking(a)));
+				this.allRestaurants = response.data;
+				this.allRestaurants.sort((a, b) => Number(this.isWorking(b)) - Number(this.isWorking(a)));
+				this.restaurants = this.allRestaurants.slice();
 			});
 	},
 	methods: {
@@ -123,6 +126,29 @@ var app = new Vue({
 					
 			}
 			return false;
-		}
+		},
+
+		// SEARCH
+		search: function() {
+            while(this.restaurants.length)
+                this.restaurants.pop()
+
+            let searchLocation = this.searchParams.location.split(' ');
+            for(let r of this.allRestaurants) {
+
+                let found = true;
+                for(let s of searchLocation){
+                    if(!(r.location.address.streetName.toLowerCase().includes(s.toLowerCase()) || 
+                        r.location.address.streetNumber.toLowerCase().includes(s.toLowerCase()) ||
+                        r.location.address.city.toLowerCase().includes(s.toLowerCase()) ||
+                        r.location.address.postalCode.includes(s))){
+                            found = false;
+                    }
+                }
+
+                if(r.name.toLowerCase().includes(this.searchParams.name.toLowerCase()) && found && !this.restaurants.includes(r))
+                    this.restaurants.push(r);
+            }
+        }
 	}
 });

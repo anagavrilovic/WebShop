@@ -139,14 +139,14 @@
 					<div class="col-md-9">
 						<div class="row search_bar">
 							<div class="col-md-5" style="padding-left: 3px; padding-right: 3px;">
-								<input type="text" id="restaurantName" placeholder="Naziv restorana" class="form-control flex">
+								<input type="text" id="restaurantName" placeholder="Naziv restorana" class="form-control flex" v-model="searchParams.name">
 							</div>
 							<div class="col-md-5" style="padding-left: 3px; padding-right: 3px;">
-								<input type="text" id="location" placeholder="Lokacija" class="form-control flex">
+								<input type="text" id="location" placeholder="Lokacija" class="form-control flex" v-model="searchParams.location">
 							</div>
 	
 							<div class="col-md-2" style="padding-left: 3px; padding-right: 3px;">
-								<button type="button" id="searchButton" class="btn btn-search flex" 
+								<button type="button" id="searchButton" class="btn btn-search flex"  v-on:click="search"
 									style="background-color: #3b535f; border-color: #3b535f; color: white;">
 								<span><img src="../images/search.png"></span>&ensp;&nbsp;Pretraži
 								</button>
