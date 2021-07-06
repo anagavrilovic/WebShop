@@ -5,15 +5,22 @@ import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.Buyer;
+import beans.Item;
+import beans.Manager;
 import beans.Restaurant;
+import beans.User;
+import dao.LoginDAO;
 import dao.RestaurantDAO;
 
 @Path("/restaurants")
@@ -40,25 +47,22 @@ public class RestaurantService {
 	}
 	
 	@GET
-	@Path("/nameAtoZ")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Restaurant> sortRestaurantsAtoZ() {
+	@Path("/validateItemName/{name}")
+	public Boolean itemNameExists(@PathParam("name") String name, @Context HttpServletRequest req) {
+		User user = (User)req.getSession().getAttribute("user");
+		String restaurantId = ((Manager)user).getRestaurantID();
+		
 		RestaurantDAO dao = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
-		for(Restaurant r : dao.getSortedAtoZ()) {
-			System.out.println(r.getName());
-		}
-		return dao.getSortedAtoZ();
+		return dao.itemExists(name, restaurantId);
 	}
 	
 	@POST
-	@Path("/typeFilter")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/addNewItem")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Collection<Restaurant> filterRestaurantsByType(ArrayList<String> types) {
+	public Item addNewItem(Item item, @Context HttpServletRequest req) {
 		RestaurantDAO dao = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
-		for(String s : types) {
-			System.out.println(s);
-		}
-		return dao.getFilteredByType(types);
+		User user = (User)req.getSession().getAttribute("user");
+		String restaurantId = ((Manager)user).getRestaurantID();
+		return dao.addNewItem(item, restaurantId);
 	}
 }

@@ -1,1 +1,1 @@
-[{"username":"maca","password":"maca","firstName":"Mamzo","lastName":"Mamzigrad","gender":null,"dateOfBirth":null,"role":"MANAGER","restaurantID":null,"isDeleted":false,"isBlocked":false,"restaurant":null}]
+[{"username":"maca","password":"maca","firstName":"Mamzo","lastName":"Mamzigrad","gender":null,"dateOfBirth":null,"role":"MANAGER","restaurantID":"586ca179-797d-4d6d-96c8-34934825ab1e","isDeleted":false,"isBlocked":false,"restaurant":null}]

@@ -13,13 +13,12 @@ public class Item {
    private String imagePath;
    private String restaurantID;
    private Boolean isDeleted = false;
-   
-   private Restaurant restaurant;
+
    
    public Item() {}
    
 	public Item(String id, String name, double price, ItemType type, double quantity, String description, String imagePath,
-		String restaurantID, Boolean isDeleted, Restaurant restaurant) {
+		String restaurantID, Boolean isDeleted) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -30,7 +29,6 @@ public class Item {
 		this.imagePath = imagePath;
 		this.restaurantID = restaurantID;
 		this.isDeleted = isDeleted;
-		this.restaurant = restaurant;
 	}
 
 	public String getId() {
@@ -105,11 +103,4 @@ public class Item {
 		this.isDeleted = isDeleted;
 	}
 	
-	public Restaurant getRestaurant() {
-		return restaurant;
-	}
-	
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
-	}
 }
