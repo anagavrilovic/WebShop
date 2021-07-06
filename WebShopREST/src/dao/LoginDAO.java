@@ -34,7 +34,7 @@ public class LoginDAO {
 	
 	public LoginDAO() {
 		
-		// DUMMY DATA
+		//DUMMY DATA
 		/*Address a1 = new Address("Dimitrija Tucovića", "3", "Novi Sad", "21000");
 		Address a2 = new Address("Stražilovska", "8", "Novi Sad", "21000");
 		Address a3 = new Address("Bulevar Oslobođenja", "119", "Novi Sad", "21000");
@@ -45,9 +45,9 @@ public class LoginDAO {
 		
 		WorkTime wt = new WorkTime("08:00", "22:00");
 		
-		Restaurant r1 = new Restaurant("Gyros Master", "Brza hrana", "../images/girosMasterLogo.png", "../images/girosMasterCover.jpg", l1, wt);
-		Restaurant r2 = new Restaurant("Kuća Kobasice", "Brza hrana", "../images/kucaKobasiceLogo.png", "../images/cover.jpg", l2, wt);
-		Restaurant r3 = new Restaurant("Walter", "Roštilj", "../images/walterLogo.png", "../images/cover.jpg", l3, wt);
+		Restaurant r1 = new Restaurant("Gyros Master", "Brza hrana", "../images/girosMasterLogo.png", "../images/girosMasterCover.jpg", l1, wt, 5.0);
+		Restaurant r2 = new Restaurant("Kuća Kobasice", "Brza hrana", "../images/kucaKobasiceLogo.png", "../images/cover.jpg", l2, wt, 4.5);
+		Restaurant r3 = new Restaurant("Walter", "Roštilj", "../images/walterLogo.png", "../images/cover.jpg", l3, wt, 4.25);
 		
 		ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
 		restaurants.add(r1);

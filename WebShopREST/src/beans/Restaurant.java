@@ -9,7 +9,8 @@ public class Restaurant {
     private String type;
     private String logoPath;
     private String imagePath;
-    private Boolean isDeleted = false;
+    private double mark;
+	private Boolean isDeleted = false;
    
     private Location location;
     public WorkTime workTime;
@@ -44,6 +45,12 @@ public class Restaurant {
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
 	}
+    public double getMark() {
+		return mark;
+	}
+	public void setMark(double mark) {
+		this.mark = mark;
+	}
 	public Boolean getIsDeleted() {
 		return isDeleted;
 	}
@@ -69,7 +76,7 @@ public class Restaurant {
 		this.logoPath = logoPath;
 	}
 	public Restaurant(String name, String type, String logoPath, String imagePath, Location location,
-			WorkTime workTime) {
+			WorkTime workTime, double mark) {
 		super();
 		this.name = name;
 		this.type = type;
@@ -77,6 +84,7 @@ public class Restaurant {
 		this.imagePath = imagePath;
 		this.location = location;
 		this.workTime = workTime;
+		this.mark = mark;
 		
 		this.isDeleted = false;
 		this.id = UUID.randomUUID().toString();
