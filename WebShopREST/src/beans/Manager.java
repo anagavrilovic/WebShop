@@ -7,19 +7,16 @@ public class Manager extends User {
    private String restaurantID;
    private Boolean isDeleted = false;
    private Boolean isBlocked = false;
-   
-   private Restaurant restaurant;
 
 	public Manager() {
 		super();
 	}
 	
-	public Manager(String restaurantID, Boolean isDeleted, Boolean isBlocked, Restaurant restaurant) {
+	public Manager(String restaurantID, Boolean isDeleted, Boolean isBlocked) {
 		super();
 		this.restaurantID = restaurantID;
 		this.isDeleted = isDeleted;
 		this.isBlocked = isBlocked;
-		this.restaurant = restaurant;
 	}
 
 	public String getRestaurantID() {
@@ -46,11 +43,4 @@ public class Manager extends User {
 		this.isBlocked = isBlocked;
 	}
 
-	public Restaurant getRestaurant() {
-		return restaurant;
-	}
-
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
-	}
 }

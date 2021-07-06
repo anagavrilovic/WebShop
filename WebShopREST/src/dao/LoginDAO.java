@@ -129,9 +129,9 @@ public class LoginDAO {
 		buyer.setShoppingCart(new ShoppingCart());
 		buyer.setBuyerType(new BuyerType(BuyerTypeName.REGULAR, 0, 1000));
 		
-		ArrayList<Buyer> buyers = getAllBuyers();
-		buyers.add(buyer);
-		saveBuyers(buyers);		
+		saveBuyer(buyer);		
+		Credentials credentials = new Credentials(buyer.getUsername(), buyer.getPassword(), Role.BUYER, false);
+		saveCredentials(credentials);
 		
 		return buyer;
 	}
@@ -146,7 +146,10 @@ public class LoginDAO {
 		return buyers;
 	}
 
-	private void saveBuyers(ArrayList<Buyer> buyers) {
+	private void saveBuyer(Buyer buyer) {
+		ArrayList<Buyer> buyers = getAllBuyers();
+		buyers.add(buyer);
+		
 		try {
 			objectMapper.writeValue(new File("resources/buyers.json"), buyers);
 		} catch (Exception e) {
@@ -155,11 +158,33 @@ public class LoginDAO {
 	}
 
 	public Boolean usernameExists(String username) {
-		ArrayList<Buyer> buyers = getAllBuyers();
-		for(Buyer buyer : buyers) {
-			if(buyer.getUsername().equals(username))
+		ArrayList<Credentials> credentials = getAllCredentials();
+		for(Credentials credential : credentials) {
+			if(credential.getUsername().equals(username))
 				return true;
 		}
 		return false;
+	}
+
+
+	private ArrayList<Credentials> getAllCredentials() {
+		ArrayList<Credentials> credentials = new ArrayList<Credentials>();
+		try {
+			credentials = new ArrayList<Credentials>(Arrays.asList(objectMapper.readValue(new File("resources/credentials.json"), Credentials[].class)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return credentials;
+	}
+	
+	public void saveCredentials(Credentials credentials) {
+		ArrayList<Credentials> allCredentials = getAllCredentials();
+		allCredentials.add(credentials);
+		
+		try {
+			objectMapper.writeValue(new File("resources/credentials.json"), allCredentials);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 	}
 }

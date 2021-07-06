@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -13,8 +14,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.Buyer;
+import beans.Deliverer;
+import beans.Manager;
 import beans.Restaurant;
 import beans.User;
+import dao.LoginDAO;
 import dao.RestaurantDAO;
 import dao.UserDAO;
 
@@ -39,6 +44,24 @@ public class UserService {
 	public Collection<User> getUsers() {
 		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
 		return dao.getAll();
+	}
+	
+	@POST
+	@Path("/addManager")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Manager registerManager(Manager manager) {
+		UserDAO dao = (UserDAO)ctx.getAttribute("userDAO");
+		return dao.addNewManager(manager);
+	}
+	
+	@POST
+	@Path("/addDeliverer")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Deliverer registerDeliverer(Deliverer deliverer) {
+		UserDAO dao = (UserDAO)ctx.getAttribute("userDAO");
+		return dao.addNewDeliverer(deliverer);
 	}
 	
 	
