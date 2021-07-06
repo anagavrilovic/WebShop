@@ -40,6 +40,10 @@ var app = new Vue({
 			}
 		},
 
+		seeRestaurantDetails: function(restaurant) {
+
+		},
+
 		sortNameAZ: function () {
 			axios.get('../rest/restaurants/nameAtoZ')
 			.then(response => (this.restaurants = response.data))

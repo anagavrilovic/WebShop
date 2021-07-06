@@ -1,11 +1,11 @@
 Vue.component('restaurants', {
     data: function() {
         return {
+            restaurants: null,
             sortDropdownOpen: false,
             restaurantTypeDropdownOpen: false,
             restaurantMarkDropdownOpen: false,
-            checkedRestaurantTypes: [],
-            restaurants: null
+            checkedRestaurantTypes: []
         }
     },
     template: 
@@ -146,13 +146,8 @@ Vue.component('restaurants', {
             </div>
         </div>`,
     mounted() {
-        this.restaurants = [
-            {name: 'Gyros Master', type: 'Giros', logoPath: '../images/girosMasterLogo.png', isWorking: true, mark: '4.7'},
-            {name: 'Kuća kobasice', type: 'Kobasice', logoPath: '../images/kucaKobasiceLogo.png', isWorking: true, mark: '4.1'},
-            {name: 'Walter', type: 'Roštilj', logoPath: '../images/walterLogo.png', isWorking: false, mark: '3.7'},
-            {name: 'Milky', type: 'Palačinke', logoPath: '../images/milkyLogo.png', isWorking: true, mark: '5'},
-            {name: 'Caribic Pizza', type: 'Pica', logoPath: '../images/caribicLogo.png', isWorking: false, mark: '3.9'},
-        ]
+        axios.get('../rest/restaurants')
+			.then(response => (this.restaurants = response.data));
     },
     methods: {
         toggleSortDropdownVisibility: function () {
