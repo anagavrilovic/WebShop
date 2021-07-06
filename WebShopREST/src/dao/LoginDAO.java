@@ -12,19 +12,51 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import beans.Address;
 import beans.Administrator;
 import beans.Buyer;
 import beans.Credentials;
 import beans.Deliverer;
+import beans.Location;
 import beans.Manager;
+import beans.Restaurant;
 import beans.Role;
 import beans.User;
+import beans.WorkTime;
 import dto.CredentialsDTO;
 
 public class LoginDAO {
 	
 	public LoginDAO() {
-
+		
+		// DUMMY DATA
+		/*Address a1 = new Address("Dimitrija Tucovića", "3", "Novi Sad", "21000");
+		Address a2 = new Address("Stražilovska", "8", "Novi Sad", "21000");
+		Address a3 = new Address("Bulevar Oslobođenja", "119", "Novi Sad", "21000");
+		
+		Location l1 = new Location(45.248001756873414, 19.842227869107603, a1);
+		Location l2 = new Location(45.24886155275487, 19.848704417764406, a2);
+		Location l3 = new Location(45.244807720188916, 19.841773984451038, a3);
+		
+		WorkTime wt = new WorkTime("08:00", "22:00");
+		
+		Restaurant r1 = new Restaurant("Gyros Master", "Brza hrana", "WebContent/images/girosMasterLogo.png", "WebContent/images/girosMasterCover.jpg", l1, wt);
+		Restaurant r2 = new Restaurant("Kuća Kobasice", "Brza hrana", "WebContent/images/kucaKobasiceLogo.png", "WebContent/images/cover.jpg", l2, wt);
+		Restaurant r3 = new Restaurant("Walter", "Roštilj", "WebContent/images/walterLogo.png", "WebContent/images/cover.jpg", l3, wt);
+		
+		ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
+		restaurants.add(r1);
+		restaurants.add(r2);
+		restaurants.add(r3);
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			objectMapper.writeValue(new File("resources/restaurants.json"), restaurants);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}*/
+		
+		
 	}
 
 	public User getUser(CredentialsDTO dto){

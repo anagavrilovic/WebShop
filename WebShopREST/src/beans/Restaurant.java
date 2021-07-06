@@ -68,6 +68,21 @@ public class Restaurant {
 		this.type = type;
 		this.logoPath = logoPath;
 	}
+	public Restaurant(String name, String type, String logoPath, String imagePath, Location location,
+			WorkTime workTime) {
+		super();
+		this.name = name;
+		this.type = type;
+		this.logoPath = logoPath;
+		this.imagePath = imagePath;
+		this.location = location;
+		this.workTime = workTime;
+		
+		this.isDeleted = false;
+		this.id = UUID.randomUUID().toString();
+	}
+	
+	
    
 	
 }

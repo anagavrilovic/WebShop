@@ -3,32 +3,32 @@ package beans;
 import java.util.*;
 
 public class WorkTime {
-   private Date workTimeStart;
-   private Date workTimeEnd;
+   private String workTimeStart;
+   private String workTimeEnd;
    
 	public WorkTime() {
 		super();
 	}
 	
-	public WorkTime(Date workTimeStart, Date workTimeEnd) {
+	public WorkTime(String workTimeStart, String workTimeEnd) {
 		super();
 		this.workTimeStart = workTimeStart;
 		this.workTimeEnd = workTimeEnd;
 	}
 
-	public Date getWorkTimeStart() {
+	public String getWorkTimeStart() {
 		return workTimeStart;
 	}
 
-	public void setWorkTimeStart(Date workTimeStart) {
+	public void setWorkTimeStart(String workTimeStart) {
 		this.workTimeStart = workTimeStart;
 	}
 
-	public Date getWorkTimeEnd() {
+	public String getWorkTimeEnd() {
 		return workTimeEnd;
 	}
 
-	public void setWorkTimeEnd(Date workTimeEnd) {
+	public void setWorkTimeEnd(String workTimeEnd) {
 		this.workTimeEnd = workTimeEnd;
 	}
    
