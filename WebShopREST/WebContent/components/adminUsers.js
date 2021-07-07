@@ -7,7 +7,9 @@ Vue.component("admin-users", {
             sortDropdownOpen: false,
             userRoleDropdownOpen: false,
             buyerTypeDropdownOpen: false,
-            checkedRestaurantTypes: [],
+            checkedUserRoles: [],
+            checkedBuyerTypes: [],
+            onlySuspiciousUsers: false,
             showNewEmployee: false,
             newEmployeeTitle: ''
         }
@@ -63,19 +65,19 @@ Vue.component("admin-users", {
                                 </button>
                                 <ul class="list-group flex" v-if="userRoleDropdownOpen">
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Administrator" v-model="checkedRestaurantTypes" v-on:change="typeFilter">
+                                        <input class="form-check-input me-1" type="checkbox" value="Administrator" v-model="checkedUserRoles">
                                         Administrator
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Manager" v-model="checkedRestaurantTypes" v-on:change="typeFilter">
+                                        <input class="form-check-input me-1" type="checkbox" value="Menadžer" v-model="checkedUserRoles">
                                         Menadžer
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Deliverer" v-model="checkedRestaurantTypes" v-on:change="typeFilter">
+                                        <input class="form-check-input me-1" type="checkbox" value="Dostavljač" v-model="checkedUserRoles">
                                         Dostavljač
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Buyer" v-model="checkedRestaurantTypes" v-on:change="typeFilter">
+                                        <input class="form-check-input me-1" type="checkbox" value="Kupac" v-model="checkedUserRoles">
                                         Kupac
                                     </label>
                                     
@@ -91,19 +93,19 @@ Vue.component("admin-users", {
                                 </button>
                                 <ul class="list-group flex" v-if="buyerTypeDropdownOpen">
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">
+                                        <input class="form-check-input me-1" type="checkbox" value="GOLD" v-model="checkedBuyerTypes">
                                         Zlatni
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">
+                                        <input class="form-check-input me-1" type="checkbox" value="SILVER" v-model="checkedBuyerTypes">
                                         Srebrni
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">
+                                        <input class="form-check-input me-1" type="checkbox" value="BRONZE" v-model="checkedBuyerTypes">
                                         Bronzani
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">
+                                        <input class="form-check-input me-1" type="checkbox" value="REGULAR" v-model="checkedBuyerTypes">
                                         Regularni
                                     </label>
                                 </ul>
@@ -149,7 +151,7 @@ Vue.component("admin-users", {
                                     <div class="row">
 
                                         <div v-for="u in users" v-if="users !== null">
-                                            <div class="card shadow my-2">
+                                            <div class="card shadow my-2" v-if="filterSatisfied(u)">
                                                 <div class="row p-4 ">
                                                     <div class="col-md-2" style="padding-left: 10px; padding-right: 10px;">
                                                         <img src="../images/users.png" alt="User" class="mx-2 restaurant-images" style="height: 70px; width: 70px;">
@@ -190,6 +192,12 @@ Vue.component("admin-users", {
         </div>
         `,
     mounted() {
+        this.$root.$on('newUserAdded', (user) => {
+            this.fixData(user);
+            this.allUsers.push(user);
+            this.users.push(user);
+        });
+
         axios.get('../rest/users/getAdministrators')
         .then(response => {
             this.allUsers.push.apply(this.allUsers, response.data);
@@ -207,16 +215,7 @@ Vue.component("admin-users", {
                         this.allUsers.push.apply(this.allUsers, response.data);
 
                         for(let u of this.allUsers){
-                            u.dateOfBirth = new Date(parseInt(u.dateOfBirth));
-
-                            if(u.role == 'ADMINISTRATOR')
-                                u.role = 'Administrator';
-                            else if(u.role == 'MANAGER')
-                                u.role = 'Menadžer';
-                            else if(u.role == 'BUYER')
-                                u.role = 'Kupac';
-                            else if(u.role == 'DELIVERER')
-                                u.role = 'Dostavljač';
+                            this.fixData(u);
                         }
 
                         this.users = this.allUsers.slice();
@@ -256,6 +255,19 @@ Vue.component("admin-users", {
         onShowNewEmployee: function(newTitle){
             this.showNewEmployee = true;
             this.newEmployeeTitle = newTitle;
+        },
+
+        fixData: function(user) {
+            user.dateOfBirth = new Date(parseInt(user.dateOfBirth));
+
+            if(user.role == 'ADMINISTRATOR')
+                user.role = 'Administrator';
+            else if(user.role == 'MANAGER')
+                user.role = 'Menadžer';
+            else if(user.role == 'BUYER')
+                user.role = 'Kupac';
+            else if(user.role == 'DELIVERER')
+                user.role = 'Dostavljač';
         },
 
 
@@ -316,6 +328,31 @@ Vue.component("admin-users", {
         sortCollectedPointsDescending: function() {
             this.users.sort(comparePointsDescending);
         },  
+
+
+        // FILTERS
+        filterSatisfied: function(user){
+			return this.userRoleFilterSatisfied(user) && this.buyerTypeFilterSatisfied(user) && this.suspiciousUsersFilterSatisfied(user);	
+		},
+        userRoleFilterSatisfied: function(user) {
+            if(this.checkedUserRoles.length == 0) {
+                return true;
+            }
+            return this.checkedUserRoles.indexOf(user.role) > -1;
+        },
+        buyerTypeFilterSatisfied: function(user) {
+            if(this.checkedBuyerTypes.length == 0) {
+                return true;
+            }
+            return user.role == 'Kupac' && this.checkedBuyerTypes.indexOf(user.buyerType.buyerTypeName) > -1;
+        },
+        suspiciousUsersFilterSatisfied: function(user) {
+            if(!this.onlySuspiciousUsers)
+                return true;
+
+            // dodati logiku za sumnjive korisnike
+            return true;
+        } 
 
 
     },

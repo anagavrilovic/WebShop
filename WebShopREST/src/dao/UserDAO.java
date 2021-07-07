@@ -31,7 +31,7 @@ public class UserDAO {
 		return users;
 	}
 
-	public Manager addNewManager(Manager manager) {
+	public ManagerDTO addNewManager(Manager manager) {
 		manager.setRestaurantID("");
 		manager.setRole(Role.MANAGER);
 		
@@ -39,7 +39,12 @@ public class UserDAO {
 		Credentials credentials = new Credentials(manager.getUsername(), manager.getPassword(), Role.MANAGER, false);
 		new LoginDAO().saveCredentials(credentials);
 		
-		return manager;
+		ManagerDTO m = new ManagerDTO(manager.getUsername(), manager.getFirstName(), manager.getLastName(),
+				manager.getDateOfBirth(), manager.getRole(), "", manager.getIsBlocked());
+		RestaurantDAO restaurantDAO = new RestaurantDAO();
+		m.setRestaurantName(restaurantDAO.getRestaurantNameByID(manager.getRestaurantID()));
+		
+		return m;
 	}
 	
 	private ArrayList<Manager> getAllManagers() {

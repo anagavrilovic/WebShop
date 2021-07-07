@@ -76,7 +76,7 @@ public class UserService {
 	@Path("/addManager")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Manager registerManager(Manager manager) {
+	public ManagerDTO registerManager(Manager manager) {
 		UserDAO dao = (UserDAO)ctx.getAttribute("userDAO");
 		return dao.addNewManager(manager);
 	}

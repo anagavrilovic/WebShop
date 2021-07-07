@@ -92,13 +92,13 @@ Vue.component("new-employee-modal", {
                 axios.post('../rest/users/addManager', this.newEmployee)
                   .then(response => {
                     alert("Novi menadžer uspešno dodat!");
-                    $('#newEmployeeModal').modal('hide');
+                    this.$root.$emit('newUserAdded', response.data);
                   });
               } else {
                 axios.post('../rest/users/addDeliverer', this.newEmployee)
                   .then(response => {
                     alert("Novi dostavljač uspešno dodat!");
-                    $('#newEmployeeModal').modal('hide');
+                    this.$root.$emit('newUserAdded', response.data);
                   });
               }
             }

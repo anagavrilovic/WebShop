@@ -39,26 +39,4 @@ public class RestaurantService {
 		return dao.getAll();
 	}
 	
-	@GET
-	@Path("/nameAtoZ")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Restaurant> sortRestaurantsAtoZ() {
-		RestaurantDAO dao = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
-		for(Restaurant r : dao.getSortedAtoZ()) {
-			System.out.println(r.getName());
-		}
-		return dao.getSortedAtoZ();
-	}
-	
-	@POST
-	@Path("/typeFilter")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Collection<Restaurant> filterRestaurantsByType(ArrayList<String> types) {
-		RestaurantDAO dao = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
-		for(String s : types) {
-			System.out.println(s);
-		}
-		return dao.getFilteredByType(types);
-	}
 }
