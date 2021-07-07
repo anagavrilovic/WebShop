@@ -7,7 +7,8 @@ Vue.component("new-product-modal", {
               price: undefined,
               type: '',
               description: undefined,
-              quantity: undefined
+              quantity: undefined,
+              imagePath: ''
             },
             errrorMessage: '',
             selectedFile: ''
@@ -80,14 +81,9 @@ Vue.component("new-product-modal", {
             this.imagePath = files[0].name;
             console.log(files[0]);
             this.selectedFile = files[0];
-            
+            this.newProduct.imagePath = '../images/' + this.imagePath;
            
-            this.getBase64(this.selectedFile).then(
-              data => {
-                axios.post('../rest/restaurants/uploadImage', {data64: data})
-                  .then(response => console.log(response.data));
-              }
-            );
+
         }
         catch(err){
             this.imagePath = 'Error loading image';
@@ -104,6 +100,14 @@ Vue.component("new-product-modal", {
                 axios.post('../rest/restaurants/addNewItem', this.newProduct)
                   .then(response => {
                     this.$emit('close');
+
+                    // upload image to server side
+                    this.getBase64(this.selectedFile).then(
+                      data => {
+                        axios.post('../rest/restaurants/uploadImage', {data64: data, fileName: this.imagePath})
+                          .then(response => console.log(response.data));
+                      }
+                    );
                   })
                   .catch(function (error) {
                     if (error.response) {

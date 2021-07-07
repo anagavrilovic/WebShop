@@ -94,9 +94,10 @@ public class RestaurantService {
 		bis.close();
 
 		// write the image to a file
-		File outputfile = new File("WebContent/images/pomoziBoze.png");
+		File outputfile = new File("WebContent/images/" + sourceData.getFileName());
+		outputfile.createNewFile();
 		ImageIO.write(image, "png", outputfile);
 		
-		return "Uspeh";
+		return "Success";
 	}
 }
