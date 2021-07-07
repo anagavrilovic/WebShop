@@ -98,7 +98,7 @@ public class RestaurantService {
 		outputfile.createNewFile();
 		ImageIO.write(image, "png", outputfile);
 		
-		return "Success";
+		return "../images/" + sourceData.getFileName();
 	}
 	
 	@GET

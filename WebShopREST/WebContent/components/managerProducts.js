@@ -3,19 +3,20 @@ Vue.component("manager-products", {
         return {
             products: [],
             showNewProduct: false,
-            productForUpdate: null
+            productForUpdate: null,
+            productForUpdateBackup: null
         }
     },
     template:         
         `<div>
             <!-- Modal dialog for update -->
-            <div v-if="productForUpdate !== null" class="modal fade" id="updateProduct">
+            <div v-if="productForUpdateBackup !== null" class="modal fade" id="updateProduct">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header justify-content-center">
                             <div class="editProductHeader">
                                 
-                                <img :src="productForUpdate.imagePath" style="height: 200px; width: auto;">
+                                <img :src="productForUpdateBackup.imagePath" style="height: 200px; width: auto;">
                                 <button class="btn btn-over-image-x" v-on:click="hideEditDialog"><img src="../images/x.png"></button>
 
                                 <label for="file-upload" class="btn btn-over-image-edit custom-file-upload">
@@ -34,11 +35,11 @@ Vue.component("manager-products", {
                             <form>
                                 <div class="form-group input-field">
                                 <input type="text" class="form-control input-field" placeholder="Naziv" required="required"
-                                    v-model="productForUpdate.name">
+                                    v-model="productForUpdateBackup.name">
                                 </div>
                                 <div class="form-group">
                                 <input type="text" class="form-control input-field" placeholder="Cena" required="required"
-                                v-model="productForUpdate.price">					
+                                v-model="productForUpdateBackup.price">					
                                 </div>
 
                                 <div class="form-group">
@@ -51,11 +52,11 @@ Vue.component("manager-products", {
 
                                 <div class="form-group">
                                 <input type="text" class="form-control input-field" placeholder="Opis (Opciono)" required="required"
-                                v-model="productForUpdate.description">					
+                                v-model="productForUpdateBackup.description">					
                                 </div>
                                 <div class="form-group">
                                 <input type="text" class="form-control input-field" placeholder="Količina (Opciono)" required="required"
-                                >					
+                                v-model="productForUpdateBackup.quantity">					
                                 </div>
                                 <br/>
                                 <div class="form-group submitButton">
@@ -121,6 +122,7 @@ Vue.component("manager-products", {
     methods: {
         showEditDialog: function(product) {
             this.productForUpdate = product;
+            this.productForUpdateBackup = JSON.parse(JSON.stringify(this.productForUpdate));
             $('#updateProduct').modal('show');
         },
         hideEditDialog: function() {
@@ -129,10 +131,16 @@ Vue.component("manager-products", {
         imagePathChanged: function (e) {
             var files = e.target.files || e.dataTransfer.files;
             try{
-                this.productForUpdate.imagePath = files[0].name;
+                //this.productForUpdateBackup.imagePath = files[0].name;
+                this.getBase64(files[0]).then(
+                    data => {
+                      axios.post('../rest/restaurants/uploadImage', {data64: data, fileName: files[0].name})
+                        .then(response => this.productForUpdateBackup.imagePath = response.data);
+                    }
+                  );
             }
             catch(err){
-                this.productForUpdate.imagePath = 'Error loading image';
+                //this.productForUpdateBackup.imagePath = 'Error loading image';
             }
         },
         updateList: function(){
@@ -140,6 +148,14 @@ Vue.component("manager-products", {
 			.then(response => {
 				this.products = response.data;
 			});
-        }
+        },
+        getBase64: function(file) {
+            return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.readAsDataURL(file);
+              reader.onload = () => resolve(reader.result);
+              reader.onerror = error => reject(error);
+            });
+          }
     }
 });
