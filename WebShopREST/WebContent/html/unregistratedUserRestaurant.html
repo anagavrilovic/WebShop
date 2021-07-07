@@ -48,7 +48,7 @@
         <div v-if="restaurant !== null" class="banner-image w-100 d-flex justify-content-center align-items-center" 
             v-bind:style="{ 'background-image': 'url(' + restaurant.imagePath + ')'}" >
             <div class="content text-center">
-                <img :src="restaurant.logo" class="restaurant-logo">
+                <img :src="restaurant.logoPath" class="restaurant-logo">
                 <h1 class="restaurant-name">{{restaurant.name}}</h1>
             </div>
         </div>

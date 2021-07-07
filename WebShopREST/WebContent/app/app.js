@@ -48,7 +48,7 @@ var app = new Vue({
 			}
 		},
 		seeRestaurantDetails: function(restaurant) {
-			window.location.href = "../html/unregistratedUserRestaurant.html";
+			window.location.href = "../html/unregistratedUserRestaurant.html?id=" + restaurant.id;
 		},
 		isWorking: function(restaurant){
 			let workTimeStart = restaurant.workTime.workTimeStart;

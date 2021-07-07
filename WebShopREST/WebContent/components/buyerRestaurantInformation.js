@@ -25,10 +25,10 @@ Vue.component("restaurant-information", {
                                     <span class="informationTextBig">&ensp;Adresa</span>
                                 </div>
                                 <div class="informationContentAddress" style="margin-top: -30px;">
-                                    <span>{{restaurant.location.address.streetName}} {{restaurant.location.address.streetNumber}}</span><span>19</span>
+                                    <span>{{restaurant.location.address.streetName}} {{restaurant.location.address.streetNumber}}</span>
                                 </div>
                                 <div class="informationContentAddress">
-                                    <span>{{restaurant.location.address.city}} {{restaurant.location.address.postalCode}}</span><span>21000</span>
+                                    <span>{{restaurant.location.address.city}} {{restaurant.location.address.postalCode}}</span>
                                 </div>
                                 <div class="informationContentAddress">
                                     <span>{{restaurant.location.longitude}}, {{restaurant.location.latitude}}</span>
