@@ -4,7 +4,8 @@ Vue.component("restaurant-products", {
             restaurant: null,
             products: null,
             product: null,
-            quantity: 1
+            quantity: 0,
+            cartItem : {product: null, quantity: 0}
         }
     },
     template:
@@ -23,18 +24,18 @@ Vue.component("restaurant-products", {
                             <div class="itemQuantity">
                                 <span>
                                     <button class="btn btn-secondary rounded-circle addRemoveItem" v-on:click="decreaseQuantity"
-                                        v-bind:class="{disabled : quantity === 1}">
+                                        v-bind:class="{disabled : cartItem.quantity === 0}">
                                         <img src="../images/minus.png" style="margin-top: -10px;">
                                     </button>
                                 </span>
-                                <span class="product-quantity">&emsp;{{quantity}}&emsp;</span>
+                                <span class="product-quantity">&emsp;{{cartItem.quantity}}&emsp;</span>
                                 <span>
                                     <button class="btn btn-secondary rounded-circle addRemoveItem" v-on:click="increaseQuantity">
                                         <img src="../images/plus.png" style="margin-top: -10px;">
                                     </button>
                                 </span>
                             </div>
-                            <button type="button" class="btn btn-primary">Dodaj u korpu</button>
+                            <button type="button" class="btn btn-primary" v-on:click="addToCart">Dodaj u korpu</button>
                         </div>
                     </div>
                 </div>
@@ -88,13 +89,18 @@ Vue.component("restaurant-products", {
         },
         openModalForOrderingProduct: function(product) {
             this.product = product;
+            this.cartItem.product = product;
+            this.cartItem.quantity = 0;
             $('#orderProduct').modal('show');
         },
         decreaseQuantity: function(e) {
-            this.quantity = this.quantity - 1;
+            this.cartItem.quantity = this.cartItem.quantity - 1;
         },
         increaseQuantity: function(e) {
-            this.quantity = this.quantity + 1;
+            this.cartItem.quantity = this.cartItem.quantity + 1;
+        },
+        addToCart: function(e){
+            
         }
     }
 })
