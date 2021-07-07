@@ -23,6 +23,7 @@ var app = new Vue({
     el: '#tabs',
     router,
     data: {
+        restaurant: null,
         tab: 1,
     },
     created() {
@@ -41,6 +42,13 @@ var app = new Vue({
                     window.location.href = "../html/adminHomepage.html";
                     break;
                 case 'MANAGER':
+
+                    let restaurantID = response.data.restaurantID;
+                    axios.get('../rest/restaurants/' + restaurantID)
+                    .then(response => {
+                        this.restaurant = response.data;
+                        console.log(this.restaurant);
+                    });
                    
                     break;
                 case 'BUYER':

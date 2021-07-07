@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import beans.Administrator;
 import beans.Buyer;
 import beans.Item;
+import beans.Manager;
 import beans.Restaurant;
 
 public class RestaurantDAO {
