@@ -75,5 +75,17 @@ public class RestaurantDAO {
 		return false;
 	}
 
+	public Collection<Item> getAllProducts(String restaurantId) {
+		ArrayList<Item> allItems = new ArrayList<Item>();
+		ArrayList<Item> items = new ArrayList<Item>();
+		allItems = getItems();
+		for(Item i : allItems) {
+			if(i.getRestaurantID().equals(restaurantId)) {
+				items.add(i);
+			}
+		}
+		return items;
+	}
+
 	
 }

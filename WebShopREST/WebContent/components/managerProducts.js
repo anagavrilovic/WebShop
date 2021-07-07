@@ -1,11 +1,7 @@
 Vue.component("manager-products", {
     data: function() {
         return {
-            products: [
-                {name: 'Paradajz',  description: 'Najjača stvar na svetu je paradajz. Najveći ljubitelj paradjza je Ančibald.', price: 180, imagePath: '../images/tomato.png'},
-                {name: 'Paprika',  description: 'Najjača stvar na svetu je paprika. Najveći ljubitelj paprike je Aranđel Golubović.', price: 230, imagePath: '../images/strawberry.png'},
-                {name: 'Jagorčevina',  description: 'Najjača stvar na svetu je jagorčevina. Najveći ljubitelj jagorčevine je komšija Godzila.', price: 20, imagePath: '../images/potato.png'}
-            ],
+            products: [],
             showNewProduct: false,
             productForUpdate: null
         }
@@ -85,10 +81,10 @@ Vue.component("manager-products", {
 
                             <div v-for="p in products" v-if="products !== null">
                                 <div class="row p-4" v-on:click="showEditDialog(p)">
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <img :src=p.imagePath alt="Product image" height="100px" class="mx-2">
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-7">
                                         <div class="row">
                                             <p> {{p.name}} </p>
                                         </div>
@@ -117,7 +113,10 @@ Vue.component("manager-products", {
 
         </div>`,
     mounted() {
-
+        axios.get('../rest/restaurants/getAllProducts')
+			.then(response => {
+				this.products = response.data;
+			});
     },
     methods: {
         showEditDialog: function(product) {

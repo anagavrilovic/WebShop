@@ -100,4 +100,14 @@ public class RestaurantService {
 		
 		return "Success";
 	}
+	
+	@GET
+	@Path("/getAllProducts")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Item> getAllProducts(@Context HttpServletRequest req) {
+		RestaurantDAO dao = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
+		User user = (User)req.getSession().getAttribute("user");
+		String restaurantId = ((Manager)user).getRestaurantID();
+		return dao.getAllProducts(restaurantId);
+	}
 }
