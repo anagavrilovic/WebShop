@@ -1,1 +1,27 @@
-[{"username":"maca","password":"maca","firstName":"Mamzo","lastName":"Mamzigrad","gender":"MALE","dateOfBirth":695088000000,"role":"MANAGER","restaurantID":null,"isDeleted":false,"isBlocked":false},{"username":"stanko","password":"123","firstName":"Stanko","lastName":"Stankovic","gender":"MALE","dateOfBirth":925516800000,"role":"MANAGER","restaurantID":"","isDeleted":false,"isBlocked":false}]
+[
+    {
+        "username": "maca",
+        "password": "maca",
+        "firstName": "Mamzo",
+        "lastName": "Mamzigrad",
+        "gender": "MALE",
+        "dateOfBirth": 695088000000,
+        "role": "MANAGER",
+        "restaurantID": "586ca179-797d-4d6d-96c8-34934825ab1e",
+        "isDeleted": false,
+        "isBlocked": false
+    },
+    {
+        "username": "stanko",
+        "password": "123",
+        "firstName": "Stanko",
+        "lastName": "Stankovic",
+        "gender": "MALE",
+        "dateOfBirth": 925516800000,
+        "role": "MANAGER",
+        "restaurantID": "418853d4-af8d-4b21-a023-9a871c6e1c27",
+        "isDeleted": false,
+        "isBlocked": false
+    }
+]
+
