@@ -14,6 +14,7 @@ import beans.Deliverer;
 import beans.Manager;
 import beans.Role;
 import beans.User;
+import dto.ManagerDTO;
 
 public class UserDAO {
 	
@@ -72,7 +73,7 @@ public class UserDAO {
 		return deliverer;
 	}
 	
-	private ArrayList<Deliverer> getAllDeliverers() {
+	public ArrayList<Deliverer> getAllDeliverers() {
 		ArrayList<Deliverer> deliverers = new ArrayList<Deliverer>();
 		try {
 			deliverers = new ArrayList<Deliverer>(Arrays.asList(objectMapper.readValue(new File("resources/deliverers.json"), Deliverer[].class)));
@@ -93,7 +94,7 @@ public class UserDAO {
 		} 
 	}
 	
-	private ArrayList<Buyer> getAllBuyers() {
+	public ArrayList<Buyer> getAllBuyers() {
 		ArrayList<Buyer> buyers = new ArrayList<Buyer>();
 		try {
 			buyers = new ArrayList<Buyer>(Arrays.asList(objectMapper.readValue(new File("resources/buyers.json"), Buyer[].class)));
@@ -103,7 +104,7 @@ public class UserDAO {
 		return buyers;
 	}
 	
-	private ArrayList<Administrator> getAllAdministrators() {
+	public ArrayList<Administrator> getAllAdministrators() {
 		ArrayList<Administrator> administrators = new ArrayList<Administrator>();
 		try {
 			administrators = new ArrayList<Administrator>(Arrays.asList(objectMapper.readValue(new File("resources/administrators.json"), Administrator[].class)));
@@ -112,4 +113,19 @@ public class UserDAO {
 		} 
 		return administrators;
 	}
+
+	public Collection<ManagerDTO> getAllManagersWithRestaurants() {
+		ArrayList<Manager> managers = getAllManagers();
+		ArrayList<ManagerDTO> managersWithRestaurants = new ArrayList<ManagerDTO>();
+		
+		for(Manager m : managers) {
+			ManagerDTO manager = new ManagerDTO(m.getUsername(), m.getFirstName(), m.getLastName(), m.getDateOfBirth(), m.getRole(), "", m.getIsBlocked());
+			RestaurantDAO restaurantDAO = new RestaurantDAO();
+			manager.setRestaurantName(restaurantDAO.getRestaurantNameByID(m.getRestaurantID()));
+			managersWithRestaurants.add(manager);
+		}
+		
+		return managersWithRestaurants;
+	}
+
 }

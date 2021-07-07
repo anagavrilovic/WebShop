@@ -87,6 +87,7 @@ var app = new Vue({
 		sortMarkDescending: function() {
 			this.restaurants.sort(compareMarkDescending);
 		},
+		
 
 		// FILTERS
 		filterSatisfied: function(restaurant){

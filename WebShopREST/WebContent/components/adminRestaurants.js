@@ -20,7 +20,7 @@ Vue.component("admin-restaurants", {
     
                 <!-- New restaurant button -->
                 <div class="row">
-                    <div class="col-md-3 newRestaurant">
+                    <div class="col-md-3 newRestaurant padding-0">
                         <a href="#/newRestaurant"> <button class="btn btn-primary flex" type="button" id="newRestaurantButton"
                             style="background-color: #3b535f; border-color: #3b535f; color: white;"> Novi restoran </button> </a>	
                     </div>

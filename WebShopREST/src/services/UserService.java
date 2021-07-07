@@ -14,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.Administrator;
 import beans.Buyer;
 import beans.Deliverer;
 import beans.Manager;
@@ -22,6 +23,7 @@ import beans.User;
 import dao.LoginDAO;
 import dao.RestaurantDAO;
 import dao.UserDAO;
+import dto.ManagerDTO;
 
 @Path("/users")
 public class UserService {
@@ -39,11 +41,35 @@ public class UserService {
 	}
 	
 	@GET
-	@Path("/")
+	@Path("/getAdministrators")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<User> getUsers() {
+	public Collection<Administrator> getAllAdministrators() {
 		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
-		return dao.getAll();
+		return dao.getAllAdministrators();
+	}
+	
+	@GET
+	@Path("/getManagers")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<ManagerDTO> getAllManagersWithRestaurants() {
+		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		return dao.getAllManagersWithRestaurants();
+	}
+	
+	@GET
+	@Path("/getDeliverers")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Deliverer> getAllDeliverers() {
+		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		return dao.getAllDeliverers();
+	}
+	
+	@GET
+	@Path("/getBuyers")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Buyer> getAllBuyers() {
+		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		return dao.getAllBuyers();
 	}
 	
 	@POST

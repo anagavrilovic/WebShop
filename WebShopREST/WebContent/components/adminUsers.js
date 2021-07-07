@@ -1,7 +1,9 @@
 Vue.component("admin-users", {
     data: function() {
         return {
-            users: null,
+            allUsers: [],
+            users: [],
+            searchParams: { firstName: '', lastName: '', username: ''},
             sortDropdownOpen: false,
             userRoleDropdownOpen: false,
             buyerTypeDropdownOpen: false,
@@ -18,15 +20,15 @@ Vue.component("admin-users", {
     
                 <!-- New restaurant button -->
                 <div class="row justify-content-end">
-                    <div class="col-md-2">
+                    <div class="col-md-2 padding-0">
                         <button class="btn btn-primary flex" type="button" id="newManagerButton" v-on:click="onShowNewEmployee('Novi menadžer')"
                             style="background-color: #3b535f; border-color: #3b535f; color: white;"> Novi menadžer </button>	
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 padding-0">
                         <button class="btn btn-primary flex" type="button" id="newDelivererButton" v-on:click="onShowNewEmployee('Novi dostavljač')"
                             style="background-color: #3b535f; border-color: #3b535f; color: white;"> Novi dostavljač </button>	
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 padding-0">
                         <button class="btn btn-primary flex" type="button" id="newRestaurantButton"
                             style="background-color: #3b535f; border-color: #3b535f; color: white;"> Izbriši </button>	
                     </div>
@@ -41,14 +43,14 @@ Vue.component("admin-users", {
                                     Sortiraj po <span style="float: right;"><img src="../images/arrow.png" style="margin-top: 5px"></span>
                                 </button>
                                 <div class="list-group flex" v-if="sortDropdownOpen">
-                                    <button class="list-group-item list-group-item-action" v-on:click="sortNameAZ">Ime A - Z </button>
-                                    <button class="list-group-item list-group-item-action">Ime Z - A</button>
-                                    <button class="list-group-item list-group-item-action">Prezime A - Z</button>
-                                    <button class="list-group-item list-group-item-action">Prezime Z - A</button>
-                                    <button class="list-group-item list-group-item-action">Korisničko ime A - Z</button>
-                                    <button class="list-group-item list-group-item-action">Korisničko ime Z - A</button>
-                                    <button class="list-group-item list-group-item-action">Broj bodova rastuće</button>
-                                    <button class="list-group-item list-group-item-action">Broj bodova opadajuće</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortFirstNameAZ">Ime A - Z </button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortFirstNameZA">Ime Z - A</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortLastNameAZ">Prezime A - Z</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortLastNameZA">Prezime Z - A</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortUsernameAZ">Korisničko ime A - Z</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortUsernameZA">Korisničko ime Z - A</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortCollectedPointsAscending">Broj bodova rastuće</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortCollectedPointsDescending">Broj bodova opadajuće</button>
                                 </div>
                             </div>
                         </div>
@@ -124,16 +126,16 @@ Vue.component("admin-users", {
                     <div class="col-md-9">
                         <div class="row search_bar">
                             <div class="col-md-3" style="padding-right: 3px; padding-left: 3px; ">
-                                <input type="text" id="restaurantName" placeholder="Ime" class="form-control flex">
+                                <input type="text" id="restaurantName" placeholder="Ime" class="form-control flex" v-model="searchParams.firstName">
                             </div>
                             <div class="col-md-3" style="padding-right: 3px; padding-left: 3px; ">
-                                <input type="text" id="location" placeholder="Prezime" class="form-control flex">
+                                <input type="text" id="location" placeholder="Prezime" class="form-control flex" v-model="searchParams.lastName">
                             </div>
                             <div class="col-md-3" style="padding-right: 3px; padding-left: 3px; ">
-                                <input type="text" id="location" placeholder="Korisničko ime" class="form-control flex">
+                                <input type="text" id="location" placeholder="Korisničko ime" class="form-control flex" v-model="searchParams.username">
                             </div>
                             <div class="col-md-3" style="padding-right: 3px; padding-left: 3px; ">
-                                <button type="button" id="searchButton" class="btn btn-search flex" 
+                                <button type="button" id="searchButton" class="btn btn-search flex"  v-on:click="search"
                                     style="background-color: #3b535f; border-color: #3b535f; color: white;">
                                 <span><img src="../images/search.png"></span>&ensp;&nbsp;Pretraži
                                 </button>
@@ -156,10 +158,10 @@ Vue.component("admin-users", {
                                                         <div class="row">
                                                             <div class="col-md-9">
                                                                 <p class="user-name">{{u.firstName}} {{u.lastName}} &ensp;|&ensp; {{u.username}}</p>
-                                                                <p class="users-text">Datum rođenja: {{u.dateOfBirth}}</p>
-                                                                <p class="users-text" v-if="u.role == 'KUPAC'">Broj sakupljenih bodova: {{u.collectedPoints}}</p>
-                                                                <p class="users-text" v-if="u.role == 'KUPAC'">Tip kupca: {{u.buyerType.buyerTypeName}}</p>
-                                                                <p class="users-text" v-if="u.role == 'MENADŽER'">Restoran: </p>
+                                                                <p class="users-text">Datum rođenja: {{u.dateOfBirth | dateFormat('DD.MM.YYYY.')}}</p>
+                                                                <p class="users-text" v-if="u.role == 'Kupac'">Broj sakupljenih bodova: {{u.collectedPoints}}</p>
+                                                                <p class="users-text" v-if="u.role == 'Kupac'">Tip kupca: {{u.buyerType.buyerTypeName}}</p>
+                                                                <p class="users-text" v-if="u.role == 'Menadžer'">Restoran: {{u.restaurantName}}</p>
                                                             </div>
                                                             <div class="col-md-3 " style="padding-right: 30px;">
                                                                 <p class="text-end users-text">{{u.role}}</p>
@@ -188,20 +190,39 @@ Vue.component("admin-users", {
         </div>
         `,
     mounted() {
-        axios.get('../rest/users')
+        axios.get('../rest/users/getAdministrators')
         .then(response => {
-            this.users = response.data;
+            this.allUsers.push.apply(this.allUsers, response.data);
 
-            for(let u of this.users){
-                if(u.role == 'ADMINISTRATOR')
-                    u.role = 'Administrator';
-                else if(u.role == 'MANAGER')
-                    u.role = 'Menadžer';
-                else if(u.role == 'BUYER')
-                    u.role = 'Kupac';
-                else if(u.role == 'DELIVERER')
-                    u.role = 'Dostavljač';
-            }
+            axios.get('../rest/users/getManagers')
+            .then(response => {
+                this.allUsers.push.apply(this.allUsers, response.data);
+
+                axios.get('../rest/users/getBuyers')
+                .then(response => {
+                    this.allUsers.push.apply(this.allUsers, response.data);
+
+                    axios.get('../rest/users/getDeliverers')
+                    .then(response => {
+                        this.allUsers.push.apply(this.allUsers, response.data);
+
+                        for(let u of this.allUsers){
+                            u.dateOfBirth = new Date(parseInt(u.dateOfBirth));
+
+                            if(u.role == 'ADMINISTRATOR')
+                                u.role = 'Administrator';
+                            else if(u.role == 'MANAGER')
+                                u.role = 'Menadžer';
+                            else if(u.role == 'BUYER')
+                                u.role = 'Kupac';
+                            else if(u.role == 'DELIVERER')
+                                u.role = 'Dostavljač';
+                        }
+
+                        this.users = this.allUsers.slice();
+                    });
+                });
+            });
         });
     },
     methods: {
@@ -235,6 +256,74 @@ Vue.component("admin-users", {
         onShowNewEmployee: function(newTitle){
             this.showNewEmployee = true;
             this.newEmployeeTitle = newTitle;
+        },
+
+
+        // SEARCH
+		search: function() {
+            while(this.users.length)
+                this.users.pop()
+
+            let searchFirstName = this.searchParams.firstName.split(' ');
+            let searchLastName = this.searchParams.lastName.split(' ');
+
+            for(let u of this.allUsers) {
+
+                let foundFirstName = true;
+                for(let sfn of searchFirstName){
+                    if(!(u.firstName.toLowerCase().includes(sfn.toLowerCase()))){
+                        foundFirstName = false;
+                    }
+                }
+
+                let foundLastName = true;
+                for(let sln of searchLastName){
+                    if(!(u.lastName.toLowerCase().includes(sln.toLowerCase()))){
+                        foundLastName = false;
+                    }
+                }
+
+                if(u.username.toLowerCase().includes(this.searchParams.username.toLowerCase()) 
+                    && foundFirstName && foundLastName && !this.users.includes(u)) {
+                        this.users.push(u);
+                }        
+            }
+        },
+         
+
+        // SORT
+        sortFirstNameAZ: function() {
+            this.users.sort(compareFirstNameAscending);
+        },
+        sortFirstNameZA: function() {
+            this.users.sort(compareFirstNameDescending);
+        },
+        sortLastNameAZ: function() {
+            this.users.sort(compareLastNameAscending);
+        },
+        sortLastNameZA: function() {
+            this.users.sort(compareLastNameDescending);
+        },
+        sortUsernameAZ: function() {
+            this.users.sort(compareUsernameAscending);
+        },
+        sortUsernameZA: function() {
+            this.users.sort(compareUsernameDescending);
+        },
+        sortCollectedPointsAscending: function() {
+            this.users.sort(comparePointsAscending);
+        },
+        sortCollectedPointsDescending: function() {
+            this.users.sort(comparePointsDescending);
+        },  
+
+
+    },
+
+    filters: {
+        dateFormat: function(value, format) {
+            var parsed = moment(value);
+            return parsed.format(format);
         }
     }
 });

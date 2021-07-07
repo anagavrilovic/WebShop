@@ -17,44 +17,31 @@ import beans.Administrator;
 import beans.Restaurant;
 
 public class RestaurantDAO {
-	private ArrayList<Restaurant> restaurants;
+	
+	ObjectMapper objectMapper = new ObjectMapper();
 	
 	public RestaurantDAO() {
 
 	}
 	
-	public Collection<Restaurant> getAll() {
-		ObjectMapper objectMapper = new ObjectMapper();
-		List<Restaurant> allRestaurants = new ArrayList<Restaurant>();
+	public ArrayList<Restaurant> getAll() {
+		ArrayList<Restaurant> allRestaurants = new ArrayList<Restaurant>();
 		try {
-			allRestaurants = Arrays.asList(objectMapper.readValue(new File("resources/restaurants.json"), Restaurant[].class));
+			allRestaurants = new ArrayList<Restaurant>(Arrays.asList(objectMapper.readValue(new File("resources/restaurants.json"), Restaurant[].class)));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return allRestaurants;
 	}
 
-	public Collection<Restaurant> getSortedAtoZ() {
-		Collections.sort(restaurants, new Comparator<Restaurant>() {
-		      @Override
-		      public int compare(final Restaurant object1, final Restaurant object2) {
-		          return object1.getName().compareTo(object2.getName());
-		      }
-		  });
-		return restaurants;
-	}
-
-	public Collection<Restaurant> getFilteredByType(ArrayList<String> types) {
-		if(types.size() == 0) {
-			return restaurants;
-		}
-		ArrayList<Restaurant> filtered = new ArrayList<Restaurant>();
-		for(Restaurant r : restaurants) {
-			if(types.contains(r.getType())) {
-				filtered.add(r);
+	public String getRestaurantNameByID(String restaurantID) {
+		ArrayList<Restaurant> restaurants = getAll();
+		for(Restaurant r: restaurants) {
+			if(r.getId().equals(restaurantID)) {
+				return r.getName();
 			}
 		}
-		return filtered;
+		return "Bez restorana";
 	}
 
 }
