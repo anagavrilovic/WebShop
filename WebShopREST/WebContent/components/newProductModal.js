@@ -9,7 +9,8 @@ Vue.component("new-product-modal", {
               description: undefined,
               quantity: undefined
             },
-            errrorMessage: ''
+            errrorMessage: '',
+            selectedFile: ''
         }
     },
     template: `
@@ -78,9 +79,15 @@ Vue.component("new-product-modal", {
         try{
             this.imagePath = files[0].name;
             console.log(files[0]);
-            var form_data = new FormData();                  
-            form_data.append('file', files[0]);
-            console.log(form_data);
+            this.selectedFile = files[0];
+            
+           
+            this.getBase64(this.selectedFile).then(
+              data => {
+                axios.post('../rest/restaurants/uploadImage', {data64: data})
+                  .then(response => console.log(response.data));
+              }
+            );
         }
         catch(err){
             this.imagePath = 'Error loading image';
@@ -130,6 +137,14 @@ Vue.component("new-product-modal", {
           }
       
         });
+    },
+    getBase64: function(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
     }
   }
   });

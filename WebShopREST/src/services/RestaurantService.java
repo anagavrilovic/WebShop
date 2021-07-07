@@ -1,9 +1,13 @@
 package services;
 
+
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -22,6 +26,12 @@ import beans.Restaurant;
 import beans.User;
 import dao.LoginDAO;
 import dao.RestaurantDAO;
+import dto.Image64DTO;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.Base64.Decoder;
 
 @Path("/restaurants")
 public class RestaurantService {
@@ -64,5 +74,29 @@ public class RestaurantService {
 		User user = (User)req.getSession().getAttribute("user");
 		String restaurantId = ((Manager)user).getRestaurantID();
 		return dao.addNewItem(item, restaurantId);
+	}
+	
+	@POST
+	@Path("/uploadImage")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String uploadImage(Image64DTO sourceData) throws IOException {
+		String[] parts = sourceData.getData64().split(",");
+		String imageString = parts[1];
+
+		// create a buffered image
+		BufferedImage image = null;
+		byte[] imageByte;
+
+		
+		imageByte = Base64.getDecoder().decode(imageString.trim());
+		ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+		image = ImageIO.read(bis);
+		bis.close();
+
+		// write the image to a file
+		File outputfile = new File("WebContent/images/pomoziBoze.png");
+		ImageIO.write(image, "png", outputfile);
+		
+		return "Uspeh";
 	}
 }
