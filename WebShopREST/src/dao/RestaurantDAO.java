@@ -20,8 +20,9 @@ import beans.Item;
 import beans.Restaurant;
 
 public class RestaurantDAO {
-	private ArrayList<Restaurant> restaurants;
+	
 	private ObjectMapper objectMapper = new ObjectMapper();
+	
 	public RestaurantDAO() {
 
 	}
