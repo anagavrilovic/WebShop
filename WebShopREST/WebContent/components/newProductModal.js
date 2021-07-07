@@ -48,7 +48,7 @@ Vue.component("new-product-modal", {
                         <label for="file-upload" class="btn btn-primary custom-file-upload">
                             Izaberite sliku
                         </label>
-                        <input id="file-upload" type="file" v-on:change="imagePathChanged" accept="image/*" /> 
+                        <input id="file-upload" type="file" v-on:change="imagePathChanged" accept="image/png" /> 
                         <input id="uploadFile" placeholder="File Name here" disabled="disabled" v-model="imagePath" class="input-field" 
                           style="height: 40px; width: 240px"/>
                     </div>
@@ -91,6 +91,12 @@ Vue.component("new-product-modal", {
     },
     addNewProduct: function(e){
       e.preventDefault();
+
+      if(this.imagePath == '' || this.imagePath == 'Error loading image'){
+        this.errrorMessage = 'Izaberite sliku artikla.'
+        return;
+      }
+
       axios.get('../rest/restaurants/validateItemName/' + this.newProduct.name)
         .then(response => {
               if(response.data){
