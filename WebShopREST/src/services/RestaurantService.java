@@ -16,6 +16,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -54,6 +55,14 @@ public class RestaurantService {
 	public Collection<Restaurant> getRestaurants() {
 		RestaurantDAO dao = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
 		return dao.getAll();
+	}
+	
+	@GET
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Restaurant getRestauranByID(@PathParam("id") String id) {
+		RestaurantDAO dao = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
+		return dao.getByID(id);
 	}
 	
 	@GET
@@ -113,11 +122,21 @@ public class RestaurantService {
 		return dao.getAllProducts(restaurantId);
 	}
 	
+
 	@POST
 	@Path("/updateItem")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Item updateItem(Item item) {
 		RestaurantDAO dao = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
 		return dao.updateItem(item);
+	}	
+
+	
+	@GET
+	@Path("/getProducts/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Item> getProductsByRestaurantID(@PathParam("id") String id) {
+		RestaurantDAO dao = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
+		return dao.getAllProducts(id);
 	}
 }

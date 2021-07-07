@@ -1,6 +1,7 @@
 Vue.component("restaurant-products", {
     data: function() {
         return {
+            restaurant: null,
             products: null,
             product: null,
             quantity: 1
@@ -45,7 +46,7 @@ Vue.component("restaurant-products", {
                         <div class="card shadow" v-on:mouseenter="addHoverClass" v-on:mouseleave="removeHoverClass">
                             <div class="row">
                                 <div class="col-md-5">
-                                    <img :src="p.image" class="card-img-top h-100 food-images" :alt="p.name">
+                                    <img :src="p.imagePath" class="card-img-top food-images" style="height: 200px;" :alt="p.name">
                                 </div>
                                 <div class="col-md-7">
                                     <div class="card-body">
@@ -54,7 +55,7 @@ Vue.component("restaurant-products", {
                                         </div>
                                         <div class="card-text">
                                             <p class="product-description">{{p.description}}</p>
-                                            <p class="product-price">{{p.price}}</p>
+                                            <p class="product-price">{{Number(p.price).toFixed(2)}} RSD</p>
                                         </div>
                                     </div>
                                 </div>
@@ -65,14 +66,16 @@ Vue.component("restaurant-products", {
             </div>
         </div>`,
     mounted() {
-        this.products = [
-            {name: 'Mali giros', description: 'Neki opis malog girosa', price: '230.00 RSD', image: '../images/girosMasterGiros.png'},
-            {name: 'Veliki giros', description: 'Neki opis velikog girosa', price: '330.00 RSD', image: '../images/girosMasterGiros.png'},
-            {name: 'Giros box', description: 'Neki opis giros boxa', price: '450.00 RSD', image: '../images/girosMasterGirosbox.png'},
-            {name: 'Giros box + Pepsi', description: 'Neki opis giros boxa i pepsija', price: '500.00 RSD', image: '../images/girosMasterGirosboxpepsi.png'},
-            {name: 'Pomfrit', description: 'Neki opis pomfrita', price: '120.00 RSD', image: '../images/girosMasterPomfrit.png'},
-            {name: 'Pepsi', description: 'Neki opis pepsija', price: '100.00 RSD', image: '../images/girosMasterPepsi.jpeg'}
-        ]
+        let id = window.location.href.split('?')[1].split('=')[1].split('#/')[0];
+        axios.get('../rest/restaurants/' + id)
+        .then(response => {
+            this.restaurant = response.data;
+
+            axios.get('../rest/restaurants/getProducts/' + this.restaurant.id)
+            .then(response => {
+                this.products = response.data;
+            });
+        });
     },
     methods: {
         addHoverClass: function (e) {

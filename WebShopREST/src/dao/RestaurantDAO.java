@@ -97,7 +97,15 @@ public class RestaurantDAO {
 			}
 		}
 		return items;
+	}
 
+	public Restaurant getByID(String id) {
+		ArrayList<Restaurant> restaurants = getAll();
+		for(Restaurant r : restaurants) {
+			if(r.getId().equals(id))
+				return r;
+		}
+		return null;
 	}
 
 	public Item updateItem(Item item) {

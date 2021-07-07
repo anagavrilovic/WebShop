@@ -1,6 +1,7 @@
 Vue.component("restaurant-comments", {
     data: function() {
         return {
+            restaurant: null,
             comments: [
                 {buyerUsername: 'Gorčilo', mark: 5, dateTime: '12.3.2021. 15:00', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
                 {buyerUsername: 'Slavko', mark: 3, dateTime: '15.3.2021. 15:00', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
@@ -46,7 +47,12 @@ Vue.component("restaurant-comments", {
             </div>
         </div>`,
     mounted() {
+        let id = window.location.href.split('?')[1].split('=')[1].split('#/')[0];
+        axios.get('../rest/restaurants/' + id)
+        .then(response => {
+            this.restaurant = response.data;
 
+        });
     },
     methods: {
         

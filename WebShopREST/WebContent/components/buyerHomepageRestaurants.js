@@ -188,7 +188,7 @@ Vue.component('restaurants', {
 		},
 
         seeRestaurantDetails: function(restaurant) {
-            window.location.href = '../html/buyerRestaurant.html';
+            window.location.href = '../html/buyerRestaurant.html?id=' + restaurant.id;
         },
 
 

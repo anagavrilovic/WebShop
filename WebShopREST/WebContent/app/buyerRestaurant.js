@@ -25,7 +25,8 @@ var app = new Vue({
         window.removeEventListener('scroll', this.handleScroll);
     },
     mounted() {
-        this.restaurant = {image: '../images/girosMasterCover.jpg', logo: '../images/girosMasterLogo.png', name: 'GYROS MASTER'};
+        this.getRestaurant();
+
         axios.get('../rest/login/loginCheck')
         .then(response => {
             let roleStr = response.data.role;
@@ -58,6 +59,14 @@ var app = new Vue({
             } else {
                 nav.classList.remove('navbar-custom', 'shadow');
             }
+        },
+
+        getRestaurant: function() {
+            let id = window.location.href.split('?')[1].split('=')[1].split('#/')[0];
+            axios.get('../rest/restaurants/' + id)
+            .then(response => {
+                this.restaurant = response.data;
+            });
         },
 
         openMyCart : function() {
