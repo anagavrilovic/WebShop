@@ -107,7 +107,7 @@ Vue.component("manager-products", {
                     </div>
                 </div>
 
-                <new-product-modal v-if="showNewProduct" @close="showNewProduct = false">	</new-product-modal>
+                <new-product-modal v-if="showNewProduct" @close="showNewProduct = false" @update_list="updateList">	</new-product-modal>
 
             </div>
 
@@ -134,6 +134,12 @@ Vue.component("manager-products", {
             catch(err){
                 this.productForUpdate.imagePath = 'Error loading image';
             }
+        },
+        updateList: function(){
+            axios.get('../rest/restaurants/getAllProducts')
+			.then(response => {
+				this.products = response.data;
+			});
         }
     }
 });

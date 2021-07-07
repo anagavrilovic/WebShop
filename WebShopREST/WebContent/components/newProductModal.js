@@ -106,7 +106,7 @@ Vue.component("new-product-modal", {
                 axios.post('../rest/restaurants/addNewItem', this.newProduct)
                   .then(response => {
                     this.$emit('close');
-
+                    this.$emit('update_list');
                     // upload image to server side
                     this.getBase64(this.selectedFile).then(
                       data => {

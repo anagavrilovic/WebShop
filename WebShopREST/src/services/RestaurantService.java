@@ -107,7 +107,9 @@ public class RestaurantService {
 	public Collection<Item> getAllProducts(@Context HttpServletRequest req) {
 		RestaurantDAO dao = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
 		User user = (User)req.getSession().getAttribute("user");
-		String restaurantId = ((Manager)user).getRestaurantID();
+		String restaurantId = null;
+		if(user != null)
+			restaurantId = ((Manager)user).getRestaurantID();
 		return dao.getAllProducts(restaurantId);
 	}
 }
