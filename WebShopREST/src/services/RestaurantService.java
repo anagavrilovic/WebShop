@@ -112,4 +112,12 @@ public class RestaurantService {
 			restaurantId = ((Manager)user).getRestaurantID();
 		return dao.getAllProducts(restaurantId);
 	}
+	
+	@POST
+	@Path("/updateItem")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Item updateItem(Item item) {
+		RestaurantDAO dao = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
+		return dao.updateItem(item);
+	}
 }

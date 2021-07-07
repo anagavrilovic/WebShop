@@ -100,5 +100,19 @@ public class RestaurantDAO {
 
 	}
 
+	public Item updateItem(Item item) {
+		ArrayList<Item> allItems = new ArrayList<Item>();
+		allItems = getItems();
+		int idx = -1;
+		for(Item i : allItems) {
+			if(i.getId().equals(item.getId())) {
+				idx = allItems.indexOf(i);
+			}
+		}
+		allItems.set(idx, item);
+		saveItems(allItems);
+		return item;
+	}
+
 	
 }

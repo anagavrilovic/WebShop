@@ -4,7 +4,8 @@ Vue.component("manager-products", {
             products: [],
             showNewProduct: false,
             productForUpdate: null,
-            productForUpdateBackup: null
+            productForUpdateBackup: null,
+            errorMessage: ''
         }
     },
     template:         
@@ -32,32 +33,34 @@ Vue.component("manager-products", {
                             <h1 class="product-name">Izmena proizvoda</h1>
                             <br/>
 
-                            <form>
+                            <form v-on:submit="updateProduct">
                                 <div class="form-group input-field">
-                                <input type="text" class="form-control input-field" placeholder="Naziv" required="required"
+                                <input type="text" class="form-control input-field" placeholder="Naziv" disabled
                                     v-model="productForUpdateBackup.name">
                                 </div>
                                 <div class="form-group">
-                                <input type="text" class="form-control input-field" placeholder="Cena" required="required"
+                                <input type="number" step="0.01" class="form-control input-field" placeholder="Cena" required="required"
                                 v-model="productForUpdateBackup.price">					
                                 </div>
 
                                 <div class="form-group">
-                                    <select class="form-select input-field" area-label="Pol">
-                                        <option selected disabled>Tip proizvoda</option>
-                                        <option value="1">Jelo</option>
-                                        <option value="2">Piće</option>
+                                    <select class="form-select input-field" v-model="productForUpdateBackup.type">
+                                        <option value="FOOD">Jelo</option>
+                                        <option value="DRINK">Piće</option>
                                     </select>					
                                 </div>
 
                                 <div class="form-group">
-                                <input type="text" class="form-control input-field" placeholder="Opis (Opciono)" required="required"
+                                <input type="text" class="form-control input-field" placeholder="Opis (Opciono)"
                                 v-model="productForUpdateBackup.description">					
                                 </div>
                                 <div class="form-group">
-                                <input type="text" class="form-control input-field" placeholder="Količina (Opciono)" required="required"
+                                <input type="number" class="form-control input-field" placeholder="Količina (Opciono)"
                                 v-model="productForUpdateBackup.quantity">					
                                 </div>
+
+                                <p style="color: red; font-size: smaller;" class="text-center">{{errorMessage}}</p>
+
                                 <br/>
                                 <div class="form-group submitButton">
                                 <input type="submit" class="btn btn-primary btn-block" value="Potvrdi" id="submitButton">
@@ -156,6 +159,14 @@ Vue.component("manager-products", {
               reader.onload = () => resolve(reader.result);
               reader.onerror = error => reject(error);
             });
-          }
+        },
+        updateProduct: function(event){
+            event.preventDefault();
+            axios.post('../rest/restaurants/updateItem', this.productForUpdateBackup)
+                .then(response => {
+                    this.updateList();
+                    this.hideEditDialog();
+                });
+        }
     }
 });
