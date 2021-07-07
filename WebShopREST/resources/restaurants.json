@@ -27,7 +27,7 @@
         "name": "Kuća Kobasice",
         "type": "Brza hrana",
         "logoPath": "../images/kucaKobasiceLogo.png",
-        "imagePath": "../images/cover.jpg",
+        "imagePath": "../images/kucaKobasiceCover.png",
         "mark": 4.5,
         "isDeleted": false,
         "location": {
@@ -50,7 +50,7 @@
         "name": "Walter",
         "type": "Roštilj",
         "logoPath": "../images/walterLogo.png",
-        "imagePath": "../images/cover.jpg",
+        "imagePath": "../images/walterCover.jfif",
         "mark": 3.25,
         "isDeleted": false,
         "location": {
