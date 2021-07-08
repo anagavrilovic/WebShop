@@ -15,7 +15,6 @@ public class Order {
    
 	public Order(Date time, double price, OrderStatus status, String restaurantID) {
 		super();
-		this.id = UUID.randomUUID().toString();
 		this.time = time;
 		this.price = price;
 		this.status = status;
