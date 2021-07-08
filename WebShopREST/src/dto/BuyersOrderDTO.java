@@ -12,6 +12,7 @@ public class BuyersOrderDTO {
     private OrderStatus status;
     private String restaurantName;
     private String buyersUsername;
+    private String restaurantType;
     
 	public String getId() {
 		return id;
@@ -48,6 +49,14 @@ public class BuyersOrderDTO {
 	}
 	public void setBuyersUsername(String buyersUsername) {
 		this.buyersUsername = buyersUsername;
+	}
+	
+	public String getRestaurantType() {
+		return restaurantType;
+	}
+	
+	public void setRestaurantType(String restaurantType) {
+		this.restaurantType = restaurantType;
 	}
 	
 	public BuyersOrderDTO() {

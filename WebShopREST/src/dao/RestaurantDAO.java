@@ -49,6 +49,16 @@ public class RestaurantDAO {
 		return "Bez restorana";
 	}
 	
+	public Restaurant getRestaurantByID(String restaurantID) {
+		ArrayList<Restaurant> restaurants = getAll();
+		for(Restaurant r: restaurants) {
+			if(r.getId().equals(restaurantID)) {
+				return r;
+			}
+		}
+		return null;
+	}
+	
 	public Item addNewItem(Item item, String restaurantId) {
 		ArrayList<Item> items = new ArrayList<Item>();
 		items = getItems();

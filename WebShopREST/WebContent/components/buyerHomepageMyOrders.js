@@ -5,6 +5,8 @@ Vue.component('my-orders', {
             restaurantTypeDropdownOpen: false,
             orderStatusDropdownOpen: false,
             checkedRestaurantTypes: [],
+            checkedOrderStatuses: [],
+            onlyNonDeliveredOrders: false,
             orders: null,
             order: null,
             items: null
@@ -78,7 +80,7 @@ Vue.component('my-orders', {
                                                         </div>
                                                         <div class="card-text">
                                                             <p class="product-description">1x</p>
-                                                            <p class="product-price" style="font-size: larger">{{i.price}}</p>
+                                                            <p class="product-price" style="font-size: larger">{{i.price}} RSD</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -105,7 +107,7 @@ Vue.component('my-orders', {
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-check checkbox-style rounded ">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" >
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" v-model="onlyNonDeliveredOrders">
                                     <label class="form-check-label" for="flexCheckDefault">
                                     Nedostavljene
                                     </label>
@@ -136,16 +138,16 @@ Vue.component('my-orders', {
                                 </button>
                                 <ul class="list-group flex" v-if="restaurantTypeDropdownOpen">
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Chineese" v-model="checkedRestaurantTypes" v-on:change="">Kineski
+                                        <input class="form-check-input me-1" type="checkbox" value="Brza hrana" v-model="checkedRestaurantTypes" v-on:change="">Brza hrana
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Italian" v-model="checkedRestaurantTypes" v-on:change="">Italijanski
+                                        <input class="form-check-input me-1" type="checkbox" value="Italijanski" v-model="checkedRestaurantTypes" v-on:change="">Italijanski
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Barbeque" v-model="checkedRestaurantTypes" v-on:change="">Roštilj
+                                        <input class="form-check-input me-1" type="checkbox" value="Roštilj" v-model="checkedRestaurantTypes" v-on:change="">Roštilj
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Romanian" v-model="checkedRestaurantTypes" v-on:change="">Rumunski
+                                        <input class="form-check-input me-1" type="checkbox" value="Kineski" v-model="checkedRestaurantTypes" v-on:change="">Kineski
                                     </label>
                                 </ul>
                             </div>
@@ -158,22 +160,22 @@ Vue.component('my-orders', {
                                 </button>
                                 <ul class="list-group flex" v-if="orderStatusDropdownOpen">
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">Obrada
+                                        <input class="form-check-input me-1" type="checkbox" value="PROCESSING" v-model="checkedOrderStatuses">Obrada
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">U pripremi
+                                        <input class="form-check-input me-1" type="checkbox" value="PREPARING" v-model="checkedOrderStatuses">U pripremi
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">Čeka dostavljača
+                                        <input class="form-check-input me-1" type="checkbox" value="WAITING_FOR_DELIVERER" v-model="checkedOrderStatuses">Čeka dostavljača
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">U transportu
+                                        <input class="form-check-input me-1" type="checkbox" value="IN_TRANSPORT" v-model="checkedOrderStatuses">U transportu
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">Dostavljena
+                                        <input class="form-check-input me-1" type="checkbox" value="DELIVERED" v-model="checkedOrderStatuses">Dostavljena
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">Otkazana
+                                        <input class="form-check-input me-1" type="checkbox" value="CANCELED" v-model="checkedOrderStatuses">Otkazana
                                     </label>
                                 </ul>
                             </div>
@@ -209,7 +211,7 @@ Vue.component('my-orders', {
                                     <div class="row">
 
                                         <div v-for="o in orders" v-if="orders !== null">
-                                            <div class="card shadow my-2" v-on:click="seeOrderDetails(o)">
+                                            <div class="card shadow my-2" v-on:click="seeOrderDetails(o)" v-if="filterSatisfied(o)">
                                                 <div class="row p-4 ">
                                                 <div class="col-md-6">
                                                         <h1 class="orderID">PORUDŽBINA {{o.id}}</h1>
@@ -307,6 +309,38 @@ Vue.component('my-orders', {
         closeCommentDialog: function() {
             $('#leaveCommentPopup').modal('hide');
         },
+
+		filterSatisfied: function(o){
+			return this.restaurantTypeFilterSatisfied(o.restaurantType) && this.orderStatusFilterSatisfied(o.status)
+                && this.nonDeliveredFilterSatisfied(o.status);
+            	
+		},
+
+        restaurantTypeFilterSatisfied: function(type){
+			if(this.checkedRestaurantTypes.length == 0){
+				return true;
+			}
+			return this.checkedRestaurantTypes.indexOf(type) > -1;
+		},
+        orderStatusFilterSatisfied: function(status){
+			if(this.checkedOrderStatuses.length == 0){
+				return true;
+			}
+			return this.checkedOrderStatuses.indexOf(status) > -1;
+		},
+        nonDeliveredFilterSatisfied: function(status){
+            if(this.onlyNonDeliveredOrders == false){
+                return true;
+            }
+            if(status != 'DELIVERED' && status != 'CANCELED'){
+                return true;
+            }
+            else{
+                return false;
+            }
+
+        }
+
     },
     filters: {
         dateFormat: function(value, format){

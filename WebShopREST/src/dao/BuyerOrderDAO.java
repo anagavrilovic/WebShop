@@ -24,6 +24,7 @@ public class BuyerOrderDAO {
 			if(o.getBuyersUsername().equals(user.getUsername())) {
 				BuyersOrderDTO dto = new BuyersOrderDTO(o);
 				dto.setRestaurantName(restaurantDAO.getRestaurantNameByID(o.getRestaurantID()));
+				dto.setRestaurantType(restaurantDAO.getRestaurantByID(o.getRestaurantID()).getType());
 				buyersOrders.add(dto);
 			}
 		}
