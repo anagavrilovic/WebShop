@@ -58,14 +58,6 @@ var app = new Vue({
             } else {
                 nav.classList.remove('navbar-custom', 'shadow');
             }
-        },
-
-        logOut: function() {
-			console.log('hejj');
-            axios.post('../rest/login/logout')
-                .then(response => {
-                    window.location.href = "../html/homepage.html";
-                });
         }
     }
 
