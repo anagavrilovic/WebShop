@@ -121,12 +121,12 @@ Vue.component('my-orders', {
                                     Sortiraj po <span style="float: right;"><img src="../images/arrow.png"></span>
                                 </button>
                                 <div class="list-group flex" v-if="sortDropdownOpen">
-                                    <button class="list-group-item list-group-item-action">Naziv restorana A - Z </button>
-                                    <button class="list-group-item list-group-item-action">Naziv restorana Z - A</button>
-                                    <button class="list-group-item list-group-item-action">Cena rastuće</button>
-                                    <button class="list-group-item list-group-item-action">Cena opadajuće</button>
-                                    <button class="list-group-item list-group-item-action">Datum najnovije</button>
-                                    <button class="list-group-item list-group-item-action">Datum najstarije</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortRestaurantNameAZ">Naziv restorana A - Z </button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortRestaurantNameZA">Naziv restorana Z - A</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortOrderPriceAscending">Cena rastuće</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortOrderPriceDescending">Cena opadajuće</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortOrderTimeDescending">Datum najnovije</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortOrderTimeAscending">Datum najstarije</button>
                                 </div>
                             </div>
                         </div>
@@ -237,7 +237,7 @@ Vue.component('my-orders', {
                                                         <p v-if="o.status == 'CANCELED'" class="text-end">
                                                             <span style="color: #ff0000;"><img src="../images/canceled.png"> Otkazana</span>
                                                         </p>
-                                                        <p class="text-end" style="margin-top: -3px;">{{o.price}}</p>
+                                                        <p class="text-end" style="margin-top: -3px;">{{o.price}} RSD</p>
                                                         <button class="btn btn-success float-end" v-if="o.status === 4" v-on:click="leaveComment(o)">Ostavi komentar</button>
                                                     </div>
                                                 </div>
@@ -310,6 +310,8 @@ Vue.component('my-orders', {
             $('#leaveCommentPopup').modal('hide');
         },
 
+
+        //FILTERS
 		filterSatisfied: function(o){
 			return this.restaurantTypeFilterSatisfied(o.restaurantType) && this.orderStatusFilterSatisfied(o.status)
                 && this.nonDeliveredFilterSatisfied(o.status);
@@ -339,8 +341,26 @@ Vue.component('my-orders', {
                 return false;
             }
 
+        },
+        //SORT
+        sortRestaurantNameAZ : function(){
+            this.orders.sort(compareRestaurantNameAscending);
+        },
+        sortRestaurantNameZA : function(){
+            this.orders.sort(compareRestaurantNameDescending);
+        },
+        sortOrderPriceAscending: function(){
+            this.orders.sort(compareOrderPriceAscending);
+        },
+        sortOrderPriceDescending: function(){
+            this.orders.sort(compareOrderPriceDescending);
+        },
+        sortOrderTimeAscending: function(){
+            this.orders.sort(compareOrderTimeAscending);
+        },
+        sortOrderTimeDescending: function(){
+            this.orders.sort(compareOrderTimeDescending);
         }
-
     },
     filters: {
         dateFormat: function(value, format){
