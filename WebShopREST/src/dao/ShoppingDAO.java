@@ -1,9 +1,11 @@
 package dao;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +14,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import beans.Buyer;
 import beans.Deliverer;
 import beans.Item;
+import beans.Order;
+import beans.OrderItem;
+import beans.OrderStatus;
 import beans.Restaurant;
 import beans.ShoppingCart;
 import beans.User;
@@ -220,5 +225,104 @@ public class ShoppingDAO {
 		}
 		return true;
 	}
+
+	
+	// ORDERS
+	
+	public Order finishOrder(User user) {
+		Buyer buyer = (Buyer)user;
+		ShoppingCart cart = buyer.getShoppingCart();
+		
+		if(cart == null) {
+			cart = new ShoppingCart();
+		}
+		
+		HashMap<String, Integer> items = (HashMap<String, Integer>)cart.getItems();
+		
+		if(items == null) {
+			items = new HashMap<String, Integer>();
+		}
+		
+
+		
+		String firstKey = (String)items.keySet().toArray()[0];
+		String restaurantId = this.getItemByID(firstKey).getRestaurantID();
+		double totalPrice = cart.getTotalPrice();
+		Date date = new Date(); 
+		System.out.println(date);
+		
+		Order order = new Order(date, totalPrice, OrderStatus.PREPARING, restaurantId);
+		
+		ArrayList<OrderItem> orderItems = new ArrayList<OrderItem>();
+		
+		for (Map.Entry<String,Integer> entry : items.entrySet()) {
+			orderItems.add(new OrderItem(order.getId(), entry.getKey()));
+		}
+		
+		this.addNewOrder(order);
+		this.addNewOrderItems(orderItems);
+		
+		return order;
+	}
+	
+	
+	public ArrayList<OrderItem> getOrderItems(){
+		ArrayList<OrderItem> items = new ArrayList<OrderItem>();
+		try {
+			items = new ArrayList<OrderItem>(Arrays.asList(objectMapper.readValue(new File("resources/orderItems.json"), OrderItem[].class)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+		return items;
+	}
+	
+	public ArrayList<Order> getOrders(){
+		ArrayList<Order> orders = new ArrayList<Order>();
+		try {
+			orders = new ArrayList<Order>(Arrays.asList(objectMapper.readValue(new File("resources/orders.json"), Order[].class)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+		return orders;
+	}
+	
+	public void addNewOrder(Order order) {
+		ArrayList<Order> orders = this.getOrders();
+		orders.add(order);
+		this.saveOrders(orders);
+	}
+	
+	public void addNewOrderItem(OrderItem orderItem) {
+		ArrayList<OrderItem> orderItems = this.getOrderItems();
+		orderItems.add(orderItem);
+		this.saveOrderItems(orderItems);
+	}
+	
+	public void addNewOrderItems(ArrayList<OrderItem> orderItems) {
+		ArrayList<OrderItem> allOrderItems = this.getOrderItems();
+		for(OrderItem item : orderItems)
+			allOrderItems.add(item);
+		this.saveOrderItems(allOrderItems);
+	}
+	
+	private void saveOrders(ArrayList<Order> orders) {
+		try {
+			objectMapper.writeValue(new File("resources/orders.json"), orders);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	private void saveOrderItems(ArrayList<OrderItem> orderItems) {
+		try {
+			objectMapper.writeValue(new File("resources/orderItems.json"), orderItems);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	
 
 }

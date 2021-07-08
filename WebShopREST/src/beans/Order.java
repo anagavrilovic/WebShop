@@ -10,18 +10,16 @@ public class Order {
    private OrderStatus status;
    private String restaurantID;
    
-   private Restaurant restaurant;
    
    public Order() {}
    
-	public Order(String id, Date time, double price, OrderStatus status, String restaurantID, Restaurant restaurant) {
+	public Order(Date time, double price, OrderStatus status, String restaurantID) {
 		super();
-		this.id = id;
+		this.id = UUID.randomUUID().toString();
 		this.time = time;
 		this.price = price;
 		this.status = status;
 		this.restaurantID = restaurantID;
-		this.restaurant = restaurant;
 	}
 
 	public String getId() {
@@ -64,11 +62,4 @@ public class Order {
 		this.restaurantID = restaurantID;
 	}
 	
-	public Restaurant getRestaurant() {
-		return restaurant;
-	}
-	
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
-	}
 }

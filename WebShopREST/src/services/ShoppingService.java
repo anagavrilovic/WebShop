@@ -14,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.Order;
 import beans.User;
 import dao.LoginDAO;
 import dao.ShoppingDAO;
@@ -100,5 +101,17 @@ public class ShoppingService {
         
         return dao.isCartUnique(user, cartItem);
 
+	}
+	
+	@GET
+	@Path("/finishOrder")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Order finishOrder(@Context HttpServletRequest req) {
+		ShoppingDAO dao = (ShoppingDAO)ctx.getAttribute("shoppingDAO");
+
+		HttpSession session= req.getSession(true);
+        User user = (User)session.getAttribute("user");
+        
+        return dao.finishOrder(user);
 	}
 }

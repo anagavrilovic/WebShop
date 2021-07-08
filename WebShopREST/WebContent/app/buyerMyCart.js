@@ -90,6 +90,12 @@ var app = new Vue({
             for(const item of this.cart){
                 this.totalPrice += item.product.price * item.quantity;
             }
+        },
+        finishOrder: function(){
+            axios.get('../rest/shopping/finishOrder')
+                .then(response => {
+                    console.log(response.data);
+                });
         }
     }
 });

@@ -17,10 +17,10 @@ public class Item {
    
    public Item() {}
    
-	public Item(String id, String name, double price, ItemType type, double quantity, String description, String imagePath,
+	public Item(String name, double price, ItemType type, double quantity, String description, String imagePath,
 		String restaurantID, Boolean isDeleted) {
 		super();
-		this.id = id;
+		this.id = UUID.randomUUID().toString();
 		this.name = name;
 		this.price = price;
 		this.type = type;
