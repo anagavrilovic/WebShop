@@ -3,7 +3,6 @@ Vue.component('manager-orders', {
         return {
             searchParams: { priceFrom: undefined, priceTo: undefined, dateFrom: undefined, dateTo: undefined},
             sortDropdownOpen: false,
-            restaurantTypeDropdownOpen: false,
             orderStatusDropdownOpen: false,
             checkedRestaurantTypes: [],
             allOrders: null,
@@ -105,28 +104,6 @@ Vue.component('manager-orders', {
                                     <button class="list-group-item list-group-item-action">Datum najnovije</button>
                                     <button class="list-group-item list-group-item-action">Datum najstarije</button>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <button class="btn btn-filter flex" type="button" v-on:click="toggleRestaurantTypeDropdownVisibility">
-                                    Tip restorana <span style="float: right;"><img src="../images/arrow.png" style="margin-top: 5px"></span>
-                                </button>
-                                <ul class="list-group flex" v-if="restaurantTypeDropdownOpen">
-                                    <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Chineese" v-model="checkedRestaurantTypes" v-on:change="">Kineski
-                                    </label>
-                                    <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Italian" v-model="checkedRestaurantTypes" v-on:change="">Italijanski
-                                    </label>
-                                    <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Barbeque" v-model="checkedRestaurantTypes" v-on:change="">Roštilj
-                                    </label>
-                                    <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Romanian" v-model="checkedRestaurantTypes" v-on:change="">Rumunski
-                                    </label>
-                                </ul>
                             </div>
                         </div>
 
@@ -252,15 +229,6 @@ Vue.component('manager-orders', {
 			}
 			else{
 				this.sortDropdownOpen = true;
-			}
-		},
-
-        toggleRestaurantTypeDropdownVisibility: function () {
-			if(this.restaurantTypeDropdownOpen){
-				this.restaurantTypeDropdownOpen = false;
-			}
-			else{
-				this.restaurantTypeDropdownOpen = true;
 			}
 		},
 
