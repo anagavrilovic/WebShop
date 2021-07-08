@@ -86,20 +86,22 @@ Vue.component("manager-products", {
                             <div v-for="p in products" v-if="products !== null">
                                 <div class="row p-4" v-on:click="showEditDialog(p)">
                                     <div class="col-md-3">
-                                        <img :src=p.imagePath alt="Product image" height="100px" class="mx-2">
+                                        <img :src=p.imagePath alt="Product image" height="170px" style="width: 170px" class="mx-2">
                                     </div>
                                     <div class="col-md-7">
                                         <div class="row">
-                                            <p> {{p.name}} </p>
+                                            <p class="product-name" style="font-size: 24px;"> {{p.name}} </p>
                                         </div>
                                         <div class="row">
-                                            <p>{{p.description}}</p>
+                                            <p class="product-description">{{p.description}}</p>
                                         </div>
                                     </div>
 
                                     <div class="col-md-2 commentStatus">
                                         <div class="row">
-                                            <p class="ml-4"> {{p.price}}&nbsp RSD </p>
+                                            <p class="ml-4" style="font-size: 18px; color: #C75D4F; font-weight: bold;"> 
+                                                {{Number(p.price).toFixed(2)}} RSD 
+                                            </p>
                                         </div>
                                     </div>
 
