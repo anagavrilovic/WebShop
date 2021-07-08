@@ -117,4 +117,27 @@ public class ShoppingDAO {
 		return sum;
 	}
 
+	public ArrayList<CartItemDTO> getCartItems(User user) {
+		ArrayList<CartItemDTO> dtos = new ArrayList<CartItemDTO>();
+		Buyer buyer = (Buyer)user;
+		
+		ShoppingCart cart = buyer.getShoppingCart();
+		
+		if(cart == null) {
+			cart = new ShoppingCart();
+		}
+		
+		HashMap<String, Integer> items = (HashMap<String, Integer>)cart.getItems();
+		
+		if(items == null) {
+			items = new HashMap<String, Integer>();
+		}
+		
+		for (Map.Entry<String,Integer> entry : items.entrySet()) {
+			dtos.add(new CartItemDTO(this.getItemByID(entry.getKey()), entry.getValue()));
+		}
+		
+		return dtos;
+	}
+
 }

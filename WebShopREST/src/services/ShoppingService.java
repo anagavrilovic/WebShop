@@ -1,10 +1,13 @@
 package services;
 
+import java.util.ArrayList;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -42,5 +45,17 @@ public class ShoppingService {
         return dao.addToBuyerCart(user, cartItem);
 		
 		
+	}
+	
+	@GET
+	@Path("/getCartItems")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<CartItemDTO> getCartItems(@Context HttpServletRequest req) {
+		ShoppingDAO dao = (ShoppingDAO)ctx.getAttribute("shoppingDAO");
+
+		HttpSession session= req.getSession(true);
+        User user = (User)session.getAttribute("user");
+        
+        return dao.getCartItems(user);
 	}
 }

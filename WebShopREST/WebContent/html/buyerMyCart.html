@@ -60,12 +60,12 @@
                         <div class="card shadow">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <img :src="i.imagePath" class="card-img-top food-images" :alt="i.name">
+                                    <img :src="i.product.imagePath" class="card-img-top food-images" :alt="i.product.name">
                                 </div>
                                 <div class="col-md-9">
                                     <div class="card-body">
                                         <div class="card-title">
-                                            <span class="item-name">{{i.name}}</span>
+                                            <span class="item-name">{{i.product.name}}</span>
                                             <button class="btn float-end" v-on:click="removeItem(i)"><img src="../images/x.png"></button>
                                         </div>
                                         <div class="card-text">
@@ -83,7 +83,7 @@
                                                     </button>
                                                 </span>
                                             </div>
-                                            <p class="item-price">{{i.price}} RSD</p>
+                                            <p class="item-price">{{i.product.price}} RSD</p>
                                         </div>
                                     </div>
                                 </div>
@@ -94,7 +94,7 @@
                     <div class="col-md-9">
                         <p class="text-end my-4 mx-2 totalPrice">
                             <span style="color: #3b535f;">Ukupno: </span>
-                            <span style="color: #C75D4F;">900.00 RSD</span>
+                            <span style="color: #C75D4F;">{{totalPrice}}</span>
                         </p>
                         <button class="btn btn-primary float-end btn-order">Poruči</button>
                     </div>

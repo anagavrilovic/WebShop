@@ -4,8 +4,7 @@ Vue.component("restaurant-products", {
             restaurant: null,
             products: null,
             product: null,
-            quantity: 0,
-            cartItem : {product: null, quantity: 0}
+            cartItem : {product: null, quantity: 1}
         }
     },
     template:

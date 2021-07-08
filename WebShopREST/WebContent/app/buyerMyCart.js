@@ -1,7 +1,8 @@
 var app = new Vue({
     el: '#page',
     data: {
-        cart: null,
+        cart: {product: null, quantity: null},
+        totalPrice: 0
     },
     created() {
         window.addEventListener('scroll', this.handleScroll);
@@ -10,11 +11,6 @@ var app = new Vue({
         window.removeEventListener('scroll', this.handleScroll);
     },
     mounted() {
-        this.cart = [
-            {name: 'Mali giros', price: 230.00, imagePath: '../images/girosMasterGiros.png', quantity: 1},
-            {name: 'Veliki giros', price: 330.00, imagePath: '../images/girosMasterGiros.png', quantity: 1},
-            {name: 'Pomfrit', price: 120.00, imagePath: '../images/girosMasterPomfrit.png', quantity: 1}
-        ]
         axios.get('../rest/login/loginCheck')
         .then(response => {
             let roleStr = response.data.role;
@@ -38,6 +34,12 @@ var app = new Vue({
             }
           
         });
+        axios.get('../rest/shopping/getCartItems')
+            .then(response => {
+                console.log(response.data)
+                this.cart = response.data;
+                this.calculateTotalPrice();
+            });
     },
     methods: {
         handleScroll(event){
@@ -51,15 +53,18 @@ var app = new Vue({
 
         decreaseQuantity: function(item) {
             item.quantity = item.quantity - 1;
+            this.calculateTotalPrice();
         },
 
         increaseQuantity: function(item) {
             item.quantity = item.quantity + 1;
+            this.calculateTotalPrice();
         },
 
         removeItem: function(item) {
             let index = this.cart.indexOf(item);
             this.cart.splice(index, 1);
+            this.calculateTotalPrice();
         },
 
         logOut: function() {
@@ -67,6 +72,12 @@ var app = new Vue({
                 .then(response => {
                     window.location.href = "../html/homepage.html";
                 });
+        },
+        calculateTotalPrice: function(){
+            this.totalPrice = 0;
+            for(const item of this.cart){
+                this.totalPrice += item.product.price * item.quantity;
+            }
         }
     }
 });
