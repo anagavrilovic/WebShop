@@ -14,9 +14,10 @@ var app = new Vue({
     mounted() {
         axios.get('../rest/login/loginCheck')
         .then(response => {
-            if(response.data == null){
+            if(response.data == ''){
                 window.location.href = "../html/homepage.html";
             } else {
+                console.log('fsfs ' + response.data + typeof(response.data))
                 this.user = response.data;
 
                 if(this.user.gender === 'MALE')
