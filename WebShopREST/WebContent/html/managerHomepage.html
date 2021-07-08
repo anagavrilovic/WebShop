@@ -42,20 +42,19 @@
 		</nav>
 	</div>
      
-
-    <!-- Cover image -->
-    <div v-if="restaurant !== null" class="banner-image w-100 d-flex justify-content-center align-items-center" 
-		v-bind:style="{ 'background-image': 'url(' + restaurant.imagePath + ')'}" >
-		<div class="content text-center">
-			<img :src="restaurant.logoPath" class="restaurant-logo">
-			<h1 class="restaurant-name">{{restaurant.name}}</h1>
+	<div id="tabs">
+		<!-- Cover image -->
+		<div v-if="restaurant !== null" class="banner-image w-100 d-flex justify-content-center align-items-center" 
+			v-bind:style="{ 'background-image': 'url(' + restaurant.imagePath + ')'}" >
+			<div class="content text-center">
+				<img :src="restaurant.logoPath" class="restaurant-logo">
+				<h1 class="restaurant-name">{{restaurant.name}}</h1>
+			</div>
 		</div>
-	</div>
-	
-	<div id="page">
+		
+		<div id="page">
 
-		<!-- Navigation bar  2-->
-		<div id="tabs">
+			<!-- Navigation bar  2-->
 			<nav class="navbar navbar-expand-lg navbar2-custom">
 				<div class="container justify-content-center">
 					<ul class="navbar-nav nav-pills nav-fill">
@@ -84,6 +83,7 @@
 			<router-view></router-view>
 
 		</div>
+
 	</div>
 
 	<!-- Footer -->

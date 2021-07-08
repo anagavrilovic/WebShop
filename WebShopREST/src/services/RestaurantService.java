@@ -27,6 +27,7 @@ import beans.Restaurant;
 import beans.User;
 import dao.LoginDAO;
 import dao.RestaurantDAO;
+import dao.UserDAO;
 import dto.Image64DTO;
 
 import java.io.ByteArrayInputStream;
@@ -63,6 +64,16 @@ public class RestaurantService {
 	public Restaurant getRestauranByID(@PathParam("id") String id) {
 		RestaurantDAO dao = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
 		return dao.getByID(id);
+	}
+	
+	@GET
+	@Path("/managersRestaurant")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Restaurant getManagersRestaurant(@Context HttpServletRequest req) {
+		User user = (User)req.getSession().getAttribute("user");
+		Manager manager = new UserDAO().getManagerByUsername(user.getUsername());
+		RestaurantDAO dao = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
+		return dao.getByID(manager.getRestaurantID());
 	}
 	
 	@GET

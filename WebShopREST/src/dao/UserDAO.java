@@ -57,6 +57,15 @@ public class UserDAO {
 		return managers;
 	}
 	
+	public Manager getManagerByUsername(String username) {
+		ArrayList<Manager> managers = getAllManagers();
+		for(Manager m : managers) {
+			if(m.getUsername().equals(username))
+				return m;
+		}
+		return null;
+	}
+	
 	private void saveManager(Manager manager) {
 		ArrayList<Manager> managers = getAllManagers();
 		managers.add(manager);

@@ -119,6 +119,12 @@ function compareUsernameDescending(a, b) {
 }
 
 function comparePointsAscending(a, b) {
+	if(a.collectedPoints == undefined && b.collectedPoints != undefined){
+		return 1;
+	}
+	if(a.collectedPoints != undefined && b.collectedPoints == undefined) {
+		return -1;
+	}
 	if (a.collectedPoints < b.collectedPoints){
 		return -1;
 	}
@@ -129,6 +135,12 @@ function comparePointsAscending(a, b) {
 }
 
 function comparePointsDescending(a, b) {
+	if(a.collectedPoints == undefined && b.collectedPoints != undefined){
+		return 1;
+	}
+	if(a.collectedPoints != undefined && b.collectedPoints == undefined) {
+		return -1;
+	}
 	if (a.collectedPoints < b.collectedPoints){
 		return 1;
 	}
