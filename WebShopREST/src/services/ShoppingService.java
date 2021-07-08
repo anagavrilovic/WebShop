@@ -47,6 +47,35 @@ public class ShoppingService {
 		
 	}
 	
+	@POST
+	@Path("/updateCart")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public User updateCart(CartItemDTO cartItem, @Context HttpServletRequest req) {
+		ShoppingDAO dao = (ShoppingDAO)ctx.getAttribute("shoppingDAO");
+
+		HttpSession session= req.getSession(true);
+        User user = (User)session.getAttribute("user");
+        
+        return dao.updateBuyerCart(user, cartItem);
+		
+		
+	}
+	
+	@POST
+	@Path("/removeFromCart")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public User removeFromCart(CartItemDTO cartItem, @Context HttpServletRequest req) {
+		ShoppingDAO dao = (ShoppingDAO)ctx.getAttribute("shoppingDAO");
+
+		HttpSession session= req.getSession(true);
+        User user = (User)session.getAttribute("user");
+        
+        return dao.removeFromCart(user, cartItem);
+
+	}
+	
 	@GET
 	@Path("/getCartItems")
 	@Produces(MediaType.APPLICATION_JSON)

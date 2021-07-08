@@ -57,7 +57,7 @@
                 <div class="row">
 
                     <div v-for="i in cart" class="col-md-9 py-2 ">
-                        <div class="card shadow">
+                        <div class="card shadow" v-if="i != null && i.product != null">
                             <div class="row">
                                 <div class="col-md-3">
                                     <img :src="i.product.imagePath" class="card-img-top food-images" :alt="i.product.name">
@@ -94,7 +94,7 @@
                     <div class="col-md-9">
                         <p class="text-end my-4 mx-2 totalPrice">
                             <span style="color: #3b535f;">Ukupno: </span>
-                            <span style="color: #C75D4F;">{{totalPrice}}</span>
+                            <span style="color: #C75D4F;">{{totalPrice}} RSD</span>
                         </p>
                         <button class="btn btn-primary float-end btn-order">Poruči</button>
                     </div>
