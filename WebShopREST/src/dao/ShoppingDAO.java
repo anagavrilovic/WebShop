@@ -249,6 +249,8 @@ public class ShoppingDAO {
 		Date date = new Date(); 
 		
 		Order order = new Order(date, totalPrice, OrderStatus.PREPARING, restaurantId);
+		int orderSize = this.getOrders().size();
+		order.setId(this.generateOrderID(orderSize));
 		
 		ArrayList<OrderItem> orderItems = new ArrayList<OrderItem>();
 		
@@ -321,6 +323,17 @@ public class ShoppingDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
+	}
+	
+	private String generateOrderID(int size) {
+		String id = size + "";
+		int numOfDigits = id.length();
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < (10 - numOfDigits); ++i) {
+			sb.append("0");
+		}
+		sb.append(id);
+		return sb.toString();
 	}
 	
 	
