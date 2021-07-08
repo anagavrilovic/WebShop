@@ -12,6 +12,7 @@ import beans.Item;
 import beans.Manager;
 import beans.Order;
 import beans.OrderItem;
+import dto.ItemQuantityDTO;
 import dto.ManagersOrderDTO;
 
 public class ManagerOrdersDAO {
@@ -59,28 +60,21 @@ public class ManagerOrdersDAO {
 	}
 	
 	private void setItemsForOrders(ArrayList<ManagersOrderDTO> managersOrders) {
+		ArrayList<OrderItem> orderItem = shoppingDAO.getOrderItems();
+		
 		for(ManagersOrderDTO dto : managersOrders) {
-			ArrayList<String> itemIDs = getItemsIDsForOrder(dto.getOrder().getId());
 			
-			for(String id : itemIDs) {
-				Item item = shoppingDAO.getItemByID(id);
-				dto.getItems().add(item);
+			for(OrderItem oi : orderItem) {
+				if(oi.getOrderID().equals(dto.getOrder().getId())) {
+					Item item = shoppingDAO.getItemByID(oi.getItemID());
+					ItemQuantityDTO itemQuantity = new ItemQuantityDTO(item, oi.getItemQuantity());
+					dto.getItems().add(itemQuantity);
+				}
 			}
+			
 		}
 	}
 
-	private ArrayList<String> getItemsIDsForOrder(String id) {
-		ArrayList<OrderItem> orderItem = shoppingDAO.getOrderItems();
-		ArrayList<String> itemIDs = new ArrayList<String>();
-		
-		for(OrderItem oi : orderItem) {
-			if(oi.getOrderID().equals(id)) {
-				itemIDs.add(oi.getItemID());
-			}
-		}
-		
-		return itemIDs;
-	}
 
 	public ArrayList<Order> getOrders(){
 		ArrayList<Order> orders = new ArrayList<Order>();

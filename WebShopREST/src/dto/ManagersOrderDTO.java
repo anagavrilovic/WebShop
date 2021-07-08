@@ -4,15 +4,13 @@ import beans.Order;
 
 import java.util.ArrayList;
 
-import beans.Item;
-
 public class ManagersOrderDTO {
 	private Order order;
 	private String buyerFirstName;
 	private String buyerLastName;
 	private String delivererFirstName;
 	private String delivererLastName;
-	private ArrayList<Item> items = new ArrayList<Item>();
+	private ArrayList<ItemQuantityDTO> items = new ArrayList<ItemQuantityDTO>();
 	
 	
 	public ManagersOrderDTO() {
@@ -20,7 +18,7 @@ public class ManagersOrderDTO {
 	}
 
 	public ManagersOrderDTO(Order order, String buyerFirstName, String buyerLastName, String delivererFirstName,
-			String delivererLastName, ArrayList<Item> items) {
+			String delivererLastName, ArrayList<ItemQuantityDTO> items) {
 		super();
 		this.order = order;
 		this.buyerFirstName = buyerFirstName;
@@ -70,11 +68,11 @@ public class ManagersOrderDTO {
 		this.delivererLastName = delivererLastName;
 	}
 
-	public ArrayList<Item> getItems() {
+	public ArrayList<ItemQuantityDTO> getItems() {
 		return items;
 	}
 
-	public void setItems(ArrayList<Item> items) {
+	public void setItems(ArrayList<ItemQuantityDTO> items) {
 		this.items = items;
 	}
 }

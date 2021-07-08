@@ -1,10 +1,12 @@
 Vue.component('manager-orders', {
     data: function() {
         return {
+            searchParams: { priceFrom: undefined, priceTo: undefined, dateFrom: undefined, dateTo: undefined},
             sortDropdownOpen: false,
             restaurantTypeDropdownOpen: false,
             orderStatusDropdownOpen: false,
             checkedRestaurantTypes: [],
+            allOrders: null,
             orders: null,
             order: null,
         }
@@ -52,16 +54,16 @@ Vue.component('manager-orders', {
                                         <div class="card ">
                                             <div class="row ">
                                                 <div class="col-md-5">
-                                                    <img :src="i.imagePath" class="card-img-top food-images" :alt="i.name">
+                                                    <img :src="i.item.imagePath" class="card-img-top food-images" :alt="i.name">
                                                 </div>
                                                 <div class="col-md-7">
                                                     <div class="card-body">
                                                         <div class="card-title">
-                                                            <h2 class="product-name" style="font-size: larger">{{i.name}}</h2>
+                                                            <h2 class="product-name" style="font-size: larger">{{i.item.name}}</h2>
                                                         </div>
                                                         <div class="card-text">
-                                                            <p class="product-description">x</p>
-                                                            <p class="product-price" style="font-size: larger">{{i.price}}</p>
+                                                            <p class="product-description">{{i.quantity}}x</p>
+                                                            <p class="product-price" style="font-size: larger">{{Number(i.item.price * i.quantity).toFixed(2)}} RSD</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -78,12 +80,6 @@ Vue.component('manager-orders', {
             <div class="container py-4" style="padding-left: 150px; padding-right: 150px;">
                 <div class="row">
                     <div class="col-md-3 justify-content-center">
-                        
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <input type="text" id="restaurantName" placeholder="Naziv restorana" class="form-control flex" style="height: 37px; padding-left: 10px;">
-                            </div>
-                        </div>
 
                         <div class="row mb-3">
                             <div class="col-md-12">
@@ -99,7 +95,7 @@ Vue.component('manager-orders', {
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <button class="btn btn-filter flex" type="button" v-on:click="toggleSortDropdownVisibility" id="sortButton">
-                                    Sortiraj po <span style="float: right;"><img src="../images/arrow.png"></span>
+                                    Sortiraj po <span style="float: right;"><img src="../images/arrow.png" style="margin-top: 5px"></span>
                                 </button>
                                 <div class="list-group flex" v-if="sortDropdownOpen">
                                     <button class="list-group-item list-group-item-action">Naziv restorana A - Z </button>
@@ -115,7 +111,7 @@ Vue.component('manager-orders', {
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <button class="btn btn-filter flex" type="button" v-on:click="toggleRestaurantTypeDropdownVisibility">
-                                    Tip restorana <span style="float: right;"><img src="../images/arrow.png"></span>
+                                    Tip restorana <span style="float: right;"><img src="../images/arrow.png" style="margin-top: 5px"></span>
                                 </button>
                                 <ul class="list-group flex" v-if="restaurantTypeDropdownOpen">
                                     <label class="list-group-item">
@@ -137,7 +133,7 @@ Vue.component('manager-orders', {
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <button class="btn btn-filter flex" type="button" v-on:click="toggleOrderStatusDropdownVisibility">
-                                    Status porudžbine <span style="float: right;"><img src="../images/arrow.png"></span>
+                                    Status porudžbine <span style="float: right;"><img src="../images/arrow.png" style="margin-top: 5px"></span>
                                 </button>
                                 <ul class="list-group flex" v-if="orderStatusDropdownOpen">
                                     <label class="list-group-item">
@@ -167,20 +163,24 @@ Vue.component('manager-orders', {
                     <div class="col-md-9">
                         <div class="row">
                             <div class="col-md-2 padding-0">
-                                <input type="text" id="priceFrom" placeholder="Cena od" class="form-control flex" style="height: 37px; padding-left: 10px;">
+                                <input type="number" id="priceFrom" placeholder="Cena od" class="form-control flex" style="height: 37px; padding-left: 10px;"
+                                 v-model="searchParams.priceFrom">
                             </div>
                             <div class="col-md-2 padding-0">
-                                <input type="text" id="priceTo" placeholder="Cena do" class="form-control flex" style="height: 37px; padding-left: 10px;">
+                                <input type="number" id="priceTo" placeholder="Cena do" class="form-control flex" style="height: 37px; padding-left: 10px;"
+                                v-model="searchParams.priceTo">
                             </div>
                             <div class="col-md-3 padding-0">
-                                <input type="text" id="dateFrom" placeholder="Datum od" class="form-control flex" style="height: 37px; padding-left: 10px;">
+                                <input type="text" id="dateFrom" placeholder="Datum od" class="form-control flex" style="height: 37px; padding-left: 10px;"
+                                    onfocus="(this.type='date')" onblur="(this.type='text')" v-model="searchParams.dateFrom">
                             </div>
                             <div class="col-md-3 padding-0">
-                                <input type="text" id="dateTo" placeholder="Datum do" class="form-control flex" style="height: 37px; padding-left: 10px;">
+                                <input type="text" id="dateTo" placeholder="Datum do" class="form-control flex" style="height: 37px; padding-left: 10px;"
+                                    onfocus="(this.type='date')" onblur="(this.type='text')" v-model="searchParams.dateTo">
                             </div>
                             <div class="col-md-2 padding-0">
-                                <button type="button" id="searchButton" class="btn btn-search flex">
-                                <span><img src="../images/search.png"></span>&ensp;&nbsp;Pretraži
+                                <button type="button" id="searchButton" class="btn btn-search flex" @click="search">
+                                    <span><img src="../images/search.png"></span>&ensp;&nbsp;Pretraži
                                 </button>
                             </div>
                         </div>
@@ -240,8 +240,8 @@ Vue.component('manager-orders', {
     mounted() {
         axios.get('../rest/managersOrders/')
         .then(response => {
-            this.orders = response.data;
-            console.log(this.orders);
+            this.allOrders = response.data;
+            this.orders = this.allOrders.slice();
         });
     },
     methods: {
@@ -280,7 +280,42 @@ Vue.component('manager-orders', {
 
         closeOrderDetails: function() {
             $('#orderDetails').modal('hide');
-        }
+        },
+
+
+        // SEARCH
+        search: function() {
+            while(this.orders.length)
+                this.orders.pop();
+
+            if(this.searchParams.priceFrom == undefined)
+                this.searchParams.priceFrom = Number.NEGATIVE_INFINITY;
+            if(this.searchParams.priceTo == undefined)
+                this.searchParams.priceTo = Number.POSITIVE_INFINITY;
+
+            if(this.searchParams.dateFrom == undefined)
+                this.searchParams.dateFrom = new Date(-8640000000000000);
+            else 
+                this.searchParams.dateFrom = Date.parse(this.searchParams.dateFrom);
+
+            if(this.searchParams.dateTo == undefined)
+                this.searchParams.dateTo = new Date(8640000000000000);
+            else{
+                this.searchParams.dateTo = Date.parse(this.searchParams.dateTo);
+                this.searchParams.dateTo = this.searchParams.dateTo + 86400000;
+            }
+                
+
+            for(let order of this.allOrders){
+                if(order.order.time >= this.searchParams.dateFrom && order.order.time <= this.searchParams.dateTo){
+                    if(order.order.price >= this.searchParams.priceFrom && order.order.price <= this.searchParams.priceTo){
+                        this.orders.push(order);
+                    }
+                }  
+            }
+
+            this.searchParams = { priceFrom: undefined, priceTo: undefined, dateFrom: undefined, dateTo: undefined};
+        },
     },
 
     filters: {
