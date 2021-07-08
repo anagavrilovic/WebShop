@@ -33,13 +33,13 @@ public class ShoppingService {
 	@Path("/addToCart")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void addToCart(CartItemDTO cartItem, @Context HttpServletRequest req) {
+	public User addToCart(CartItemDTO cartItem, @Context HttpServletRequest req) {
 		ShoppingDAO dao = (ShoppingDAO)ctx.getAttribute("shoppingDAO");
 
 		HttpSession session= req.getSession(true);
         User user = (User)session.getAttribute("user");
         
-        dao.addToBuyerCart(user, cartItem);
+        return dao.addToBuyerCart(user, cartItem);
 		
 		
 	}

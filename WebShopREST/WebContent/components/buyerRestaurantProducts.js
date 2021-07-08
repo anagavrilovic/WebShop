@@ -100,7 +100,12 @@ Vue.component("restaurant-products", {
             this.cartItem.quantity = this.cartItem.quantity + 1;
         },
         addToCart: function(e){
-            
+            e.preventDefault();
+            axios.post('../rest/shopping/addToCart', this.cartItem)
+                .then(response => {
+                    console.log(response.data);
+                });
+            $('#orderProduct').modal('hide');
         }
     }
 })
