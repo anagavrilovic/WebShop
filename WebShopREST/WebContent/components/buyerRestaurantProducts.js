@@ -11,19 +11,19 @@ Vue.component("restaurant-products", {
         `
         <div>
             <!-- Modal popup -->
-            <div v-if="product !== null" class="modal fade" id="orderProduct">
+            <div v-if="cartItem.product !== null" class="modal fade" id="orderProduct">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header justify-content-center">
-                            <img :src="product.imagePath" style="height: 200px; width: auto;">
+                            <img :src="cartItem.product.imagePath" style="height: 200px; width: auto;">
                         </div>
                         <div class="modal-body text-center rounded" style="background-color: #f2f2f2;">
-                            <h2 class="product-name">{{product.name}}</h2>
-                            <h5 class="product-price-dialog">{{product.price}}</h5>
+                            <h2 class="product-name">{{cartItem.product.name}}</h2>
+                            <h5 class="product-price-dialog">{{cartItem.product.price}}</h5>
                             <div class="itemQuantity">
                                 <span>
                                     <button class="btn btn-secondary rounded-circle addRemoveItem" v-on:click="decreaseQuantity"
-                                        v-bind:class="{disabled : cartItem.quantity === 0}">
+                                        v-bind:class="{disabled : cartItem.quantity === 1}">
                                         <img src="../images/minus.png" style="margin-top: -10px;">
                                     </button>
                                 </span>
@@ -87,9 +87,7 @@ Vue.component("restaurant-products", {
             e.target.classList.remove("shadow-lg");
         },
         openModalForOrderingProduct: function(product) {
-            this.product = product;
             this.cartItem.product = product;
-            this.cartItem.quantity = 0;
             $('#orderProduct').modal('show');
         },
         decreaseQuantity: function(e) {

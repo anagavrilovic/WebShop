@@ -1,1 +1,65 @@
-[{"username":"baca","password":"baca","firstName":"Bamzo","lastName":"Bamzigrad","gender":"MALE","dateOfBirth":695088000000,"role":"BUYER","collectedPoints":0,"isDeleted":false,"isBlocked":false,"buyerType":{"buyerTypeName":"REGULAR","discount":0.0,"requiredPointsForUpgrade":1000},"shoppingCart":{"items":{"106ae5d8-3c9d-4312-ac08-902dbb26b518":12,"8a6767cd-76d1-4a99-80d4-36999faac3ba":1,"40feccee-f052-48c9-a3a8-b6c185c11bc0":2},"totalPrice":2000.0}},{"username":"srki","password":"srki","firstName":"Srdjan","lastName":"Sukovic","gender":"MALE","dateOfBirth":947548800000,"role":"BUYER","collectedPoints":0,"isDeleted":false,"isBlocked":false,"buyerType":{"buyerTypeName":"REGULAR","discount":0.0,"requiredPointsForUpgrade":1000},"shoppingCart":{"items":{},"totalPrice":0.0}},{"username":"anci","password":"anci","firstName":"Ana","lastName":"Gavrilovic","gender":"FEMALE","dateOfBirth":938044800000,"role":"BUYER","collectedPoints":0,"isDeleted":false,"isBlocked":false,"buyerType":{"buyerTypeName":"REGULAR","discount":0.0,"requiredPointsForUpgrade":1000},"shoppingCart":{"items":{},"totalPrice":0.0}}]
+[
+    {
+        "username": "baca",
+        "password": "baca",
+        "firstName": "Bamzo",
+        "lastName": "Bamzigrad",
+        "gender": "MALE",
+        "dateOfBirth": 695088000000,
+        "role": "BUYER",
+        "collectedPoints": 0,
+        "isDeleted": false,
+        "isBlocked": false,
+        "buyerType": {
+            "buyerTypeName": "REGULAR",
+            "discount": 0.0,
+            "requiredPointsForUpgrade": 1000
+        },
+        "shoppingCart": {
+            "items": {},
+            "totalPrice": 0.0
+        }
+    },
+    {
+        "username": "srki",
+        "password": "srki",
+        "firstName": "Srdjan",
+        "lastName": "Sukovic",
+        "gender": "MALE",
+        "dateOfBirth": 947548800000,
+        "role": "BUYER",
+        "collectedPoints": 0,
+        "isDeleted": false,
+        "isBlocked": false,
+        "buyerType": {
+            "buyerTypeName": "REGULAR",
+            "discount": 0.0,
+            "requiredPointsForUpgrade": 1000
+        },
+        "shoppingCart": {
+            "items": {},
+            "totalPrice": 0.0
+        }
+    },
+    {
+        "username": "anci",
+        "password": "anci",
+        "firstName": "Ana",
+        "lastName": "Gavrilovic",
+        "gender": "FEMALE",
+        "dateOfBirth": 938044800000,
+        "role": "BUYER",
+        "collectedPoints": 0,
+        "isDeleted": false,
+        "isBlocked": false,
+        "buyerType": {
+            "buyerTypeName": "REGULAR",
+            "discount": 0.0,
+            "requiredPointsForUpgrade": 1000
+        },
+        "shoppingCart": {
+            "items": {},
+            "totalPrice": 0.0
+        }
+    }
+]
