@@ -74,6 +74,10 @@ var app = new Vue({
             }
         },
 
+        myProfile: function() {
+            window.location.href = "../html/myProfile.html";
+        },
+
         logOut: function() {
             axios.post('../rest/login/logout')
                 .then(response => {

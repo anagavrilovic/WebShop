@@ -40,6 +40,38 @@ public class UserService {
 		}
 	}
 	
+	@POST
+	@Path("/updateBuyer")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void updateBuyer(Buyer user) {
+		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		dao.updateBuyer(user);
+	}
+	
+	@POST
+	@Path("/updateDeliverer")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void updateDeliverer(Deliverer user) {
+		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		dao.updateDeliverer(user);
+	}
+	
+	@POST
+	@Path("/updateManager")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void updateManager(Manager user) {
+		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		dao.updateManager(user);
+	}
+	
+	@POST
+	@Path("/updateAdministrator")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void updateAdministrator(Administrator user) {
+		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		dao.updateAdministrator(user);
+	}
+	
 	@GET
 	@Path("/getAdministrators")
 	@Produces(MediaType.APPLICATION_JSON)

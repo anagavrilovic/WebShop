@@ -65,6 +65,7 @@ public class UserDAO {
 		}
 		return null;
 	}
+
 	
 	private void saveManager(Manager manager) {
 		ArrayList<Manager> managers = getAllManagers();
@@ -141,5 +142,87 @@ public class UserDAO {
 		
 		return managersWithRestaurants;
 	}
+
+	public void updateDeliverer(Deliverer user) {
+		ArrayList<Deliverer> deliverers = getAllDeliverers();
+		for(Deliverer u : deliverers) {
+			if(u.getUsername().equals(user.getUsername())) {
+				u.setFirstName(user.getFirstName());
+				u.setLastName(user.getLastName());
+				u.setDateOfBirth(user.getDateOfBirth());
+				u.setGender(user.getGender());
+				u.setPassword(user.getPassword());
+				break;
+			}
+		}
+		
+		try {
+			objectMapper.writeValue(new File("resources/deliverers.json"), deliverers);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+
+	public void updateBuyer(Buyer user) {
+		ArrayList<Buyer> buyers = getAllBuyers();
+		for(Buyer u : buyers) {
+			if(u.getUsername().equals(user.getUsername())) {
+				u.setFirstName(user.getFirstName());
+				u.setLastName(user.getLastName());
+				u.setDateOfBirth(user.getDateOfBirth());
+				u.setGender(user.getGender());
+				u.setPassword(user.getPassword());
+				break;
+			}
+		}
+		
+		try {
+			objectMapper.writeValue(new File("resources/buyers.json"), buyers);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+	}
+
+	public void updateManager(Manager user) {
+		ArrayList<Manager> managers = getAllManagers();
+		for(Manager u : managers) {
+			if(u.getUsername().equals(user.getUsername())) {
+				u.setFirstName(user.getFirstName());
+				u.setLastName(user.getLastName());
+				u.setDateOfBirth(user.getDateOfBirth());
+				u.setGender(user.getGender());
+				u.setPassword(user.getPassword());
+				break;
+			}
+		}
+		
+		try {
+			objectMapper.writeValue(new File("resources/managers.json"), managers);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+
+	public void updateAdministrator(Administrator user) {
+		ArrayList<Administrator> administrators = getAllAdministrators();
+		for(Administrator u : administrators) {
+			if(u.getUsername().equals(user.getUsername())) {
+				u.setFirstName(user.getFirstName());
+				u.setLastName(user.getLastName());
+				u.setDateOfBirth(user.getDateOfBirth());
+				u.setGender(user.getGender());
+				u.setPassword(user.getPassword());
+				break;
+			}
+		}
+		
+		try {
+			objectMapper.writeValue(new File("resources/administrators.json"), administrators);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+
 
 }

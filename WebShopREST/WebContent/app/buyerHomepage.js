@@ -60,6 +60,10 @@ var app = new Vue({
             window.location.href = '../html/buyerMyCart.html';
         },
 
+        myProfile: function() {
+            window.location.href = "../html/myProfile.html";
+        },
+
         logOut: function() {
             axios.post('../rest/login/logout')
                 .then(response => {

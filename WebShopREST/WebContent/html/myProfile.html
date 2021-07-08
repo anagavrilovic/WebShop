@@ -17,36 +17,115 @@
     <div id="page">
 
         <!-- Navigation bar -->
-        <nav class="navbar mynavbar1 fixed-top navbar-expand-lg navbar-dark p-md-3">
-            <div class="container">
-                <a href="../html/buyerHomepage.html" class="navbar-brand navbar-item-style">
-                    LOGO
-                </a>
-                <div>
-                    <div class="mx-auto"></div>
-                    <ul class="navbar-nav">
-                        <li class="nav-item text-center" style="width: 100px;"><a href="#" class="nav-link text-white navbar-item-style disabled">Uloga</a></li>
-                        <li class="nav-item text-center">
-                            <a href="#" class="nav-link text-white navbar-item-style">
-                                <img src="../images/userWhite.png" class="my-profile" height="20px">&ensp;Moj profil
-                            </a>
-                        </li>
-                        <!--<li class="nav-item text-center" v-on:click="openMyCart">
-                            <a href="#" class="nav-link text-white navbar-item-style">
-                                <img src="../images/cart.png" class="my-profile">&ensp;Moja korpa
-                            </a>
-                        </li>-->
-                    </ul>
+        <div v-if="user !== null && userBackup !== null">
+            <nav v-if="user.role == 'ADMINISTRATOR'" class="navbar mynavbar1 fixed-top navbar-expand-lg navbar-dark p-md-3">
+                <div class="container">
+                    <a href="../html/buyerHomepage.html" class="navbar-brand navbar-item-style" @click="goToHomepage">
+                        LOGO
+                    </a>
+                    <div>
+                        <div class="mx-auto"></div>
+                        <ul class="navbar-nav">
+                            <li class="nav-item text-center"><a href="#" class="nav-link text-white navbar-item-style disabled">Administrator</a></li>
+                            <li class="nav-item text-center" @click="goToMyProfile">
+                                <a href="#" class="nav-link text-white navbar-item-style">
+                                    <img src="../images/userWhite.png" class="my-profile" height="20px">&ensp;Moj profil
+                                </a>
+                            </li>
+                            <li class="nav-item text-center" @click="logOut">
+                                <a href="#" class="nav-link text-white navbar-item-style">
+                                    <img src="../images/logout.png" class="my-profile" height="20px">&ensp;Izloguj se
+                                </a>
+                            </li>  
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
-
+            </nav>
+    
+            <nav v-if="user.role == 'MANAGER'" class="navbar mynavbar1 fixed-top navbar-expand-lg navbar-dark p-md-3">
+                <div class="container">
+                    <a href="../html/buyerHomepage.html" class="navbar-brand navbar-item-style" @click="goToHomepage">
+                        LOGO
+                    </a>
+                    <div>
+                        <div class="mx-auto"></div>
+                        <ul class="navbar-nav">
+                            <li class="nav-item text-center"><a href="#" class="nav-link text-white navbar-item-style disabled">Menadžer</a></li>
+                            <li class="nav-item text-center" @click="goToMyProfile">
+                                <a href="#" class="nav-link text-white navbar-item-style">
+                                    <img src="../images/userWhite.png" class="my-profile" height="20px">&ensp;Moj profil
+                                </a>
+                            </li>
+                            <li class="nav-item text-center" @click="logOut">
+                                <a href="#" class="nav-link text-white navbar-item-style">
+                                    <img src="../images/logout.png" class="my-profile" height="20px">&ensp;Izloguj se
+                                </a>
+                            </li>  
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+    
+            <nav v-if="user.role == 'BUYER'" class="navbar mynavbar1 fixed-top navbar-expand-lg navbar-dark p-md-3">
+                <div class="container">
+                    <a href="../html/buyerHomepage.html" class="navbar-brand navbar-item-style" @click="goToHomepage">
+                        LOGO
+                    </a>
+                    <div>
+                        <div class="mx-auto"></div>
+                        <ul class="navbar-nav">
+                            <li class="nav-item text-center"><a href="#" class="nav-link text-white navbar-item-style disabled">Kupac</a></li>
+                            <li class="nav-item text-center" @click="goToMyProfile">
+                                <a href="#" class="nav-link text-white navbar-item-style">
+                                    <img src="../images/userWhite.png" class="my-profile" height="20px">&ensp;Moj profil
+                                </a>
+                            </li>
+                            <li class="nav-item text-center" @click="openMyCart">
+                                <a href="#" class="nav-link text-white navbar-item-style">
+                                    <img src="../images/cart.png" class="my-profile">&ensp;Moja korpa
+                                </a>
+                            </li>
+                            <li class="nav-item text-center" @click="logOut">
+                                <a href="#" class="nav-link text-white navbar-item-style">
+                                    <img src="../images/logout.png" class="my-profile" height="20px">&ensp;Izloguj se
+                                </a>
+                            </li>  
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+    
+            <nav v-if="user.role == 'DELIVERER'" class="navbar mynavbar1 fixed-top navbar-expand-lg navbar-dark p-md-3">
+                <div class="container">
+                    <a href="../html/buyerHomepage.html" class="navbar-brand navbar-item-style" @click="goToHomepage">
+                        LOGO
+                    </a>
+                    <div>
+                        <div class="mx-auto"></div>
+                        <ul class="navbar-nav">
+                            <li class="nav-item text-center"><a href="#" class="nav-link text-white navbar-item-style disabled">Dostavljač</a></li>
+                            <li class="nav-item text-center" @click="goToMyProfile">
+                                <a href="#" class="nav-link text-white navbar-item-style">
+                                    <img src="../images/userWhite.png" class="my-profile" height="20px">&ensp;Moj profil
+                                </a>
+                            </li>
+                            <li class="nav-item text-center" @click="logOut">
+                                <a href="#" class="nav-link text-white navbar-item-style">
+                                    <img src="../images/logout.png" class="my-profile" height="20px">&ensp;Izloguj se
+                                </a>
+                            </li>  
+                        </ul>
+                    </div>
+                </div>
+            </nav>    
+        </div>
+        
         <!-- Cover image -->
         <div class="cover-image w-100 d-flex justify-content-center align-items-center" >
         </div>
 
         <!-- Content -->
-        <div class="container py-5 px-5">
+        <div class="container py-5" style="padding-left: 100px; padding-right: 100px;">
 
             <h1 class="my-profile-title">Moj profil</h1>
             <button class="btn float-end btn-edit" v-on:click="editMyProfile">
@@ -55,26 +134,28 @@
             <br/><br/>
 
             <div class="row">
-                    <div class="card shadow" style="height: 420px; cursor: default;">
+                    <div class="card shadow" style="height: 420px; cursor: default; " v-if="user !== null && userBackup !== null">
                         
-                        <form id="editForm">
+                        <form id="editForm" v-on:submit="acceptEditing">
                             <div class="row my-5">
                                 <div class="col-md-6 column-left-padding">
                                     <label for="inputFirstName">Ime:</label>
                                     <div class="form-group input-field">
-                                        <input type="text" class="form-control input-field" required="required" id="inputFirstName" >
+                                        <input type="text" class="form-control input-field" required="required" id="inputFirstName" 
+                                            v-model="user.firstName" disabled="true">
                                     </div>
                                     <br/>
 
                                     <label for="inputLastName">Prezime:</label>
                                     <div class="form-group">
-                                        <input type="text" class="form-control input-field" required="required" id="inputLastName" >					
+                                        <input type="text" class="form-control input-field" required="required" id="inputLastName" 
+                                            v-model="user.lastName" disabled="true">					
                                     </div>
                                     <br/>
 
                                     <label for="inputGender">Pol:</label>
                                     <div class="form-group">
-                                        <select class="form-select input-field" area-label="Pol" id="inputGender" >
+                                        <select class="form-select input-field" area-label="Pol" id="inputGender" v-model="user.gender" disabled="true">
                                             <option value="0">Muški</option>
                                             <option value="1">Ženski</option>
                                         </select>					
@@ -82,26 +163,27 @@
 
                                     <div class="form-group submitButton float-end my-5">
                                         <input type="submit" class="btn btn-primary " value="Potvrdi" id="submitButton" style="width: 100px;"
-                                            v-on:click="acceptEditing">
+                                             disabled="true">
                                     </div>
+                                    <p style="color: red; font-size: smaller;" class="text-center">{{errrorMessage}}</p>
                                     <br/>
                                 </div>
                                 <div class="col-md-6 column-right-padding">
                                     <label for="inputDateOfBirth">Datum rođenja:</label>
                                     <div class="form-group input-field">
-                                        <input type="date" class="form-control input-field" required="required" id="inputDateOfBirth" >
+                                        <input type="date" class="form-control input-field" required="required" id="inputDateOfBirth" v-model="user.dateOfBirth" disabled="true">
                                     </div>
                                     <br/>
 
                                     <label for="inputUsername">Korisničko ime:</label>
                                     <div class="form-group">
-                                        <input type="text" class="form-control input-field" required="required" id="inputUsername" >					
+                                        <input type="text" class="form-control input-field" id="usernameInput" required="required" id="inputUsername" v-model="user.username" disabled="true">					
                                     </div>
                                     <br/>
 
                                     <label for="inputPassword">Lozinka:</label>
                                     <div class="form-group">
-                                        <input type="password" class="form-control input-field" required="required" id="inputPassword" >					
+                                        <input type="password" class="form-control input-field" required="required" id="inputPassword" v-model="user.password" disabled="true">					
                                     </div>
 
                                     <button type="button" class="btn btn-cancel  my-5" v-on:click="cancelEditing">Odustani</button>
@@ -131,6 +213,7 @@
     <script src="../bootstrap/js/bootstrap.min.js"></script>
     <script src="../js/vue.js"></script>
 	<script src="../js/vue-router.js"></script>
+    <script src="../js/moment.min.js"></script>
 	<script src="../js/axios.js"></script>
     <script src="../app/myProfile.js"></script>
     
