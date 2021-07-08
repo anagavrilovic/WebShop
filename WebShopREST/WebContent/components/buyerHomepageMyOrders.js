@@ -47,18 +47,18 @@ Vue.component('my-orders', {
                             <button class="btn float-end" v-on:click="closeOrderDetails"><img src="../images/x.png"></button>
                         </div>
                         <div class="modal-body rounded"  style="background-color: #f2f2f2;">
-                            <span v-if="order.status === 0" class="product-description">
+                            <span v-if="order.status == 'PROCESSING'" class="product-description">
                                 Status: Obrada
                                 <button class="btn btn-primary float-end">Otkaži porudžbinu</button>
                                 <hr style="margin-top: 40px; margin-bottom: 20px;"/>
                             </span>
-                            <span v-if="order.status === 1" class="product-description">Status: U pripremi</span>
-                            <span v-if="order.status === 2" class="product-description">Status: Čeka dostavljača</span>
-                            <span v-if="order.status === 3" class="product-description">Status: U transportu</span>
-                            <span v-if="order.status === 4" class="product-description">Status: Dostavljena</span>
-                            <span v-if="order.status === 5" class="product-description">Status: Otkazana</span>
+                            <span v-if="order.status == 'PREPARING'" class="product-description">Status: U pripremi</span>
+                            <span v-if="order.status == 'WAITING_FOR_DELIVERER'" class="product-description">Status: Čeka dostavljača</span>
+                            <span v-if="order.status == 'IN_TRANSPORT'" class="product-description">Status: U transportu</span>
+                            <span v-if="order.status == 'DELIVERED'" class="product-description">Status: Dostavljena</span>
+                            <span v-if="order.status == 'CANCELED'" class="product-description">Status: Otkazana</span>
 
-                            <hr v-if="order.status !== 0" style="margin-top: 20px; margin-bottom: 20px;"/>
+                            <hr v-if="order.status != 'PROCESSING'" style="margin-top: 20px; margin-bottom: 20px;"/>
                             <div class="my-2">
                                 <h1 class="orderID">Poručeni proizvodi</h1>
                             </div>
@@ -213,26 +213,26 @@ Vue.component('my-orders', {
                                                 <div class="row p-4 ">
                                                 <div class="col-md-6">
                                                         <h1 class="orderID">PORUDŽBINA {{o.id}}</h1>
-                                                        <p style="margin-top: 15px;">{{o.time}}</p>
+                                                        <p style="margin-top: 15px;">{{o.time | dateFormat('DD.MM.YYYY.')}}</p>
                                                         <p style="margin-top: -13px;">Restoran: {{o.restaurantName}}</p>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <p v-if="o.status === 0" class="text-end">
+                                                    <p v-if="o.status == 'PROCESSING'" class="text-end">
                                                         <span style="color: #c29de0;"><img src="../images/processing.png"> Obrada</span>
                                                     </p>
-                                                    <p v-if="o.status === 1" class="text-end">
+                                                    <p v-if="o.status == 'PREPARING'" class="text-end">
                                                             <span style="color: #5493ff;"><img src="../images/preparing.png"> U pripremi</span>
                                                         </p>
-                                                        <p v-if="o.status === 2" class="text-end">
+                                                        <p v-if="o.status == 'WAITING_FOR_DELIVERER'" class="text-end">
                                                             <span style="color: #80B0CF;"><img src="../images/waitingForDeliverer.png"> Čeka dostavljača</span>
                                                         </p>
-                                                        <p v-if="o.status === 3" class="text-end">
+                                                        <p v-if="o.status == 'IN_TRANSPORT'" class="text-end">
                                                             <span style="color: #ffb854;"><img src="../images/inTransport.png"> U transportu</span>
                                                         </p>
-                                                        <p v-if="o.status === 4" class="text-end">
+                                                        <p v-if="o.status == 'DELIVERED'" class="text-end">
                                                             <span style="color: #27c250;"><img src="../images/delivered.png"> Dostavljena</span>
                                                         </p>
-                                                        <p v-if="o.status === 5" class="text-end">
+                                                        <p v-if="o.status == 'CANCELED'" class="text-end">
                                                             <span style="color: #ff0000;"><img src="../images/canceled.png"> Otkazana</span>
                                                         </p>
                                                         <p class="text-end" style="margin-top: -3px;">{{o.price}}</p>
@@ -250,14 +250,11 @@ Vue.component('my-orders', {
             </div>
         </div>`,
     mounted() {
-        this.orders = [
-            {id: '1234567897', restaurantName: 'KFC', time: '12.3.2012. 15:00', status: 0, price: '500.00 RSD'},
-            {id: '1234567897', restaurantName: 'KFC', time: '12.3.2012. 15:00', status: 1, price: '500.00 RSD'},
-            {id: '1234567897', restaurantName: 'KFC', time: '12.3.2012. 15:00', status: 2, price: '500.00 RSD'},
-            {id: '1234567897', restaurantName: 'KFC', time: '12.3.2012. 15:00', status: 3, price: '500.00 RSD'},
-            {id: '1234567897', restaurantName: 'KFC', time: '12.3.2012. 15:00', status: 4, price: '500.00 RSD'},
-            {id: '1234567897', restaurantName: 'KFC', time: '12.3.2012. 15:00', status: 5, price: '500.00 RSD'}
-        ],
+        axios.get('../rest/buyerOrders/getBuyerOrders/')
+            .then(response => {
+                this.orders = response.data;
+            });
+
         this.items = [
             {name: 'Mali giros', description: 'Neki opis malog girosa', price: '230.00 RSD', image: '../images/girosMasterGiros.png'},
             {name: 'Pomfrit', description: 'Neki opis pomfrita', price: '120.00 RSD', image: '../images/girosMasterPomfrit.png'},
@@ -310,5 +307,11 @@ Vue.component('my-orders', {
         closeCommentDialog: function() {
             $('#leaveCommentPopup').modal('hide');
         },
+    },
+    filters: {
+        dateFormat: function(value, format){
+            var parsed = moment(value);
+            return parsed.format(format);
+        }
     }
 });

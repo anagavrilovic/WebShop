@@ -16,6 +16,7 @@ import beans.Order;
 import beans.User;
 import dao.BuyerOrderDAO;
 import dao.ShoppingDAO;
+import dto.BuyersOrderDTO;
 import dto.CartItemDTO;
 
 @Path("/buyerOrders")
@@ -33,7 +34,7 @@ public class BuyerOrderService {
 	@GET
 	@Path("/getBuyerOrders")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<Order> getBuyerOrders(@Context HttpServletRequest req) {
+	public ArrayList<BuyersOrderDTO> getBuyerOrders(@Context HttpServletRequest req) {
 		BuyerOrderDAO dao = (BuyerOrderDAO)ctx.getAttribute("buyerOrdersDAO");
 
 		HttpSession session= req.getSession(true);
