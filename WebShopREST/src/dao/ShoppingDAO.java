@@ -243,24 +243,24 @@ public class ShoppingDAO {
 			items = new HashMap<String, Integer>();
 		}
 		
-
-		
 		String firstKey = (String)items.keySet().toArray()[0];
 		String restaurantId = this.getItemByID(firstKey).getRestaurantID();
 		double totalPrice = cart.getTotalPrice();
 		Date date = new Date(); 
-		System.out.println(date);
 		
 		Order order = new Order(date, totalPrice, OrderStatus.PREPARING, restaurantId);
 		
 		ArrayList<OrderItem> orderItems = new ArrayList<OrderItem>();
 		
 		for (Map.Entry<String,Integer> entry : items.entrySet()) {
-			orderItems.add(new OrderItem(order.getId(), entry.getKey()));
+			orderItems.add(new OrderItem(order.getId(), entry.getKey(), entry.getValue()));
 		}
 		
 		this.addNewOrder(order);
 		this.addNewOrderItems(orderItems);
+		
+		buyer.setShoppingCart(new ShoppingCart());
+		this.updateBuyer(buyer);
 		
 		return order;
 	}

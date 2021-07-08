@@ -95,7 +95,17 @@ var app = new Vue({
             axios.get('../rest/shopping/finishOrder')
                 .then(response => {
                     console.log(response.data);
+                    window.location.href = "../html/buyerHomepage.html#/myOrders";
+                    alert('Porudžbina uspešno kreirana.');
                 });
+        },
+        updateShoppingCart: function(){
+            axios.get('../rest/shopping/getCartItems')
+            .then(response => {
+                console.log(response.data)
+                this.cart = response.data;
+                this.calculateTotalPrice();
+            });
         }
     }
 });
