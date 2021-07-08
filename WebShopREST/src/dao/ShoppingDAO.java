@@ -248,7 +248,7 @@ public class ShoppingDAO {
 		double totalPrice = cart.getTotalPrice();
 		Date date = new Date(); 
 		
-		Order order = new Order(date, totalPrice, OrderStatus.PROCESSING, restaurantId);
+		Order order = new Order(date, totalPrice, OrderStatus.PROCESSING, restaurantId, buyer.getUsername());
 		int orderSize = this.getOrders().size();
 		order.setId(this.generateOrderID(orderSize));
 		
@@ -335,6 +335,7 @@ public class ShoppingDAO {
 		sb.append(id);
 		return sb.toString();
 	}
+
 	
 	
 

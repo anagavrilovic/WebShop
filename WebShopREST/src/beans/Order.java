@@ -9,16 +9,25 @@ public class Order {
    private double price;
    private OrderStatus status;
    private String restaurantID;
-   
+   private String buyersUsername;
    
    public Order() {}
    
-	public Order(Date time, double price, OrderStatus status, String restaurantID) {
+	public Order(Date time, double price, OrderStatus status, String restaurantID, String buyersUsername) {
 		super();
 		this.time = time;
 		this.price = price;
 		this.status = status;
 		this.restaurantID = restaurantID;
+		this.buyersUsername = buyersUsername;
+	}
+
+	public String getBuyersUsername() {
+		return buyersUsername;
+	}
+
+	public void setBuyersUsername(String buyersUsername) {
+		this.buyersUsername = buyersUsername;
 	}
 
 	public String getId() {
