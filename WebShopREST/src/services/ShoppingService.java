@@ -87,4 +87,18 @@ public class ShoppingService {
         
         return dao.getCartItems(user);
 	}
+	
+	@POST
+	@Path("/isCartUnique")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Boolean isCartUnique(CartItemDTO cartItem, @Context HttpServletRequest req) {
+		ShoppingDAO dao = (ShoppingDAO)ctx.getAttribute("shoppingDAO");
+
+		HttpSession session= req.getSession(true);
+        User user = (User)session.getAttribute("user");
+        
+        return dao.isCartUnique(user, cartItem);
+
+	}
 }

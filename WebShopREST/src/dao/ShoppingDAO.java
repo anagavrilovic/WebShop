@@ -198,4 +198,27 @@ public class ShoppingDAO {
 		return updateBuyer(buyer);
 	}
 
+	public Boolean isCartUnique(User user, CartItemDTO cartItem) {
+		Buyer buyer = (Buyer)user;
+		ShoppingCart cart = buyer.getShoppingCart();
+		
+		if(cart == null) {
+			cart = new ShoppingCart();
+		}
+		
+		HashMap<String, Integer> items = (HashMap<String, Integer>)cart.getItems();
+		
+		if(items == null) {
+			items = new HashMap<String, Integer>();
+		}
+		
+		
+		for (Map.Entry<String,Integer> entry : cart.getItems().entrySet()) {
+			if(!this.getItemByID(entry.getKey()).getRestaurantID().equals(cartItem.getProduct().getRestaurantID())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 }
