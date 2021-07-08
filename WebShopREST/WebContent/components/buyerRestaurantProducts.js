@@ -46,7 +46,7 @@ Vue.component("restaurant-products", {
                         <div class="card shadow" v-on:mouseenter="addHoverClass" v-on:mouseleave="removeHoverClass">
                             <div class="row">
                                 <div class="col-md-5">
-                                    <img :src="p.imagePath" class="card-img-top food-images" style="height: 200px;" :alt="p.name">
+                                    <img :src="p.imagePath" class="card-img-top food-images" style="height: 220px;" :alt="p.name">
                                 </div>
                                 <div class="col-md-7">
                                     <div class="card-body">
