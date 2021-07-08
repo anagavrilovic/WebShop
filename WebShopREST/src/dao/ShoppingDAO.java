@@ -120,8 +120,10 @@ public class ShoppingDAO {
 	public ArrayList<CartItemDTO> getCartItems(User user) {
 		ArrayList<CartItemDTO> dtos = new ArrayList<CartItemDTO>();
 		Buyer buyer = (Buyer)user;
+		ShoppingCart cart = null;
 		
-		ShoppingCart cart = buyer.getShoppingCart();
+		if(buyer != null)
+			cart = buyer.getShoppingCart();
 		
 		if(cart == null) {
 			cart = new ShoppingCart();
@@ -138,6 +140,85 @@ public class ShoppingDAO {
 		}
 		
 		return dtos;
+	}
+
+	public User updateBuyerCart(User user, CartItemDTO cartItem) {
+		Buyer buyer = (Buyer)user;
+		ShoppingCart cart = buyer.getShoppingCart();
+		
+		if(cart == null) {
+			cart = new ShoppingCart();
+		}
+		
+		HashMap<String, Integer> items = (HashMap<String, Integer>)cart.getItems();
+		
+		if(items == null) {
+			items = new HashMap<String, Integer>();
+		}
+		
+		for (Map.Entry<String,Integer> entry : cart.getItems().entrySet()) {
+			if(entry.getKey().equals(cartItem.getProduct().getId())) {
+				entry.setValue(cartItem.getQuantity());
+			}
+		}
+		
+		cart.setItems(items);
+		buyer.setShoppingCart(cart);
+		
+		
+		return updateBuyer(buyer);
+	}
+
+	public User removeFromCart(User user, CartItemDTO cartItem) {
+		Buyer buyer = (Buyer)user;
+		ShoppingCart cart = buyer.getShoppingCart();
+		
+		if(cart == null) {
+			cart = new ShoppingCart();
+		}
+		
+		HashMap<String, Integer> items = (HashMap<String, Integer>)cart.getItems();
+		
+		if(items == null) {
+			items = new HashMap<String, Integer>();
+		}
+		
+		String keyToRemove = "";
+		for (Map.Entry<String,Integer> entry : cart.getItems().entrySet()) {
+			if(entry.getKey().equals(cartItem.getProduct().getId())) {
+				keyToRemove = entry.getKey();
+			}
+		}
+		items.remove(keyToRemove);
+		
+		cart.setItems(items);
+		buyer.setShoppingCart(cart);
+		
+		
+		return updateBuyer(buyer);
+	}
+
+	public Boolean isCartUnique(User user, CartItemDTO cartItem) {
+		Buyer buyer = (Buyer)user;
+		ShoppingCart cart = buyer.getShoppingCart();
+		
+		if(cart == null) {
+			cart = new ShoppingCart();
+		}
+		
+		HashMap<String, Integer> items = (HashMap<String, Integer>)cart.getItems();
+		
+		if(items == null) {
+			items = new HashMap<String, Integer>();
+		}
+		
+		
+		for (Map.Entry<String,Integer> entry : cart.getItems().entrySet()) {
+			if(!this.getItemByID(entry.getKey()).getRestaurantID().equals(cartItem.getProduct().getRestaurantID())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

@@ -3,8 +3,8 @@ Vue.component("restaurant-products", {
         return {
             restaurant: null,
             products: null,
-            product: null,
-            cartItem : {product: null, quantity: 1}
+            cartItem : {product: null, quantity: 1},
+            uniqueMessage: ''
         }
     },
     template:
@@ -34,6 +34,7 @@ Vue.component("restaurant-products", {
                                     </button>
                                 </span>
                             </div>
+                            <p style="color: red; font-size: smaller;" class="text-center">{{uniqueMessage}}</p>
                             <button type="button" class="btn btn-primary" v-on:click="addToCart">Dodaj u korpu</button>
                         </div>
                     </div>
@@ -88,6 +89,7 @@ Vue.component("restaurant-products", {
         },
         openModalForOrderingProduct: function(product) {
             this.cartItem.product = product;
+            this.cartItem.quantity = 1;
             $('#orderProduct').modal('show');
         },
         decreaseQuantity: function(e) {
@@ -98,11 +100,21 @@ Vue.component("restaurant-products", {
         },
         addToCart: function(e){
             e.preventDefault();
-            axios.post('../rest/shopping/addToCart', this.cartItem)
+            axios.post('../rest/shopping/isCartUnique', this.cartItem)
                 .then(response => {
-                    console.log(response.data);
-                });
-            $('#orderProduct').modal('hide');
+                    if(response.data){
+                        axios.post('../rest/shopping/addToCart', this.cartItem)
+                        .then(response => {
+                            console.log(response.data);
+                        });
+                        $('#orderProduct').modal('hide');
+                    }
+                    else{
+                        this.uniqueMessage = 'Završite započetu kupovinu iz drugog restorana.';
+                        return;
+                    }
+                })
+
         }
     }
 })

@@ -1,7 +1,7 @@
 var app = new Vue({
     el: '#page',
     data: {
-        cart: {product: null, quantity: null},
+        cart: [{product: null, quantity: null}],
         totalPrice: 0
     },
     created() {
@@ -54,17 +54,29 @@ var app = new Vue({
         decreaseQuantity: function(item) {
             item.quantity = item.quantity - 1;
             this.calculateTotalPrice();
+            axios.post('../rest/shopping/updateCart', item)
+                .then(response => {
+                    console.log(response.data);
+                });
         },
 
         increaseQuantity: function(item) {
             item.quantity = item.quantity + 1;
             this.calculateTotalPrice();
+            axios.post('../rest/shopping/updateCart', item)
+                .then(response => {
+                    console.log(response.data);
+                });
         },
 
         removeItem: function(item) {
             let index = this.cart.indexOf(item);
             this.cart.splice(index, 1);
             this.calculateTotalPrice();
+            axios.post('../rest/shopping/removeFromCart', item)
+                .then(response => {
+                    console.log(response.data);
+                });
         },
 
         logOut: function() {
