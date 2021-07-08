@@ -326,7 +326,7 @@ public class ShoppingDAO {
 	}
 	
 	private String generateOrderID(int size) {
-		String id = size + "";
+		String id = size + 1 + "";
 		int numOfDigits = id.length();
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < (10 - numOfDigits); ++i) {
