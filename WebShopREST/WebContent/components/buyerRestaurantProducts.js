@@ -4,37 +4,37 @@ Vue.component("restaurant-products", {
             restaurant: null,
             products: null,
             product: null,
-            quantity: 1
+            cartItem : {product: null, quantity: 1}
         }
     },
     template:
         `
         <div>
             <!-- Modal popup -->
-            <div v-if="product !== null" class="modal fade" id="orderProduct">
+            <div v-if="cartItem.product !== null" class="modal fade" id="orderProduct">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header justify-content-center">
-                            <img :src="product.imagePath" style="height: 200px; width: auto;">
+                            <img :src="cartItem.product.imagePath" style="height: 200px; width: auto;">
                         </div>
                         <div class="modal-body text-center rounded" style="background-color: #f2f2f2;">
-                            <h2 class="product-name">{{product.name}}</h2>
-                            <h5 class="product-price-dialog">{{product.price}}</h5>
+                            <h2 class="product-name">{{cartItem.product.name}}</h2>
+                            <h5 class="product-price-dialog">{{cartItem.product.price}}</h5>
                             <div class="itemQuantity">
                                 <span>
                                     <button class="btn btn-secondary rounded-circle addRemoveItem" v-on:click="decreaseQuantity"
-                                        v-bind:class="{disabled : quantity === 1}">
+                                        v-bind:class="{disabled : cartItem.quantity === 1}">
                                         <img src="../images/minus.png" style="margin-top: -10px;">
                                     </button>
                                 </span>
-                                <span class="product-quantity">&emsp;{{quantity}}&emsp;</span>
+                                <span class="product-quantity">&emsp;{{cartItem.quantity}}&emsp;</span>
                                 <span>
                                     <button class="btn btn-secondary rounded-circle addRemoveItem" v-on:click="increaseQuantity">
                                         <img src="../images/plus.png" style="margin-top: -10px;">
                                     </button>
                                 </span>
                             </div>
-                            <button type="button" class="btn btn-primary">Dodaj u korpu</button>
+                            <button type="button" class="btn btn-primary" v-on:click="addToCart">Dodaj u korpu</button>
                         </div>
                     </div>
                 </div>
@@ -87,14 +87,22 @@ Vue.component("restaurant-products", {
             e.target.classList.remove("shadow-lg");
         },
         openModalForOrderingProduct: function(product) {
-            this.product = product;
+            this.cartItem.product = product;
             $('#orderProduct').modal('show');
         },
         decreaseQuantity: function(e) {
-            this.quantity = this.quantity - 1;
+            this.cartItem.quantity = this.cartItem.quantity - 1;
         },
         increaseQuantity: function(e) {
-            this.quantity = this.quantity + 1;
+            this.cartItem.quantity = this.cartItem.quantity + 1;
+        },
+        addToCart: function(e){
+            e.preventDefault();
+            axios.post('../rest/shopping/addToCart', this.cartItem)
+                .then(response => {
+                    console.log(response.data);
+                });
+            $('#orderProduct').modal('hide');
         }
     }
 })
