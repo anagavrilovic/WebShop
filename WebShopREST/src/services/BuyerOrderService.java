@@ -54,4 +54,12 @@ public class BuyerOrderService {
 		BuyerOrderDAO dao = (BuyerOrderDAO) ctx.getAttribute("buyerOrdersDAO");
 		return dao.getItemsByOrderId(id);
 	}
+	
+	@GET
+	@Path("/cancelOrder/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Order cancelOrder(@PathParam("id") String id) {
+		BuyerOrderDAO dao = (BuyerOrderDAO) ctx.getAttribute("buyerOrdersDAO");
+		return dao.cancelOrder(id);
+	}
 }

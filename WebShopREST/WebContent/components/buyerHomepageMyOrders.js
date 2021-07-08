@@ -51,7 +51,7 @@ Vue.component('my-orders', {
                         <div class="modal-body rounded"  style="background-color: #f2f2f2;">
                             <span v-if="order.status == 'PROCESSING'" class="product-description">
                                 Status: Obrada
-                                <button class="btn btn-primary float-end">Otkaži porudžbinu</button>
+                                <button class="btn btn-primary float-end" v-on:click="cancelOrder">Otkaži porudžbinu</button>
                                 <hr style="margin-top: 40px; margin-bottom: 20px;"/>
                             </span>
                             <span v-if="order.status == 'PREPARING'" class="product-description">Status: U pripremi</span>
@@ -361,6 +361,13 @@ Vue.component('my-orders', {
         },
         sortOrderTimeDescending: function(){
             this.orders.sort(compareOrderTimeDescending);
+        },
+        cancelOrder: function(){
+            this.order.status = 'CANCELED';
+            axios.get('../rest/buyerOrders/cancelOrder/' + this.order.id)
+            .then(response => {
+                console.log(response.data);
+            });
         }
     },
     filters: {

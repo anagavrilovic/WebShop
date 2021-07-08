@@ -309,7 +309,7 @@ public class ShoppingDAO {
 		this.saveOrderItems(allOrderItems);
 	}
 	
-	private void saveOrders(ArrayList<Order> orders) {
+	public void saveOrders(ArrayList<Order> orders) {
 		try {
 			objectMapper.writeValue(new File("resources/orders.json"), orders);
 		} catch (Exception e) {
@@ -317,7 +317,7 @@ public class ShoppingDAO {
 		} 
 	}
 	
-	private void saveOrderItems(ArrayList<OrderItem> orderItems) {
+	public void saveOrderItems(ArrayList<OrderItem> orderItems) {
 		try {
 			objectMapper.writeValue(new File("resources/orderItems.json"), orderItems);
 		} catch (Exception e) {
@@ -325,7 +325,7 @@ public class ShoppingDAO {
 		} 
 	}
 	
-	private String generateOrderID(int size) {
+	public String generateOrderID(int size) {
 		String id = size + 1 + "";
 		int numOfDigits = id.length();
 		StringBuilder sb = new StringBuilder();

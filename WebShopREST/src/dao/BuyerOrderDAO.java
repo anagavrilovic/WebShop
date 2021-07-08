@@ -6,8 +6,10 @@ import java.util.Arrays;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import beans.Buyer;
 import beans.Order;
 import beans.OrderItem;
+import beans.OrderStatus;
 import beans.User;
 import dto.BuyersOrderDTO;
 import dto.CartItemDTO;
@@ -57,5 +59,33 @@ public class BuyerOrderDAO {
 			}
 		}
 		return cartItems;
+	}
+
+	public Order cancelOrder(String id) {
+		Order order = getOrderById(id);
+		order.setStatus(OrderStatus.CANCELED);
+		return this.updateOrder(order);
+	}
+	
+	public Order getOrderById(String id) {
+		ArrayList<Order> orders = shoppingDAO.getOrders();
+		for(Order o : orders) {
+			if(o.getId().equals(id))
+				return o;
+		}
+		return null;
+	}
+	
+	public Order updateOrder(Order order) {
+		ArrayList<Order> allOrders = shoppingDAO.getOrders();
+		int idx = -1;
+		for(Order o : allOrders) {
+			if(o.getId().equals(order.getId())) {
+				idx = allOrders.indexOf(o);
+			}
+		}
+		allOrders.set(idx, order);
+		this.shoppingDAO.saveOrders(allOrders);
+		return order;
 	}
 }
