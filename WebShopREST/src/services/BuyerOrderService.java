@@ -8,13 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.Order;
+import beans.Restaurant;
 import beans.User;
 import dao.BuyerOrderDAO;
+import dao.RestaurantDAO;
 import dao.ShoppingDAO;
 import dto.BuyersOrderDTO;
 import dto.CartItemDTO;
@@ -39,7 +42,16 @@ public class BuyerOrderService {
 
 		HttpSession session= req.getSession(true);
         User user = (User)session.getAttribute("user");
-        
+        if(user == null)
+        	return null;
         return dao.getBuyerOrders(user);
+	}
+	
+	@GET
+	@Path("/getItems/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<CartItemDTO> getItemsByOrderId(@PathParam("id") String id) {
+		BuyerOrderDAO dao = (BuyerOrderDAO) ctx.getAttribute("buyerOrdersDAO");
+		return dao.getItemsByOrderId(id);
 	}
 }

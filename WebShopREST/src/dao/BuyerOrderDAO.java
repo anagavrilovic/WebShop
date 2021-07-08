@@ -7,13 +7,16 @@ import java.util.Arrays;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import beans.Order;
+import beans.OrderItem;
 import beans.User;
 import dto.BuyersOrderDTO;
+import dto.CartItemDTO;
 
 public class BuyerOrderDAO {
 	
 	private ObjectMapper objectMapper = new ObjectMapper();
 	private RestaurantDAO restaurantDAO = new RestaurantDAO();
+	private ShoppingDAO shoppingDAO = new ShoppingDAO();
 	
 	
 	public ArrayList<BuyersOrderDTO> getBuyerOrders(User user) {
@@ -41,5 +44,18 @@ public class BuyerOrderDAO {
 		} 
 		
 		return orders;
+	}
+
+	public ArrayList<CartItemDTO> getItemsByOrderId(String id) {
+		ArrayList<CartItemDTO> cartItems = new ArrayList<CartItemDTO>();
+		
+		ArrayList<OrderItem> orderItems = shoppingDAO.getOrderItems();
+		for(OrderItem item : orderItems) {
+			if(item.getOrderID().equals(id)) {
+				CartItemDTO dto = new CartItemDTO(shoppingDAO.getItemByID(item.getItemID()), item.getItemQuantity());
+				cartItems.add(dto);
+			}
+		}
+		return cartItems;
 	}
 }

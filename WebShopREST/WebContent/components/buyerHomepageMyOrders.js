@@ -71,16 +71,16 @@ Vue.component('my-orders', {
                                         <div class="card">
                                             <div class="row">
                                                 <div class="col-md-5">
-                                                    <img :src="i.image" class="card-img-top h-100 food-images" :alt="i.name">
+                                                    <img :src="i.product.imagePath" class="card-img-top h-100 food-images" :alt="i.product.name">
                                                 </div>
                                                 <div class="col-md-7">
                                                     <div class="card-body">
                                                         <div class="card-title">
-                                                            <h2 class="product-name" style="font-size: larger">{{i.name}}</h2>
+                                                            <h2 class="product-name" style="font-size: larger">{{i.product.name}}</h2>
                                                         </div>
                                                         <div class="card-text">
-                                                            <p class="product-description">1x</p>
-                                                            <p class="product-price" style="font-size: larger">{{i.price}} RSD</p>
+                                                            <p class="product-description">{{i.quantity}}x</p>
+                                                            <p class="product-price" style="font-size: larger">{{i.product.price * i.quantity}} RSD</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -256,12 +256,6 @@ Vue.component('my-orders', {
             .then(response => {
                 this.orders = response.data;
             });
-
-        this.items = [
-            {name: 'Mali giros', description: 'Neki opis malog girosa', price: '230.00 RSD', image: '../images/girosMasterGiros.png'},
-            {name: 'Pomfrit', description: 'Neki opis pomfrita', price: '120.00 RSD', image: '../images/girosMasterPomfrit.png'},
-            {name: 'Pepsi', description: 'Neki opis pepsija', price: '100.00 RSD', image: '../images/girosMasterPepsi.jpeg'}
-        ]
     },
     methods: {
         
@@ -296,6 +290,13 @@ Vue.component('my-orders', {
             this.order = order;
             if(!$('body').hasClass('modal-open'))
                 $('#orderDetails').modal('show');
+            
+            axios.get('../rest/buyerOrders/getItems/' + order.id)
+            .then(response => {
+                this.items = response.data;
+            });
+
+            
         },
 
         closeOrderDetails: function() {
