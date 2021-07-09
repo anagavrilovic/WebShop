@@ -11,14 +11,22 @@ Vue.component('my-orders', {
             allOrders: null,
             orders: null,
             order: null,
-            items: null
+            items: null,
+            comment: { 
+                content: '', 
+                mark: 0, 
+                buyerUsername: '', 
+                restaurantID: '', 
+                isDeleted: false, 
+                status: 'PENDING'
+            }
         }
     },
     template: 
         `
         <div>
             <!-- Modal popup leave comment-->
-            <div class="modal fade" id="leaveCommentPopup">
+            <div class="modal fade" id="leaveCommentPopup" v-if="order !== null">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -26,15 +34,19 @@ Vue.component('my-orders', {
                             <button class="btn float-end" v-on:click="closeCommentDialog"><img src="../images/x.png"></button>
                         </div>
                         <div class="modal-body rounded px-4" style="background-color: #f2f2f2;">
-                        <p class="restaurant-name-card" style="margin-bottom: 20px;">Restoran: ime restorana</p>
-                        <p class="product-description">Ocena: </p>
-                        <p class="product-description">Komentar (opciono): </p>
-                        <textarea style="height: 200px; width: 450px;" class="form-control ">
+                        <p class="restaurant-name-card" style="margin-bottom: 30px;">Restoran: {{order.restaurantName}}</p>
+                        
+                        <span class="product-description">Ocena: &emsp;
+                            <star-rating text-class="text-transparent" v-model="comment.mark" :star-size="30" :animate="true" :inline="true"/>
+                        </span>
+                        
+                        <p class="product-description" style="margin-top: 20px;">Komentar (opciono): </p>
+                        <textarea style="height: 200px; width: 450px;" class="form-control " v-model="comment.content">
 
                         </textarea>
                         <br/><br/>
                         <div class="text-center">
-                            <button class="btn btn-primary" style="width: 150px;">Pošalji</button>
+                            <button class="btn btn-primary" style="width: 150px;" @click="sendComment">Pošalji</button>
                             </div>
                             <br/>
                         </div>
@@ -245,7 +257,7 @@ Vue.component('my-orders', {
                                                             <span style="color: #ff0000;"><img src="../images/canceled.png"> Otkazana</span>
                                                         </p>
                                                         <p class="text-end" style="margin-top: -3px;">{{Number(o.price).toFixed(2)}} RSD</p>
-                                                        <button class="btn btn-success float-end" v-if="o.status === 4" v-on:click="leaveComment(o)">Ostavi komentar</button>
+                                                        <button class="btn btn-success float-end" v-if="o.status === 'DELIVERED'" v-on:click="leaveComment(o)">Ostavi komentar</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -312,11 +324,29 @@ Vue.component('my-orders', {
         },
 
         leaveComment: function(order) {
+            this.order = order;
+            this.comment.buyerUsername = this.order.buyersUsername;
+            this.comment.restaurantID = this.order.restaurantID;
             $('#leaveCommentPopup').modal('show');
         },
 
         closeCommentDialog: function() {
+            this.comment = { content: '', mark: 0, buyerUsername: '', restaurantID: '', isDeleted: false, status: 'PENDING' }
             $('#leaveCommentPopup').modal('hide');
+        },
+
+        sendComment: function() {
+            if(this.comment.mark == 0){
+                alert('Ocenite restoran ili odustanite od ocenjivanja!');
+                return;
+            }
+
+            axios.post('../rest/comments/add', this.comment)
+            .then(response => {
+                alert('Komentar uspešno poslat!');
+                this.comment = { content: '', mark: 0, buyerUsername: '', restaurantID: '', isDeleted: false, status: 'PENDING' }
+                $('#leaveCommentPopup').modal('hide');
+            })
         },
 
 

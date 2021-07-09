@@ -12,6 +12,7 @@ import beans.Item;
 import beans.Manager;
 import beans.Order;
 import beans.OrderItem;
+import beans.OrderStatus;
 import dto.ItemQuantityDTO;
 import dto.ManagersOrderDTO;
 
@@ -93,5 +94,27 @@ public class ManagerOrdersDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
+	}
+
+	public void changeStatusToPreparing(String orderID) {
+		ArrayList<Order> orders = getOrders();
+		for(Order o : orders) {
+			if(o.getId().equals(orderID)) {
+				o.setStatus(OrderStatus.PREPARING);
+				break;
+			}
+		}
+		saveOrders(orders);
+	}
+	
+	public void changeStatusToWaitingForDeliverer(String orderID) {
+		ArrayList<Order> orders = getOrders();
+		for(Order o : orders) {
+			if(o.getId().equals(orderID)) {
+				o.setStatus(OrderStatus.WAITING_FOR_DELIVERER);
+				break;
+			}
+		}
+		saveOrders(orders);
 	}
 }
