@@ -82,7 +82,7 @@ Vue.component('my-orders', {
                                                         </div>
                                                         <div class="card-text">
                                                             <p class="product-description">{{i.quantity}}x</p>
-                                                            <p class="product-price" style="font-size: larger">{{i.product.price * i.quantity}} RSD</p>
+                                                            <p class="product-price" style="font-size: larger">{{Number(i.product.price * i.quantity).toFixed(2)}} RSD</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -244,7 +244,7 @@ Vue.component('my-orders', {
                                                         <p v-if="o.status == 'CANCELED'" class="text-end">
                                                             <span style="color: #ff0000;"><img src="../images/canceled.png"> Otkazana</span>
                                                         </p>
-                                                        <p class="text-end" style="margin-top: -3px;">{{o.price}} RSD</p>
+                                                        <p class="text-end" style="margin-top: -3px;">{{Number(o.price).toFixed(2)}} RSD</p>
                                                         <button class="btn btn-success float-end" v-if="o.status === 4" v-on:click="leaveComment(o)">Ostavi komentar</button>
                                                     </div>
                                                 </div>
