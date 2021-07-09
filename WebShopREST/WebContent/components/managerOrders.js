@@ -327,7 +327,7 @@ Vue.component('manager-orders', {
 
         changeStatausToPreparing: function() {
             this.order.order.status = 'PREPARING';
-            axios.get('../rest/managersOrders/preparing/' + this.order.id)
+            axios.get('../rest/managersOrders/preparing/' + this.order.order.id)
             .then(response => {
                 console.log(response.data);
             });
@@ -335,7 +335,7 @@ Vue.component('manager-orders', {
 
         changeStatusToWaitingForDeliverer: function() {
             this.order.order.status = 'WAITING_FOR_DELIVERER';
-            axios.get('../rest/managersOrders/waitingForDeliverer/' + this.order.id)
+            axios.get('../rest/managersOrders/waitingForDeliverer/' + this.order.order.id)
             .then(response => {
                 console.log(response.data);
             });
