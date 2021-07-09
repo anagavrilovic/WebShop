@@ -161,15 +161,18 @@ Vue.component("admin-users", {
                                                             <div class="col-md-9">
                                                                 <p class="user-name">{{u.firstName}} {{u.lastName}} &ensp;|&ensp; {{u.username}}</p>
                                                                 <p class="users-text">Datum rođenja: {{u.dateOfBirth | dateFormat('DD.MM.YYYY.')}}</p>
-                                                                <p class="users-text" v-if="u.role == 'Kupac'">Broj sakupljenih bodova: {{u.collectedPoints}}</p>
-                                                                <p class="users-text" v-if="u.role == 'Kupac'">Tip kupca: {{u.buyerType.buyerTypeName}}</p>
-                                                                <p class="users-text" v-if="u.role == 'Menadžer'">Restoran: {{u.restaurantName}}</p>
+                                                                <p class="users-text" v-if="u.role == 'BUYER'">Broj sakupljenih bodova: {{u.collectedPoints}}</p>
+                                                                <p class="users-text" v-if="u.role == 'BUYER'">Tip kupca: {{u.buyerType.buyerTypeName}}</p>
+                                                                <p class="users-text" v-if="u.role == 'MANAGER'">Restoran: {{u.restaurantName}} </p>
                                                             </div>
                                                             <div class="col-md-3 " style="padding-right: 30px;">
-                                                                <p class="text-end users-text">{{u.role}}</p>
-                                                                <div class="float-end" style="margin-top: 20px;">
-                                                                    <img src="../images/unblocked.png" v-if="!u.isBlocked && u.role !== 'ADMINISTRATOR'">
-                                                                    <img src="../images/blocked.png" v-if="u.isBlocked && u.role !== 'ADMINISTRATOR'">
+                                                                <p class="text-end users-text" v-if="u.role == 'MANAGER'"> Menadžer </p>
+                                                                <p class="text-end users-text" v-if="u.role == 'DELIVERER'"> Dostavljač </p>
+                                                                <p class="text-end users-text" v-if="u.role == 'ADMINISTRATOR'"> Administrator </p>
+                                                                <p class="text-end users-text" v-if="u.role == 'BUYER'"> Kupac </p>
+                                                                <div class="float-end" style="margin-top: 20px;" v-if="u.role != 'ADMINISTRATOR'">
+                                                                    <a v-on:click="blockUser(u)" style="cursor: pointer;"><img src="../images/unblocked.png" v-if="!u.isBlocked"></a>
+                                                                    <a v-on:click="unblockUser(u)" style="cursor: pointer;"><img src="../images/blocked.png" v-if="u.isBlocked"></a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -193,7 +196,7 @@ Vue.component("admin-users", {
         `,
     mounted() {
         this.$root.$on('newUserAdded', (user) => {
-            this.fixData(user);
+            //this.fixData(user);
             this.allUsers.push(user);
             this.users.push(user);
         });
@@ -214,9 +217,9 @@ Vue.component("admin-users", {
                     .then(response => {
                         this.allUsers.push.apply(this.allUsers, response.data);
 
-                        for(let u of this.allUsers){
+                        /*for(let u of this.allUsers){
                             this.fixData(u);
-                        }
+                        }*/
 
                         this.users = this.allUsers.slice();
                     });
@@ -257,17 +260,19 @@ Vue.component("admin-users", {
             this.newEmployeeTitle = newTitle;
         },
 
-        fixData: function(user) {
-            user.dateOfBirth = new Date(parseInt(user.dateOfBirth));
-
-            if(user.role == 'ADMINISTRATOR')
-                user.role = 'Administrator';
-            else if(user.role == 'MANAGER')
-                user.role = 'Menadžer';
-            else if(user.role == 'BUYER')
-                user.role = 'Kupac';
-            else if(user.role == 'DELIVERER')
-                user.role = 'Dostavljač';
+        blockUser: function(user){
+            let newUser = {username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName, gender: user.gender, dateOfBirth: user.dateOfBirth, role: user.role};
+            axios.post('../rest/users/blockUser/', newUser)
+            .then(response => {
+                user.isBlocked = true;
+            });
+        },
+        unblockUser: function(user){
+            let newUser = {username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName, gender: user.gender, dateOfBirth: user.dateOfBirth, role: user.role};
+            axios.post('../rest/users/unblockUser/', newUser)
+            .then(response => {
+                user.isBlocked = false;
+            });
         },
 
 
@@ -344,7 +349,7 @@ Vue.component("admin-users", {
             if(this.checkedBuyerTypes.length == 0) {
                 return true;
             }
-            return user.role == 'Kupac' && this.checkedBuyerTypes.indexOf(user.buyerType.buyerTypeName) > -1;
+            return user.role == 'BUYER' && this.checkedBuyerTypes.indexOf(user.buyerType.buyerTypeName) > -1;
         },
         suspiciousUsersFilterSatisfied: function(user) {
             if(!this.onlySuspiciousUsers)

@@ -10,6 +10,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -17,9 +18,11 @@ import javax.ws.rs.core.MediaType;
 import beans.Administrator;
 import beans.Buyer;
 import beans.Deliverer;
+import beans.Item;
 import beans.Manager;
 import beans.Restaurant;
 import beans.User;
+import dao.CommentsDAO;
 import dao.LoginDAO;
 import dao.RestaurantDAO;
 import dao.UserDAO;
@@ -122,5 +125,21 @@ public class UserService {
 		return dao.addNewDeliverer(deliverer);
 	}
 	
+
+	@POST
+	@Path("/blockUser")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public User blockUser(User user) {
+		UserDAO dao = (UserDAO)ctx.getAttribute("userDAO");
+		return dao.blockUser(user);
+	}
+	
+	@POST
+	@Path("/unblockUser")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public User unblockUser(User user) {
+		UserDAO dao = (UserDAO)ctx.getAttribute("userDAO");
+		return dao.unblockUser(user);
+	}
 	
 }

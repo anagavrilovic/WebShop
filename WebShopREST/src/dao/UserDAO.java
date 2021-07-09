@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -232,6 +233,129 @@ public class UserDAO {
 			e.printStackTrace();
 		} 
 	}
+
+	public User blockUser(User user) {
+		Role role = user.getRole();
+		
+		//List<User> users = new ArrayList<User>();
+		
+		switch(role) {
+			case MANAGER:
+				try {
+					ArrayList<Manager> users = new ArrayList<Manager>(Arrays.asList(objectMapper.readValue(new File("resources/managers.json"), Manager[].class)));
+					for(Manager u : users) {
+						if(u.getUsername().equals(user.getUsername())) {
+							u.setIsBlocked(true);
+						}
+					}
+					saveManagers(users);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
+				break;
+			case DELIVERER:
+				try {
+					ArrayList<Deliverer> users = new ArrayList<Deliverer>(Arrays.asList(objectMapper.readValue(new File("resources/deliverers.json"), Deliverer[].class)));
+					for(Deliverer u : users) {
+						if(u.getUsername().equals(user.getUsername())) {
+							u.setIsBlocked(true);
+						}
+					}
+					saveDeliverers(users);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
+				break;
+			case BUYER:
+				try {
+					ArrayList<Buyer> users = new ArrayList<Buyer>(Arrays.asList(objectMapper.readValue(new File("resources/buyers.json"), Buyer[].class)));
+					for(Buyer u : users) {
+						if(u.getUsername().equals(user.getUsername())) {
+							u.setIsBlocked(true);
+						}
+					}
+					saveBuyers(users);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
+				break;
+		}
+		return user;
+	}
+	
+	public void saveManagers(ArrayList<Manager> managers) {
+		try {
+			objectMapper.writeValue(new File("resources/managers.json"), managers);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	public void saveBuyers(ArrayList<Buyer> buyers) {
+		try {
+			objectMapper.writeValue(new File("resources/buyers.json"), buyers);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	public void saveDeliverers(ArrayList<Deliverer> deliverers) {
+		try {
+			objectMapper.writeValue(new File("resources/deliverers.json"), deliverers);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+
+	public User unblockUser(User user) {
+		Role role = user.getRole();
+		
+		//List<User> users = new ArrayList<User>();
+		
+		switch(role) {
+			case MANAGER:
+				try {
+					ArrayList<Manager> users = new ArrayList<Manager>(Arrays.asList(objectMapper.readValue(new File("resources/managers.json"), Manager[].class)));
+					for(Manager u : users) {
+						if(u.getUsername().equals(user.getUsername())) {
+							u.setIsBlocked(false);
+						}
+					}
+					saveManagers(users);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
+				break;
+			case DELIVERER:
+				try {
+					ArrayList<Deliverer> users = new ArrayList<Deliverer>(Arrays.asList(objectMapper.readValue(new File("resources/deliverers.json"), Deliverer[].class)));
+					for(Deliverer u : users) {
+						if(u.getUsername().equals(user.getUsername())) {
+							u.setIsBlocked(false);
+						}
+					}
+					saveDeliverers(users);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
+				break;
+			case BUYER:
+				try {
+					ArrayList<Buyer> users = new ArrayList<Buyer>(Arrays.asList(objectMapper.readValue(new File("resources/buyers.json"), Buyer[].class)));
+					for(Buyer u : users) {
+						if(u.getUsername().equals(user.getUsername())) {
+							u.setIsBlocked(false);
+						}
+					}
+					saveBuyers(users);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
+				break;
+		}
+		return user;
+	}
+	
 
 
 }
