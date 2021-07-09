@@ -59,6 +59,33 @@ public class RestaurantDAO {
 		return null;
 	}
 	
+	public void updateRestaurant(Restaurant restaurant) {
+		ArrayList<Restaurant> restaurants = this.getAll();
+		
+		for(Restaurant r : restaurants) {
+			if(r.getId().equals(restaurant.getId())) {
+				r.setImagePath(restaurant.getImagePath());
+				r.setLogoPath(restaurant.getLogoPath());
+				r.setIsDeleted(restaurant.getIsDeleted());
+				r.setLocation(restaurant.getLocation());
+				r.setMark(restaurant.getMark());
+				r.setName(restaurant.getName());
+				r.setType(restaurant.getType());
+				r.setWorkTime(restaurant.getWorkTime());
+			}
+		}
+		
+		this.saveRestaurants(restaurants);
+	}
+	
+	private void saveRestaurants(ArrayList<Restaurant> restaurants) {
+		try {
+			objectMapper.writeValue(new File("resources/restaurants.json"), restaurants);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+	
 	public Item addNewItem(Item item, String restaurantId) {
 		ArrayList<Item> items = new ArrayList<Item>();
 		items = getItems();

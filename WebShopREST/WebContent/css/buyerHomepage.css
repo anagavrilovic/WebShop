@@ -58,3 +58,6 @@
     font-weight: bold;
 }
 
+.text-transparent {
+    color: transparent;
+}

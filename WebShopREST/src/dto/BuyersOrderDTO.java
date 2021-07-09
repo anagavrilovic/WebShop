@@ -11,6 +11,7 @@ public class BuyersOrderDTO {
     private double price;
     private OrderStatus status;
     private String restaurantName;
+    private String restaurantID;
     private String buyersUsername;
     private String restaurantType;
     
@@ -59,13 +60,20 @@ public class BuyersOrderDTO {
 		this.restaurantType = restaurantType;
 	}
 	
+	public String getRestaurantID() {
+		return restaurantID;
+	}
+	
+	public void setRestaurantID(String restaurantID) {
+		this.restaurantID = restaurantID;
+	}
+	
+	
 	public BuyersOrderDTO() {
 		
 	}
 	
-	
-	
-	public BuyersOrderDTO(String id, Date time, double price, OrderStatus status, String restaurantName,
+	public BuyersOrderDTO(String id, Date time, double price, OrderStatus status, String restaurantName, String restaurantID,
 			String buyersUsername) {
 		super();
 		this.id = id;
@@ -73,6 +81,7 @@ public class BuyersOrderDTO {
 		this.price = price;
 		this.status = status;
 		this.restaurantName = restaurantName;
+		this.restaurantID = restaurantID;
 		this.buyersUsername = buyersUsername;
 	}
 	
@@ -82,6 +91,7 @@ public class BuyersOrderDTO {
 		this.price = order.getPrice();
 		this.status = order.getStatus();
 		this.buyersUsername = order.getBuyersUsername();
+		this.restaurantID = order.getRestaurantID();
 	}
     
     
