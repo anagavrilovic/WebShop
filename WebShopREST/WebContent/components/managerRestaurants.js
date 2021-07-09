@@ -135,7 +135,7 @@ Vue.component("manager-restaurants", {
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <span><img src="../images/star.png"></span>
-                                                                <span class="markComment">{{r.mark}}</span>
+                                                                <span class="markComment">{{Number(r.mark).toFixed(1)}}</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">

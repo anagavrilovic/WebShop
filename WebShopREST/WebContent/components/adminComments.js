@@ -1,13 +1,7 @@
 Vue.component("admin-comments", {
     data: function() {
         return {
-            comments: [
-                {buyerUsername: 'Gorčilo', mark: 5, dateTime: '12.3.2021. 15:00', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-                {buyerUsername: 'Slavko', mark: 3, dateTime: '15.3.2021. 15:00', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-                {buyerUsername: 'Spiridon', mark: 4, dateTime: '12.7.2021. 15:00', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-                {buyerUsername: 'Srki', mark: 4, dateTime: '1.2.2020. 15:00', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-                {buyerUsername: 'Anci', mark: 5, dateTime: '23.8.2021. 15:00', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'}
-            ]
+            comments: []
         }
     },
     template:         
@@ -30,7 +24,7 @@ Vue.component("admin-comments", {
                                         </div>
                                         <div class="col-md-auto"></div>
                                         <div class="col-md-3">
-                                            <span class="dateComment">{{c.dateTime}}</span>
+                                            <span class="dateComment">{{c.restaurantName}}</span>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -40,7 +34,9 @@ Vue.component("admin-comments", {
 
                                 <div class="col-md-2 commentStatus">
                                     <div class="row">
-                                        <p class="ml-4"> Čeka odobrenje </p>
+                                        <p class="ml-4" style="color:blue;" v-if="c.status == 'PENDING'"> Čeka odobrenje </p>
+                                        <p class="ml-4" style="color:green;" v-if="c.status == 'ACCEPTED'"> Prihvaćen </p>
+                                        <p class="ml-4" style="color:red;" v-if="c.status == 'REJECTED'"> Odbijen </p>
                                     </div>
                                 </div>
 
@@ -53,7 +49,10 @@ Vue.component("admin-comments", {
             </div>
         </div>`,
     mounted() {
-
+        axios.get('../rest/comments/getAdminComments/')
+            .then(response => {
+                this.comments = response.data;
+            });
     },
     methods: {
         
