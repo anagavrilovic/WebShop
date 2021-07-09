@@ -73,7 +73,26 @@ public class LoginDAO {
 		for(Credentials c : credentials) {
 			if(c.getUsername().equals(dto.getUsername())) {
 				if(c.getPassword().equals(dto.getPassword())) {
-					return findUserByUsername(c);
+					User user = findUserByUsername(c);
+					Role role = c.getRole();
+					switch(role) {
+					case MANAGER:
+						Manager manager = (Manager)user;
+						if(manager.getIsBlocked())
+							return null;
+						break;
+					case DELIVERER:
+						Deliverer deliverer = (Deliverer)user;
+						if(deliverer.getIsBlocked())
+							return null;
+						break;
+					case BUYER:
+						Buyer buyer = (Buyer)user;
+						if(buyer.getIsBlocked())
+							return null;
+						break;
+					}
+					return user;
 				}
 			}
 		}
