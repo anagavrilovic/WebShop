@@ -10,6 +10,7 @@ public class Order {
    private OrderStatus status;
    private String restaurantID;
    private String buyersUsername;
+   private String deliverersUsername;
    
    public Order() {}
    
@@ -68,6 +69,14 @@ public class Order {
 	
 	public void setRestaurantID(String restaurantID) {
 		this.restaurantID = restaurantID;
+	}
+
+	public String getDeliverersUsername() {
+		return deliverersUsername;
+	}
+
+	public void setDeliverersUsername(String deliverersUsername) {
+		this.deliverersUsername = deliverersUsername;
 	}
 	
 }

@@ -2,14 +2,14 @@ package beans;
 
 import java.util.*;
 
-public class OrderDelivery {
+public class OrderDeliveryRequest {
    
    private String delivererUsername;
    private String orderID;
    
-   public OrderDelivery() {}
+   public OrderDeliveryRequest() {}
    
-	public OrderDelivery(String delivererUsername, String orderID) {
+	public OrderDeliveryRequest(String delivererUsername, String orderID) {
 		super();
 		this.delivererUsername = delivererUsername;
 		this.orderID = orderID;
