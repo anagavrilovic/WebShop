@@ -8,10 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.Order;
 import beans.User;
 import dao.BuyerOrderDAO;
 import dao.DelivererOrderDAO;
@@ -41,5 +43,18 @@ public class DelivererOrderService {
         if(user == null)
         	return null;
         return dao.getOpenOrders(user);
+	}
+	
+	@GET
+	@Path("/requestDelivery/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String requestDelivery(@PathParam("id") String id, @Context HttpServletRequest req) {
+		DelivererOrderDAO dao = (DelivererOrderDAO)ctx.getAttribute("delivererOrdersDAO");
+
+		HttpSession session= req.getSession(true);
+        User user = (User)session.getAttribute("user");
+        if(user == null)
+        	return null;
+        return dao.requestDelivery(id, user.getUsername());
 	}
 }

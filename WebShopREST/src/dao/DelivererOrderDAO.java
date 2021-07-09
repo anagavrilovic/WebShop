@@ -28,7 +28,7 @@ public class DelivererOrderDAO {
 		ArrayList<DeliverersOrderDTO> openOrders = new ArrayList<DeliverersOrderDTO>();
 		
 		for(Order o : allOrders) {
-			if(o.getStatus() == OrderStatus.WAITING_FOR_DELIVERER && !isOrderInRequests(user.getUsername(), requests)) {
+			if(o.getStatus() == OrderStatus.WAITING_FOR_DELIVERER && !isOrderInRequests(user.getUsername(),o.getId(), requests)) {
 				DeliverersOrderDTO dto = new DeliverersOrderDTO(o);
 				dto.setRestaurantName(restaurantDAO.getRestaurantNameByID(o.getRestaurantID()));
 				dto.setRestaurantType(restaurantDAO.getRestaurantByID(o.getRestaurantID()).getType());
@@ -51,12 +51,12 @@ public class DelivererOrderDAO {
 		return requests;
 	}
 	
-	public boolean isOrderInRequests(String delivererUsername, ArrayList<OrderDeliveryRequest> requests) {
+	public boolean isOrderInRequests(String delivererUsername, String orderId, ArrayList<OrderDeliveryRequest> requests) {
 		if(requests.size() == 0) {
 			return false;
 		}
 		for(OrderDeliveryRequest req : requests) {
-			if(req.getDelivererUsername().equals(delivererUsername))
+			if(req.getDelivererUsername().equals(delivererUsername) && req.getOrderID().equals(orderId))
 				return true;
 		}
 		return false;
@@ -72,4 +72,23 @@ public class DelivererOrderDAO {
 		return "";
 	}
 
+	public String requestDelivery(String id, String delivererUsername) {
+		OrderDeliveryRequest request = new OrderDeliveryRequest(delivererUsername, id);
+		addDeliveryRequest(request);
+		return id;
+	}
+	
+	public void addDeliveryRequest(OrderDeliveryRequest request) {
+		ArrayList<OrderDeliveryRequest> requests = getOrderRequests();
+		requests.add(request);
+		saveDeliveryRequests(requests);
+	}
+	
+	public void saveDeliveryRequests(ArrayList<OrderDeliveryRequest> requests) {
+		try {
+			objectMapper.writeValue(new File("resources/orderDeliveryRequests.json"), requests);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
 }

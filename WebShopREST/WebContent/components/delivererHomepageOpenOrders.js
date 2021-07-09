@@ -175,7 +175,10 @@ Vue.component('open-orders', {
             //$('#requestOrderPopup').modal('show');
             let index = this.orders.indexOf(order);
             this.orders.splice(index, 1);
-            this.order.status = 3;
+            axios.get('../rest/delivererOrders/requestDelivery/' + this.order.id)
+            .then(response => {
+                console.log(response.data);
+            });
         },
 
         closeRequestOrderDialog: function() {
