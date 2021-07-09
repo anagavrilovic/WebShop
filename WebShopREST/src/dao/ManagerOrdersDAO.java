@@ -178,4 +178,27 @@ public class ManagerOrdersDAO {
 		requests.remove(requestForRemoving);
 		delivererOrderDAO.saveDeliveryRequests(requests);
 	}
+
+	
+	public ArrayList<Buyer> getManagersBuyers(String restaurantID) {
+		ArrayList<Order> orders = getOrders();
+		ArrayList<Buyer> managersBuyers = new ArrayList<Buyer>();
+		
+		for(Order o : orders) {
+			if(o.getRestaurantID().equals(restaurantID)) {
+				Buyer buyer = userDAO.getBuyerByUsername(o.getBuyersUsername());
+				if(!alreadyAdded(managersBuyers, buyer))
+					managersBuyers.add(buyer);
+			}
+		}
+		return managersBuyers;
+	}
+
+	private boolean alreadyAdded(ArrayList<Buyer> managersBuyers, Buyer buyer) {
+		for(Buyer b : managersBuyers) {
+			if(b.getUsername().equals(buyer.getUsername()))
+				return true;
+		}
+		return false;
+	}
 }
