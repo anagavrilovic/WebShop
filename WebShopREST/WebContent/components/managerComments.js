@@ -1,13 +1,8 @@
 Vue.component("manager-comments", {
     data: function() {
         return {
-            comments: [
-                {buyerUsername: 'Gorčilo', mark: 5, dateTime: '12.3.2021. 15:00', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-                {buyerUsername: 'Slavko', mark: 3, dateTime: '15.3.2021. 15:00', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-                {buyerUsername: 'Spiridon', mark: 4, dateTime: '12.7.2021. 15:00', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-                {buyerUsername: 'Srki', mark: 4, dateTime: '1.2.2020. 15:00', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-                {buyerUsername: 'Anci', mark: 5, dateTime: '23.8.2021. 15:00', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'}
-            ]
+            comments: [],
+            comment: null
         }
     },
     template:
@@ -60,7 +55,7 @@ Vue.component("manager-comments", {
                                                     </div>
                                                     <div class="col-md-auto"></div>
                                                     <div class="col-md-3">
-                                                        <span class="dateComment">{{c.dateTime}}</span>
+                                                        
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -70,13 +65,15 @@ Vue.component("manager-comments", {
             
                                             <div class="col-md-2 commentStatus">
                                                 <div class="row">
-                                                    <p class="ml-4"> Čeka odobrenje </p>
+                                                    <p class="ml-4" style="color:blue;" v-if="c.status == 'PENDING'"> Čeka odobrenje </p>
+                                                    <p class="ml-4" style="color:green;" v-if="c.status == 'ACCEPTED'"> Prihvaćen </p>
+                                                    <p class="ml-4" style="color:red;" v-if="c.status == 'REJECTED'"> Odbijen </p>
                                                 </div>
-                                                <div>
-                                                    <button type="button" class="btn btn-primary">
+                                                <div v-if="c.status == 'PENDING'">
+                                                    <button type="button" class="btn btn-primary" v-on:click="acceptComment(c)">
                                                         <i class="fa fa-check"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-primary">
+                                                    <button type="button" class="btn btn-primary" v-on:click="rejectComment(c)">
                                                         <i class="fa fa-close"></i>
                                                     </button>
                                                 </div>
@@ -105,9 +102,35 @@ Vue.component("manager-comments", {
         </div>
 		`,
     mounted() {
-
+        axios.get('../rest/comments/getManagerComments/')
+            .then(response => {
+                this.comments = response.data;
+            });
     },
     methods: {
+        acceptComment: function(comment){
+            console.log(comment);
+            axios.get('../rest/comments/acceptComment/' + comment.id)
+            .then(response => {
+                console.log(response.data);
+                this.updateCommentView();
+            });
+        },
 
+        rejectComment: function(comment){
+            console.log(comment);
+            axios.get('../rest/comments/rejectComment/' + comment.id)
+            .then(response => {
+                console.log(response.data);
+                this.updateCommentView();
+            });
+        },
+
+        updateCommentView: function(){
+            axios.get('../rest/comments/getManagerComments/')
+            .then(response => {
+                this.comments = response.data;
+            });
+        }
     }
 })
