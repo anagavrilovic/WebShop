@@ -2,7 +2,8 @@ Vue.component("manager-comments", {
     data: function() {
         return {
             comments: [],
-            comment: null
+            comment: null,
+            checkedCommentStatuses: []
         }
     },
     template:
@@ -19,15 +20,15 @@ Vue.component("manager-comments", {
                             <div class="col-md-12">
                                     <ul class="list-group flex">
                                         <label class="list-group-item filter-item">
-                                            <input class="form-check-input me-1" type="checkbox" value="Chineese">
+                                            <input class="form-check-input me-1" type="checkbox" value="PENDING" v-model="checkedCommentStatuses">
                                             Čeka 
                                         </label>
                                         <label class="list-group-item filter-item">
-                                            <input class="form-check-input me-1" type="checkbox" value="Italian">
+                                            <input class="form-check-input me-1" type="checkbox" value="ACCEPTED" v-model="checkedCommentStatuses">
                                             Prihvaćeni
                                         </label>
                                         <label class="list-group-item filter-item">
-                                            <input class="form-check-input me-1" type="checkbox" value="Barbeque">
+                                            <input class="form-check-input me-1" type="checkbox" value="REJECTED" v-model="checkedCommentStatuses">
                                             Odbijeni
                                         </label>
                                     </ul>
@@ -42,7 +43,7 @@ Vue.component("manager-comments", {
                                 <div class="card shadow pt-4" style="height: auto">
             
                                     <div v-for="c in comments" v-if="comments !== null">
-                                        <div class="row p-4">
+                                        <div class="row p-4" v-if="filterSatisfied(c)">
                                             <div class="col-md-2">
                                                 <img src="../images/user.png" alt="User image" height="100px" class="mx-2">
                                             </div>
@@ -87,10 +88,6 @@ Vue.component("manager-comments", {
 
                             </div>
 
-                            
-
-
-
                     </div>
     
                     </div>
@@ -131,6 +128,14 @@ Vue.component("manager-comments", {
             .then(response => {
                 this.comments = response.data;
             });
-        }
+        },
+        //FILTER
+        filterSatisfied: function(c){
+            if(this.checkedCommentStatuses.length == 0){
+				return true;
+			}
+			return this.checkedCommentStatuses.indexOf(c.status) > -1;
+            	
+		}
     }
 })
