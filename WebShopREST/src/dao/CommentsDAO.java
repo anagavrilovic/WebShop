@@ -57,8 +57,10 @@ public class CommentsDAO {
 		if(restaurant.getMark() == 0 || numberOfComments == 0) {
 			newMark = comment.getMark();
 		}
-		newMark = (restaurant.getMark()*numberOfComments + comment.getMark()) / (numberOfComments + 1);
+		else
+			newMark = (restaurant.getMark()*numberOfComments + comment.getMark()) / (numberOfComments + 1);
 		restaurant.setMark(newMark);
+		System.out.println(newMark);
 		restaurantDAO.updateRestaurant(restaurant);
 	}
 
@@ -134,6 +136,18 @@ public class CommentsDAO {
 		}
 		return acceptedComments;
 		
+	}
+
+	public ArrayList<CommentDTO> getAdminComments() {
+		ArrayList<CommentDTO> adminComments = new ArrayList<CommentDTO>();
+		ArrayList<Comment> allComments = getAll();
+		for(Comment c : allComments) {
+			CommentDTO dto = new CommentDTO(c);
+			dto.setRestaurantName(restaurantDAO.getRestaurantNameByID(c.getRestaurantID()));
+			adminComments.add(dto);
+
+		}
+		return adminComments;
 	}
 	
 	

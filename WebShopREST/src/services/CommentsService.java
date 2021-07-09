@@ -81,4 +81,14 @@ public class CommentsService {
 		CommentsDAO dao = (CommentsDAO)ctx.getAttribute("commentsDAO");
 		return dao.getAcceptedComments(restaurantId);
 	}
+	
+	@GET
+	@Path("/getAdminComments")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<CommentDTO> getAdminComments() {
+		CommentsDAO dao = (CommentsDAO)ctx.getAttribute("commentsDAO");
+
+        
+        return dao.getAdminComments();
+	}
 }
