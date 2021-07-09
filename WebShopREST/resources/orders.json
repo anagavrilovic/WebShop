@@ -3,7 +3,7 @@
         "id": "0000000001",
         "time": 1625765497053,
         "price": 830.0,
-        "status": "PROCESSING",
+        "status": "WAITING_FOR_DELIVERER",
         "restaurantID": "418853d4-af8d-4b21-a023-9a871c6e1c27",
         "buyersUsername": "baca",
         "deliverersUsername" : ""
@@ -21,7 +21,7 @@
         "id": "0000000003",
         "time": 1625765596997,
         "price": 570.0,
-        "status": "PROCESSING",
+        "status": "WAITING_FOR_DELIVERER",
         "restaurantID": "418853d4-af8d-4b21-a023-9a871c6e1c27",
         "buyersUsername": "anci",
         "deliverersUsername" : ""
@@ -30,7 +30,7 @@
         "id": "0000000004",
         "time": 1625765637529,
         "price": 1980.0,
-        "status": "PROCESSING",
+        "status": "WAITING_FOR_DELIVERER",
         "restaurantID": "c3765c6f-e0b3-4c5f-8283-5e4cec957868",
         "buyersUsername": "srki",
         "deliverersUsername" : ""
@@ -57,7 +57,7 @@
         "id": "0000000007",
         "time": 1625765781200,
         "price": 900.0,
-        "status": "PROCESSING",
+        "status": "WAITING_FOR_DELIVERER",
         "restaurantID": "418853d4-af8d-4b21-a023-9a871c6e1c27",
         "buyersUsername": "anci",
         "deliverersUsername" : ""

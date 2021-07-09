@@ -407,6 +407,8 @@ Vue.component('my-orders', {
         sortOrderTimeDescending: function(){
             this.orders.sort(compareOrderTimeDescending);
         },
+
+        
         cancelOrder: function(){
             this.order.status = 'CANCELED';
             axios.get('../rest/buyerOrders/cancelOrder/' + this.order.id)

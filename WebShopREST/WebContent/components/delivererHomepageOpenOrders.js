@@ -37,16 +37,7 @@ Vue.component('open-orders', {
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <div class="form-check checkbox-style rounded ">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" >
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                    Nedostavljene
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+
 
                         <div class="row mb-3">
                             <div class="col-md-12">
@@ -54,12 +45,12 @@ Vue.component('open-orders', {
                                     Sortiraj po <span style="float: right;"><img src="../images/arrow.png"></span>
                                 </button>
                                 <div class="list-group flex" v-if="sortDropdownOpen">
-                                    <button class="list-group-item list-group-item-action">Naziv restorana A - Z </button>
-                                    <button class="list-group-item list-group-item-action">Naziv restorana Z - A</button>
-                                    <button class="list-group-item list-group-item-action">Cena rastuće</button>
-                                    <button class="list-group-item list-group-item-action">Cena opadajuće</button>
-                                    <button class="list-group-item list-group-item-action">Datum najnovije</button>
-                                    <button class="list-group-item list-group-item-action">Datum najstarije</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortRestaurantNameAZ">Naziv restorana A - Z </button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortRestaurantNameZA">Naziv restorana Z - A</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortOrderPriceAscending">Cena rastuće</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortOrderPriceDescending">Cena opadajuće</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortOrderTimeDescending">Datum najnovije</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortOrderTimeAscending">Datum najstarije</button>
                                 </div>
                             </div>
                         </div>
@@ -71,36 +62,22 @@ Vue.component('open-orders', {
                                 </button>
                                 <ul class="list-group flex" v-if="restaurantTypeDropdownOpen">
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Chineese" v-model="checkedRestaurantTypes" v-on:change="">Kineski
+                                        <input class="form-check-input me-1" type="checkbox" value="Brza hrana" v-model="checkedRestaurantTypes" v-on:change="">Brza hrana
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Italian" v-model="checkedRestaurantTypes" v-on:change="">Italijanski
+                                        <input class="form-check-input me-1" type="checkbox" value="Italijanski" v-model="checkedRestaurantTypes" v-on:change="">Italijanski
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Barbeque" v-model="checkedRestaurantTypes" v-on:change="">Roštilj
+                                        <input class="form-check-input me-1" type="checkbox" value="Roštilj" v-model="checkedRestaurantTypes" v-on:change="">Roštilj
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Romanian" v-model="checkedRestaurantTypes" v-on:change="">Rumunski
+                                        <input class="form-check-input me-1" type="checkbox" value="Kineski" v-model="checkedRestaurantTypes" v-on:change="">Kineski
                                     </label>
                                 </ul>
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <button class="btn btn-filter flex" type="button" v-on:click="toggleOrderStatusDropdownVisibility">
-                                    Status porudžbine <span style="float: right;"><img src="../images/arrow.png"></span>
-                                </button>
-                                <ul class="list-group flex" v-if="orderStatusDropdownOpen">
-                                    <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">U transportu
-                                    </label>
-                                    <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">Dostavljena
-                                    </label>
-                                </ul>
-                            </div>
-                        </div>
+
 
                     </div>
 
@@ -132,11 +109,11 @@ Vue.component('open-orders', {
                                     <div class="row">
 
                                         <div v-for="o in orders" v-if="orders !== null">
-                                            <div class="card shadow my-2" style="cursor: default">
+                                            <div class="card shadow my-2" style="cursor: default" v-if="filterSatisfied(o)">
                                                 <div class="row p-4 ">
                                                 <div class="col-md-6">
                                                     <h1 class="orderID">PORUDŽBINA {{o.id}}</h1>
-                                                    <p style="margin-top: 15px;">{{o.time}}</p>
+                                                    <p style="margin-top: 15px;">{{o.time | dateFormat('DD.MM.YYYY.')}}</p>
                                                     <p style="margin-top: -13px;">Kupac: {{o.buyerName}}</p>
                                                     <p style="margin-top: -13px;">Restoran: {{o.restaurantName}}</p>
                                                 </div>
@@ -144,7 +121,7 @@ Vue.component('open-orders', {
                                                     <p class="text-end">
                                                         <span style="color: #80B0CF;"><img src="../images/waitingForDeliverer.png"> Čeka dostavljača</span>
                                                     </p>
-                                                    <p class="text-end" style="margin-top: -3px;">{{o.price}}</p>
+                                                    <p class="text-end" style="margin-top: -3px;">{{o.price}} RSD</p>
                                                     <button class="btn btn-request float-end" v-on:click="requestOrder(o)">Zatraži dostavu</button>
                                                 </div>
                                             </div>
@@ -158,11 +135,11 @@ Vue.component('open-orders', {
             </div>
         </div></div>`,
     mounted() {
-        this.orders = [
-            {id: '1234567897', restaurantName: 'KFC', buyerName: 'Ana Gavrilović', time: '12.3.2012. 15:00', status: 3, price: '500.00 RSD'},
-            {id: '1234567897', restaurantName: 'KFC', buyerName: 'Ana Gavrilović', time: '12.3.2012. 15:00', status: 3, price: '500.00 RSD'},
-            {id: '1234567897', restaurantName: 'KFC', buyerName: 'Ana Gavrilović', time: '12.3.2012. 15:00', status: 4, price: '500.00 RSD'}
-        ]
+        axios.get('../rest/delivererOrders/getOpenOrders/')
+            .then(response => {
+                console.log(response.data);
+                this.orders = response.data;
+            });
     },
     methods: {
         
@@ -204,5 +181,44 @@ Vue.component('open-orders', {
         closeRequestOrderDialog: function() {
             //$('#requestdeliverOrderPopup').modal('hide');
         },
+
+         //SORT
+        sortRestaurantNameAZ : function(){
+            this.orders.sort(compareRestaurantNameAscending);
+        },
+        sortRestaurantNameZA : function(){
+            this.orders.sort(compareRestaurantNameDescending);
+        },
+        sortOrderPriceAscending: function(){
+            this.orders.sort(compareOrderPriceAscending);
+        },
+        sortOrderPriceDescending: function(){
+            this.orders.sort(compareOrderPriceDescending);
+        },
+        sortOrderTimeAscending: function(){
+            this.orders.sort(compareOrderTimeAscending);
+        },
+        sortOrderTimeDescending: function(){
+            this.orders.sort(compareOrderTimeDescending);
+        },
+
+        //FILTERS
+        filterSatisfied: function(o){
+			return this.restaurantTypeFilterSatisfied(o.restaurantType);
+            	
+		},
+
+        restaurantTypeFilterSatisfied: function(type){
+			if(this.checkedRestaurantTypes.length == 0){
+				return true;
+			}
+			return this.checkedRestaurantTypes.indexOf(type) > -1;
+		},
+    },
+    filters: {
+        dateFormat: function(value, format){
+            var parsed = moment(value);
+            return parsed.format(format);
+        }
     }
 });
