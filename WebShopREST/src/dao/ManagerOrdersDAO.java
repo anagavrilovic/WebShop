@@ -11,14 +11,20 @@ import beans.Deliverer;
 import beans.Item;
 import beans.Manager;
 import beans.Order;
+import beans.OrderDeliveryRequest;
 import beans.OrderItem;
 import beans.OrderStatus;
+import dto.DelivererDTO;
+import dto.DeliverersOrderDTO;
 import dto.ItemQuantityDTO;
 import dto.ManagersOrderDTO;
 
 public class ManagerOrdersDAO {
 	
 	private ShoppingDAO shoppingDAO = new ShoppingDAO();
+	private DelivererOrderDAO delivererOrderDAO = new DelivererOrderDAO();
+	private UserDAO userDAO = new UserDAO();
+	
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	public ManagerOrdersDAO() {}
@@ -33,7 +39,11 @@ public class ManagerOrdersDAO {
 				dto.setOrder(o);
 				
 				setBuyerNameInOrder(dto);
-				setDelivererNameInOrder(dto);
+
+				if(o.getStatus().equals(OrderStatus.WAITING_FOR_DELIVERER))
+					this.setDeliverersInRequest(dto);
+				if(o.getStatus().equals(OrderStatus.IN_TRANSPORT))
+					this.setDelivererNameInOrder(dto);
 				
 				managersOrders.add(dto);
 			}
@@ -56,8 +66,20 @@ public class ManagerOrdersDAO {
 	}
 	
 	private void setDelivererNameInOrder(ManagersOrderDTO dto) {
-		ArrayList<Deliverer> deliverers = new UserDAO().getAllDeliverers();
-		// TODO
+		dto.setDelivererFirstName(userDAO.getDelivererByUsername(dto.getOrder().getDeliverersUsername()).getFirstName());
+		dto.setDelivererLastName(userDAO.getDelivererByUsername(dto.getOrder().getDeliverersUsername()).getLastName());
+	}
+	
+	private void setDeliverersInRequest(ManagersOrderDTO dto) {
+		ArrayList<OrderDeliveryRequest> requests = delivererOrderDAO.getOrderRequests();
+		
+		for(OrderDeliveryRequest odr : requests) {
+			if(odr.getOrderID().equals(dto.getOrder().getId())) {
+				Deliverer deliverer = userDAO.getDelivererByUsername(odr.getDelivererUsername());
+				DelivererDTO delivererDTO = new DelivererDTO(deliverer.getUsername(), deliverer.getFirstName(), deliverer.getLastName());
+				dto.getDeliverersInRequest().add(delivererDTO);
+			}
+		}
 	}
 	
 	private void setItemsForOrders(ArrayList<ManagersOrderDTO> managersOrders) {
@@ -116,5 +138,44 @@ public class ManagerOrdersDAO {
 			}
 		}
 		saveOrders(orders);
+	}
+
+	public void approveDeliverersRequest(String delivererUsername, String orderID) {
+		ArrayList<OrderDeliveryRequest> requests = delivererOrderDAO.getOrderRequests();
+		ArrayList<OrderDeliveryRequest> requestsForRemoving = new ArrayList<OrderDeliveryRequest>();
+		
+		for(OrderDeliveryRequest odr : requests) {
+			if(odr.getOrderID().equals(orderID)) {
+				requestsForRemoving.add(odr);
+			}
+		}
+		
+		requests.removeAll(requestsForRemoving);
+		delivererOrderDAO.saveDeliveryRequests(requests);
+		
+		ArrayList<Order> orders = this.getOrders();
+		for(Order o : orders) {
+			if(o.getId().equals(orderID)) {
+				o.setStatus(OrderStatus.IN_TRANSPORT);
+				o.setDeliverersUsername(delivererUsername);
+				break;
+			}
+		}
+		this.saveOrders(orders);
+	}
+
+	public void dispproveDeliverersRequest(String delivererUsername, String orderID) {
+		ArrayList<OrderDeliveryRequest> requests = delivererOrderDAO.getOrderRequests();
+		OrderDeliveryRequest requestForRemoving = new OrderDeliveryRequest();
+		
+		for(OrderDeliveryRequest odr : requests) {
+			if(odr.getOrderID().equals(orderID) && odr.getDelivererUsername().equals(delivererUsername)) {
+				requestForRemoving = odr;
+				break;
+			}
+		}
+		
+		requests.remove(requestForRemoving);
+		delivererOrderDAO.saveDeliveryRequests(requests);
 	}
 }

@@ -38,12 +38,14 @@ Vue.component('manager-orders', {
 
                             <!-- Ponude dostavljaca - prvi div u for petlju -->
                             <div v-if="order.order.status === 'WAITING_FOR_DELIVERER'" style="margin-bottom: 10px; margin-top: 10px">
-                                <span class="product-description">Zahtev za dostavu: imeee
-                                    <span class="float-end">
-                                        <span><img src="../images/approve.png" style="cursor: pointer;"></span>
-                                        <span><img src="../images/disapprove.png" style="cursor: pointer;"></span>
+                                <div v-for="req in order.deliverersInRequest" style="margin-bottom: 10px; margin-top: 10px">
+                                    <span class="product-description">Zahtev za dostavu: {{req.firstName}} {{req.lastName}}
+                                        <span class="float-end">
+                                            <span><img src="../images/approve.png" style="cursor: pointer;" @click="approveRequest(req)"></span>
+                                            <span><img src="../images/disapprove.png" style="cursor: pointer;" @click="disapproveRequest(req)"></span>
+                                        </span>
                                     </span>
-                                </span>
+                                </div>
                             </div>
 
                             <hr style="margin-top: 30px; margin-bottom: 20px;"/>
@@ -177,7 +179,7 @@ Vue.component('manager-orders', {
                                                     <h1 class="orderID">PORUDŽBINA {{o.order.id}}</h1>
                                                     <p style="margin-top: 15px;">{{o.order.time | dateFormat('DD.MM.YYYY. HH:mm')}}</p>
                                                     <p style="margin-top: -13px;">Kupac: {{o.buyerFirstName}} {{o.buyerLastName}}</p>
-                                                    <p v-if="o.status === 3 || o.status === 4" style="margin-top: -13px;">
+                                                    <p v-if="o.order.status == 'IN_TRANSPORT' || o.order.status == 'DELIVERED'" style="margin-top: -13px;">
                                                         Dostavljač: {{o.delivererFirstName}} {{o.delivererLastName}}
                                                     </p>
                                                 </div>
@@ -203,7 +205,7 @@ Vue.component('manager-orders', {
                                                         <p class="text-end" style="margin-top: -3px;">{{Number(o.order.price).toFixed(2)}} RSD</p>
 
                                                         <!-- Ovo se prikaze samo ako ima ponuda od dostavljaca!!!! -->
-                                                        <span v-if="o.hasOffer" class="float-end"><img src="../images/deliveryOffer.png"></span>
+                                                        <span v-if="o.deliverersInRequest.length > 0" class="float-end"><img src="../images/deliveryOffer.png"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -339,6 +341,27 @@ Vue.component('manager-orders', {
             .then(response => {
                 console.log(response.data);
             });
+        },
+
+        approveRequest: function(deliverer) {
+            while(this.order.deliverersInRequest.length)
+                this.order.deliverersInRequest.pop();
+
+            this.order.order.status = 'IN_TRANSPORT';
+            this.order.order.deliverersUsername = deliverer.username;
+            this.order.delivererFirstName = deliverer.firstName;
+            this.order.delivererLastName = deliverer.lastName;
+
+            axios.get('../rest/managersOrders/approveRequest?delivererUsername=' + deliverer.username + '&orderID=' + this.order.order.id)
+            .then(response => {});
+        },
+
+        disapproveRequest: function(deliverer) {
+            let index = this.order.deliverersInRequest.indexOf(deliverer);
+            this.order.deliverersInRequest.splice(index, 1);
+
+            axios.get('../rest/managersOrders/dispproveRequest?delivererUsername=' + deliverer.username + '&orderID=' + this.order.order.id)
+            .then(response => {});
         }
     },
 

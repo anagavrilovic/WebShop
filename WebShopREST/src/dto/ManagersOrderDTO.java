@@ -10,6 +10,7 @@ public class ManagersOrderDTO {
 	private String buyerLastName;
 	private String delivererFirstName;
 	private String delivererLastName;
+	private ArrayList<DelivererDTO> deliverersInRequest = new ArrayList<DelivererDTO>();
 	private ArrayList<ItemQuantityDTO> items = new ArrayList<ItemQuantityDTO>();
 	
 	
@@ -18,13 +19,14 @@ public class ManagersOrderDTO {
 	}
 
 	public ManagersOrderDTO(Order order, String buyerFirstName, String buyerLastName, String delivererFirstName,
-			String delivererLastName, ArrayList<ItemQuantityDTO> items) {
+			String delivererLastName, ArrayList<DelivererDTO> deliverersInRequest, ArrayList<ItemQuantityDTO> items) {
 		super();
 		this.order = order;
 		this.buyerFirstName = buyerFirstName;
 		this.buyerLastName = buyerLastName;
 		this.delivererFirstName = delivererFirstName;
 		this.delivererLastName = delivererLastName;
+		this.deliverersInRequest = deliverersInRequest;
 		this.items = items;
 	}
 
@@ -66,6 +68,14 @@ public class ManagersOrderDTO {
 
 	public void setDelivererLastName(String delivererLastName) {
 		this.delivererLastName = delivererLastName;
+	}
+	
+	public ArrayList<DelivererDTO> getDeliverersInRequest() {
+		return deliverersInRequest;
+	}
+
+	public void setDeliverersInRequest(ArrayList<DelivererDTO> deliverersInRequest) {
+		this.deliverersInRequest = deliverersInRequest;
 	}
 
 	public ArrayList<ItemQuantityDTO> getItems() {

@@ -156,7 +156,7 @@ Vue.component('my-orders', {
                                                         <p v-if="o.status === 'DELIVERED'" class="text-end">
                                                             <span style="color: #27c250;"><img src="../images/delivered.png"> Dostavljena</span>
                                                         </p>
-                                                        <p class="text-end" style="margin-top: -3px;">{{o.price}} RSD</p>
+                                                        <p class="text-end" style="margin-top: -3px;">{{Number(o.price).toFixed(2)}} RSD</p>
                                                         <button class="btn btn-deliver float-end" v-if="o.status === 'IN_TRANSPORT'" v-on:click="deliverOrder(o)"> Dostavi porudžbinu </button>
                                                     </div>
                                                 </div>

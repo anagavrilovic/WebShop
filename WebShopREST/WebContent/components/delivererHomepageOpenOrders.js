@@ -128,7 +128,7 @@ Vue.component('open-orders', {
                                                     <p class="text-end">
                                                         <span style="color: #80B0CF;"><img src="../images/waitingForDeliverer.png"> Čeka dostavljača</span>
                                                     </p>
-                                                    <p class="text-end" style="margin-top: -3px;">{{o.price}} RSD</p>
+                                                    <p class="text-end" style="margin-top: -3px;">{{Number(o.price).toFixed(2)}} RSD</p>
                                                     <button class="btn btn-request float-end" v-on:click="requestOrder(o)">Zatraži dostavu</button>
                                                 </div>
                                             </div>

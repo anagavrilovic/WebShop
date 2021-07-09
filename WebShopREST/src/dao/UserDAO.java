@@ -65,6 +65,15 @@ public class UserDAO {
 		}
 		return null;
 	}
+	
+	public Deliverer getDelivererByUsername(String username) {
+		ArrayList<Deliverer> deliverers = getAllDeliverers();
+		for(Deliverer d : deliverers) {
+			if(d.getUsername().equals(username))
+				return d;
+		}
+		return null;
+	}
 
 	
 	private void saveManager(Manager manager) {
