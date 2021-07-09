@@ -75,6 +75,16 @@ public class UserDAO {
 		}
 		return null;
 	}
+	
+	
+	public Buyer getBuyerByUsername(String username) {
+		ArrayList<Buyer> buyers = getAllBuyers();
+		for(Buyer b : buyers) {
+			if(b.getUsername().equals(username))
+				return b;
+		}
+		return null;
+	}
 
 	
 	private void saveManager(Manager manager) {

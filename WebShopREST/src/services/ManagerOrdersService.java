@@ -13,6 +13,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.Buyer;
 import beans.Manager;
 import dao.ManagerOrdersDAO;
 import dto.ManagersOrderDTO;
@@ -37,6 +38,16 @@ public class ManagerOrdersService {
 		ManagerOrdersDAO dao = (ManagerOrdersDAO)ctx.getAttribute("managerOrdersDAO");
 		Manager manager = (Manager)request.getSession().getAttribute("user");
 		return dao.getAllOrders(manager);
+	}
+	
+	
+	@GET
+	@Path("/buyers")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Buyer> getManagersBuyers(@Context HttpServletRequest request) {
+		ManagerOrdersDAO dao = (ManagerOrdersDAO)ctx.getAttribute("managerOrdersDAO");
+		Manager manager = (Manager)request.getSession().getAttribute("user");
+		return dao.getManagersBuyers(manager.getRestaurantID());
 	}
 	
 	
