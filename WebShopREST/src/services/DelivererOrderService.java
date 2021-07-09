@@ -57,4 +57,26 @@ public class DelivererOrderService {
         	return null;
         return dao.requestDelivery(id, user.getUsername());
 	}
+	
+	@GET
+	@Path("/getDeliverersOrders")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<DeliverersOrderDTO> getDeliverersOrders(@Context HttpServletRequest req) {
+		DelivererOrderDAO dao = (DelivererOrderDAO)ctx.getAttribute("delivererOrdersDAO");
+
+		HttpSession session= req.getSession(true);
+        User user = (User)session.getAttribute("user");
+        if(user == null)
+        	return null;
+        return dao.getDeliverersOrders(user);
+	}
+	
+	@GET
+	@Path("/deliverOrder/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deliverOrder(@PathParam("id") String id) {
+		DelivererOrderDAO dao = (DelivererOrderDAO)ctx.getAttribute("delivererOrdersDAO");
+
+        return dao.deliverOrder(id);
+	}
 }

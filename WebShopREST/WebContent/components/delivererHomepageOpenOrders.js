@@ -113,7 +113,7 @@ Vue.component('open-orders', {
                                                 <div class="row p-4 ">
                                                 <div class="col-md-6">
                                                     <h1 class="orderID">PORUDŽBINA {{o.id}}</h1>
-                                                    <p style="margin-top: 15px;">{{o.time | dateFormat('DD.MM.YYYY.')}}</p>
+                                                    <p style="margin-top: 15px;">{{o.time | dateFormat('DD.MM.YYYY. HH:mm')}}</p>
                                                     <p style="margin-top: -13px;">Kupac: {{o.buyerName}}</p>
                                                     <p style="margin-top: -13px;">Restoran: {{o.restaurantName}}</p>
                                                 </div>

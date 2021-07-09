@@ -91,4 +91,31 @@ public class DelivererOrderDAO {
 			e.printStackTrace();
 		} 
 	}
+
+	public ArrayList<DeliverersOrderDTO> getDeliverersOrders(User user) {
+		ArrayList<Order> allOrders = buyerOrderDAO.getOrders();
+		ArrayList<DeliverersOrderDTO> deliverersOrders = new ArrayList<DeliverersOrderDTO>();
+		for(Order o : allOrders) {
+			if(o.getDeliverersUsername().equals(user.getUsername())) {
+				DeliverersOrderDTO dto = new DeliverersOrderDTO(o);
+				dto.setRestaurantName(restaurantDAO.getRestaurantNameByID(o.getRestaurantID()));
+				dto.setRestaurantType(restaurantDAO.getRestaurantByID(o.getRestaurantID()).getType());
+				dto.setDeliverersUsername(user.getUsername());
+				dto.setBuyerName(this.getBuyersNameByUsername(o.getBuyersUsername()));
+				deliverersOrders.add(dto);
+			}
+		}
+		return deliverersOrders;
+	}
+
+	public String deliverOrder(String id) {
+		ArrayList<Order> orders = shoppingDAO.getOrders();
+		for(Order o : orders) {
+			if(o.getId().equals(id)) {
+				o.setStatus(OrderStatus.DELIVERED);
+			}
+		}
+		shoppingDAO.saveOrders(orders);
+		return id;
+	}
 }
