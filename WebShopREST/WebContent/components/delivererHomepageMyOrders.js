@@ -1,12 +1,14 @@
 Vue.component('my-orders', {
     data: function() {
         return {
+            searchParams: { restaurantName: '', priceFrom: undefined, priceTo: undefined, dateFrom: undefined, dateTo: undefined},
             sortDropdownOpen: false,
             restaurantTypeDropdownOpen: false,
             orderStatusDropdownOpen: false,
             checkedRestaurantTypes: [],
             checkedOrderStatuses: [],
             onlyNonDeliveredOrders: false,
+            allOrders: null,
             orders: null,
             order: null
         }
@@ -35,7 +37,8 @@ Vue.component('my-orders', {
                         
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <input type="text" id="restaurantName" placeholder="Naziv restorana" class="form-control flex" style="height: 37px; padding-left: 10px;">
+                                <input type="text" id="restaurantName" placeholder="Naziv restorana" class="form-control flex" style="height: 37px; padding-left: 10px;"
+                                    v-model="searchParams.restaurantName">
                             </div>
                         </div>
 
@@ -109,19 +112,23 @@ Vue.component('my-orders', {
                     <div class="col-md-9">
                         <div class="row">
                             <div class="col-md-2 padding-0">
-                                <input type="text" id="priceFrom" placeholder="Cena od" class="form-control flex" style="height: 37px; padding-left: 10px;">
+                                <input type="text" id="priceFrom" placeholder="Cena od" class="form-control flex" style="height: 37px; padding-left: 10px;"
+                                    v-model="searchParams.priceFrom">
                             </div>
                             <div class="col-md-2 padding-0">
-                                <input type="text" id="priceTo" placeholder="Cena do" class="form-control flex" style="height: 37px; padding-left: 10px;">
+                                <input type="text" id="priceTo" placeholder="Cena do" class="form-control flex" style="height: 37px; padding-left: 10px;"
+                                    v-model="searchParams.priceTo">
                             </div>
                             <div class="col-md-3 padding-0">
-                                <input type="text" id="dateFrom" placeholder="Datum od" class="form-control flex" style="height: 37px; padding-left: 10px;">
+                                <input type="text" id="dateFrom" placeholder="Datum od" class="form-control flex" style="height: 37px; padding-left: 10px;"
+                                    onfocus="(this.type='date')" onblur="(this.type='text')" v-model="searchParams.dateFrom">
                             </div>
                             <div class="col-md-3 padding-0">
-                                <input type="text" id="dateTo" placeholder="Datum do" class="form-control flex" style="height: 37px; padding-left: 10px;">
+                                <input type="text" id="dateTo" placeholder="Datum do" class="form-control flex" style="height: 37px; padding-left: 10px;"
+                                    onfocus="(this.type='date')" onblur="(this.type='text')" v-model="searchParams.dateTo">
                             </div>
                             <div class="col-md-2 padding-0">
-                                <button type="button" id="searchButton" class="btn btn-search flex">
+                                <button type="button" id="searchButton" class="btn btn-search flex" @click="search">
                                 <span><img src="../images/search.png"></span>&ensp;&nbsp;Pretraži
                                 </button>
                             </div>
@@ -166,8 +173,8 @@ Vue.component('my-orders', {
     mounted() {
         axios.get('../rest/delivererOrders/getDeliverersOrders/')
             .then(response => {
-                console.log(response.data);
-                this.orders = response.data;
+                this.allOrders = response.data;
+                this.orders = this.allOrders.slice();
             });
     },
     methods: {
@@ -232,6 +239,45 @@ Vue.component('my-orders', {
         sortOrderTimeDescending: function(){
             this.orders.sort(compareOrderTimeDescending);
         },
+
+
+         // SEARCH
+         search: function() {
+            while(this.orders.length)
+                this.orders.pop();
+
+            if(this.searchParams.priceFrom == undefined)
+                this.searchParams.priceFrom = Number.NEGATIVE_INFINITY;
+            if(this.searchParams.priceTo == undefined)
+                this.searchParams.priceTo = Number.POSITIVE_INFINITY;
+
+            if(this.searchParams.dateFrom == undefined)
+                this.searchParams.dateFrom = new Date(-8640000000000000);
+            else 
+                this.searchParams.dateFrom = Date.parse(this.searchParams.dateFrom);
+
+            if(this.searchParams.dateTo == undefined)
+                this.searchParams.dateTo = new Date(8640000000000000);
+            else{
+                this.searchParams.dateTo = Date.parse(this.searchParams.dateTo);
+                this.searchParams.dateTo = this.searchParams.dateTo + 86400000;
+            }
+                
+
+            for(let order of this.allOrders){
+                if(order.time >= this.searchParams.dateFrom && order.time <= this.searchParams.dateTo){
+                    if(order.price >= this.searchParams.priceFrom && order.price <= this.searchParams.priceTo){
+                        if(order.restaurantName.toLowerCase().includes(this.searchParams.restaurantName.toLowerCase())){
+                            this.orders.push(order);
+                        }
+                    }
+                }  
+            }
+
+            this.searchParams = { restaurantName: '', priceFrom: undefined, priceTo: undefined, dateFrom: undefined, dateTo: undefined};
+        },
+
+
         //FILTERS
 		filterSatisfied: function(o){
 			return this.restaurantTypeFilterSatisfied(o.restaurantType) && this.orderStatusFilterSatisfied(o.status)
