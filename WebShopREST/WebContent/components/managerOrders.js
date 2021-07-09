@@ -4,7 +4,8 @@ Vue.component('manager-orders', {
             searchParams: { priceFrom: undefined, priceTo: undefined, dateFrom: undefined, dateTo: undefined},
             sortDropdownOpen: false,
             orderStatusDropdownOpen: false,
-            checkedRestaurantTypes: [],
+            checkedOrderStatuses: [],
+            onlyNonDeliveredOrders: false,
             allOrders: null,
             orders: null,
             order: null,
@@ -83,7 +84,7 @@ Vue.component('manager-orders', {
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-check checkbox-style rounded ">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" >
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" v-model="onlyNonDeliveredOrders">
                                     <label class="form-check-label" for="flexCheckDefault">
                                     Nedostavljene
                                     </label>
@@ -97,12 +98,10 @@ Vue.component('manager-orders', {
                                     Sortiraj po <span style="float: right;"><img src="../images/arrow.png" style="margin-top: 5px"></span>
                                 </button>
                                 <div class="list-group flex" v-if="sortDropdownOpen">
-                                    <button class="list-group-item list-group-item-action">Naziv restorana A - Z </button>
-                                    <button class="list-group-item list-group-item-action">Naziv restorana Z - A</button>
-                                    <button class="list-group-item list-group-item-action">Cena rastuće</button>
-                                    <button class="list-group-item list-group-item-action">Cena opadajuće</button>
-                                    <button class="list-group-item list-group-item-action">Datum najnovije</button>
-                                    <button class="list-group-item list-group-item-action">Datum najstarije</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortOrderPriceAscending">Cena rastuće</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortOrderPriceDescending">Cena opadajuće</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortOrderTimeDescending">Datum najnovije</button>
+                                    <button class="list-group-item list-group-item-action" v-on:click="sortOrderTimeAscending">Datum najstarije</button>
                                 </div>
                             </div>
                         </div>
@@ -114,22 +113,22 @@ Vue.component('manager-orders', {
                                 </button>
                                 <ul class="list-group flex" v-if="orderStatusDropdownOpen">
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">Obrada
+                                        <input class="form-check-input me-1" type="checkbox" value="PROCESSING" v-model="checkedOrderStatuses">Obrada
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">U pripremi
+                                        <input class="form-check-input me-1" type="checkbox" value="PREPARING" v-model="checkedOrderStatuses">U pripremi
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">Čeka dostavljača
+                                        <input class="form-check-input me-1" type="checkbox" value="WAITING_FOR_DELIVERER" v-model="checkedOrderStatuses">Čeka dostavljača
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">U transportu
+                                        <input class="form-check-input me-1" type="checkbox" value="IN_TRANSPORT" v-model="checkedOrderStatuses">U transportu
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">Dostavljena
+                                        <input class="form-check-input me-1" type="checkbox" value="DELIVERED" v-model="checkedOrderStatuses">Dostavljena
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="">Otkazana
+                                        <input class="form-check-input me-1" type="checkbox" value="CANCELED" v-model="checkedOrderStatuses">Otkazana
                                     </label>
                                 </ul>
                             </div>
@@ -169,7 +168,7 @@ Vue.component('manager-orders', {
                                     <div class="row">
 
                                         <div v-for="o in orders" v-if="orders !== null">
-                                            <div class="card shadow my-2" v-on:click="seeOrderDetails(o)">
+                                            <div class="card shadow my-2" v-on:click="seeOrderDetails(o)"  v-if="filterSatisfied(o)">
                                                 <div class="row p-4 ">
                                                 <div class="col-md-6">
                                                     <h1 class="orderID">PORUDŽBINA {{o.order.id}}</h1>
@@ -283,6 +282,44 @@ Vue.component('manager-orders', {
             }
 
             this.searchParams = { priceFrom: undefined, priceTo: undefined, dateFrom: undefined, dateTo: undefined};
+        },
+
+        //SORT
+        sortOrderPriceAscending: function(){
+            this.orders.sort(compareOrderPriceAscending);
+        },
+        sortOrderPriceDescending: function(){
+            this.orders.sort(compareOrderPriceDescending);
+        },
+        sortOrderTimeAscending: function(){
+            this.orders.sort(compareOrderTimeAscending);
+        },
+        sortOrderTimeDescending: function(){
+            this.orders.sort(compareOrderTimeDescending);
+        },
+
+        //FILTERS
+        filterSatisfied: function(o){
+			return this.orderStatusFilterSatisfied(o.order.status) && this.nonDeliveredFilterSatisfied(o.order.status);
+            	
+		},
+        orderStatusFilterSatisfied: function(status){
+			if(this.checkedOrderStatuses.length == 0){
+				return true;
+			}
+			return this.checkedOrderStatuses.indexOf(status) > -1;
+		},
+        nonDeliveredFilterSatisfied: function(status){
+            if(this.onlyNonDeliveredOrders == false){
+                return true;
+            }
+            if(status != 'DELIVERED' && status != 'CANCELED'){
+                return true;
+            }
+            else{
+                return false;
+            }
+
         },
     },
 
