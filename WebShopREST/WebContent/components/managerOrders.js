@@ -23,10 +23,13 @@ Vue.component('manager-orders', {
                             <button class="btn float-end" v-on:click="closeOrderDetails"><img src="../images/x.png"></button>
                         </div>
                         <div class="modal-body rounded"  style="background-color: #f2f2f2;">
-                            <span v-if="order.order.status === 'PROCESSING'" class="product-description"> Status: Obrada</span>
+                            <span v-if="order.order.status === 'PROCESSING'" class="product-description"> 
+                                Status: Obrada
+                                <button class="btn btn-primary float-end" @click="changeStatausToPreparing">Prirprema se</button>
+                            </span>
                             <span v-if="order.order.status === 'PREPARING'" class="product-description">
                                 Status: U pripremi
-                                <button class="btn btn-primary float-end">Čekaj dostavljača</button>
+                                <button class="btn btn-primary float-end" @click="changeStatusToWaitingForDeliverer">Čekaj dostavljača</button>
                             </span>
                             <span v-if="order.order.status === 'WAITING_FOR_DELIVERER'" class="product-description">Status: Čeka dostavljača</span>
                             <span v-if="order.order.status === 'IN_TRANSPORT'" class="product-description">Status: U transportu</span>
@@ -321,6 +324,22 @@ Vue.component('manager-orders', {
             }
 
         },
+
+        changeStatausToPreparing: function() {
+            this.order.order.status = 'PREPARING';
+            axios.get('../rest/managersOrders/preparing/' + this.order.id)
+            .then(response => {
+                console.log(response.data);
+            });
+        },
+
+        changeStatusToWaitingForDeliverer: function() {
+            this.order.order.status = 'WAITING_FOR_DELIVERER';
+            axios.get('../rest/managersOrders/waitingForDeliverer/' + this.order.id)
+            .then(response => {
+                console.log(response.data);
+            });
+        }
     },
 
     filters: {

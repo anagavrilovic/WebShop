@@ -1,6 +1,5 @@
 package services;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
@@ -8,6 +7,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -39,7 +39,19 @@ public class ManagerOrdersService {
 	}
 	
 	
+	@GET
+	@Path("/preparing/{id}")
+	public void changeStatusToPreparing(@PathParam("id") String orderID) {
+		ManagerOrdersDAO dao = (ManagerOrdersDAO)ctx.getAttribute("managerOrdersDAO");
+		dao.changeStatusToPreparing(orderID);
+	}
 	
 	
+	@GET
+	@Path("/waitingForDeliverer/{id}")
+	public void changeStatusToWaitingForDeliverer(@PathParam("id") String orderID) {
+		ManagerOrdersDAO dao = (ManagerOrdersDAO)ctx.getAttribute("managerOrdersDAO");
+		dao.changeStatusToWaitingForDeliverer(orderID);
+	}
 	
 }
