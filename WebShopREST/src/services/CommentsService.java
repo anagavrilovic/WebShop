@@ -71,7 +71,14 @@ public class CommentsService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String rejectComment(@PathParam("id") String id) {
 		CommentsDAO dao = (CommentsDAO)ctx.getAttribute("commentsDAO");
-		System.out.println(id);
         return dao.rejectComment(id);
+	}
+	
+	@GET
+	@Path("/getAcceptedComments/{restaurantId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<CommentDTO> getAcceptedComments(@PathParam("restaurantId") String restaurantId) {
+		CommentsDAO dao = (CommentsDAO)ctx.getAttribute("commentsDAO");
+		return dao.getAcceptedComments(restaurantId);
 	}
 }

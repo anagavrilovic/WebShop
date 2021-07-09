@@ -121,6 +121,20 @@ public class CommentsDAO {
 		}
 		return null;
 	}
+
+	public ArrayList<CommentDTO> getAcceptedComments(String restaurantId) {
+		ArrayList<CommentDTO> acceptedComments = new ArrayList<CommentDTO>();
+		ArrayList<Comment> allComments = getAll();
+		for(Comment c : allComments) {
+			if(c.getRestaurantID().equals(restaurantId) && c.getStatus() == CommentStatus.ACCEPTED) {
+				CommentDTO dto = new CommentDTO(c);
+				dto.setRestaurantName(restaurantDAO.getRestaurantNameByID(restaurantId));
+				acceptedComments.add(dto);
+			}
+		}
+		return acceptedComments;
+		
+	}
 	
 	
 }
