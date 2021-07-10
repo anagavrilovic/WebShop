@@ -8,7 +8,7 @@ Vue.component("manager-buyers", {
     },
     template:         
         `<div class="container table-container" style="padding-left: 100px; padding-right: 100px;">
-            <div class="card shadow py-5 px-5">
+            <div class="card shadow py-5 px-5" style="cursor: default;">
                 <div class="input-group rounded">
                     <input type="search" class="form-control rounded search-bar" placeholder="Search" aria-label="Search"
                         v-model="searchParam"  @keydown="search"/>
@@ -31,7 +31,7 @@ Vue.component("manager-buyers", {
                         <td scope="row" class="col-md-3">{{u.firstName}}</td>
                         <td class="col-md-3">{{u.lastName}}</td>
                         <td class="col-md-3">{{u.username}}</td>
-                        <td class="col-md-3">{{u.collectedPoints}}</td>
+                        <td class="col-md-3">{{Number(u.collectedPoints).toFixed(2)}}</td>
                     </tr>
                     
                     </tbody>

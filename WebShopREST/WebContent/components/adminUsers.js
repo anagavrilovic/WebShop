@@ -161,7 +161,7 @@ Vue.component("admin-users", {
                                                             <div class="col-md-9">
                                                                 <p class="user-name">{{u.firstName}} {{u.lastName}} &ensp;|&ensp; {{u.username}}</p>
                                                                 <p class="users-text">Datum rođenja: {{u.dateOfBirth | dateFormat('DD.MM.YYYY.')}}</p>
-                                                                <p class="users-text" v-if="u.role == 'BUYER'">Broj sakupljenih bodova: {{u.collectedPoints}}</p>
+                                                                <p class="users-text" v-if="u.role == 'BUYER'">Broj sakupljenih bodova: {{Number(u.collectedPoints).toFixed(2)}}</p>
                                                                 <p class="users-text" v-if="u.role == 'BUYER'">Tip kupca: {{u.buyerType.buyerTypeName}}</p>
                                                                 <p class="users-text" v-if="u.role == 'MANAGER'">Restoran: {{u.restaurantName}} </p>
                                                             </div>

@@ -40,7 +40,7 @@ Vue.component("manager-comments", {
                     <div class="col-md-10">
                         <div class="row main_content">
                             <div class="col-md-12">
-                                <div class="card shadow pt-4" style="height: auto">
+                                <div class="card shadow pt-4" style="height: auto; cursor: default;">
             
                                     <div v-for="c in comments" v-if="comments !== null">
                                         <div class="row p-4" v-if="filterSatisfied(c)">

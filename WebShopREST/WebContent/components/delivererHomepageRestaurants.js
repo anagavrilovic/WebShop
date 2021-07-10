@@ -116,7 +116,8 @@ Vue.component('restaurants', {
                                 <div class="row">
 
                                     <div v-for="r in restaurants" v-if="restaurants !== null">
-                                        <div class="card shadow my-2" v-on:click="seeRestaurantDetails(r)" v-if="filterSatisfied(r)">
+                                        <div class="card shadow my-2" v-on:click="seeRestaurantDetails(r)" v-if="filterSatisfied(r)"
+                                            style="cursor: default">
                                             <div class="row p-4 ">
                                                 <div class="col-md-2" style="padding-left: 10px; padding-right: 10px;">
                                                     <img :src="r.logoPath" alt="r.name" class="mx-2 restaurant-images">
@@ -133,6 +134,9 @@ Vue.component('restaurants', {
                                                     </div>
                                                     <div class="row">
                                                         <p style="margin-top: 10px;">{{r.type}}</p>
+                                                        <p style="margin-top: -15px;">
+                                                            {{r.location.address.streetName}} {{r.location.address.streetNumber}}, {{r.location.address.city}} {{r.location.address.postalCode}}
+                                                        </p>
                                                         <p v-if="isWorking(r)" style="margin-top: -15px;">Otvoreno</p>
                                                         <p v-else style="margin-top: -15px;">Zatvoreno</p>
                                                     </div>

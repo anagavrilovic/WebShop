@@ -19,7 +19,7 @@ Vue.component("restaurant-products", {
                         </div>
                         <div class="modal-body text-center rounded" style="background-color: #f2f2f2;">
                             <h2 class="product-name">{{cartItem.product.name}}</h2>
-                            <h5 class="product-price-dialog">{{cartItem.product.price}}</h5>
+                            <h5 class="product-price-dialog">{{Number(cartItem.product.price).toFixed(2)}} RSD</h5>
                             <div class="itemQuantity">
                                 <span>
                                     <button class="btn btn-secondary rounded-circle addRemoveItem" v-on:click="decreaseQuantity"
@@ -90,6 +90,11 @@ Vue.component("restaurant-products", {
             e.target.classList.remove("shadow-lg");
         },
         openModalForOrderingProduct: function(product) {
+            if(!this.isWorking(this.restaurant)){
+                alert('Restoran trenutno ne radi. Ne možete poručiti proizvode.');
+                return;
+            }
+
             this.cartItem.product = product;
             this.cartItem.quantity = 1;
             $('#orderProduct').modal('show');
@@ -117,6 +122,24 @@ Vue.component("restaurant-products", {
                     }
                 })
 
-        }
+        },
+
+        isWorking: function(restaurant){
+			let workTimeStart = restaurant.workTime.workTimeStart;
+			let workTimeEnd = restaurant.workTime.workTimeEnd;
+			let workTimeStartHours = workTimeStart.split(':')[0];
+			let workTimeEndHours = workTimeEnd.split(':')[0];
+				
+			var today = new Date();
+			var currentTimeHours = today.getHours();
+
+			if(currentTimeHours >= workTimeStartHours && currentTimeHours < workTimeEndHours){
+				return true;
+			}
+			else{
+				return false;
+			}
+
+		},
     }
 })

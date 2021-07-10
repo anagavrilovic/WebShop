@@ -16,7 +16,7 @@ Vue.component("manager-restaurant-information", {
     template: 
         `<div class="container py-5" style="padding-left: 100px; padding-right: 100px;">
             <div class="row">
-                    <div class="card shadow" style="height: 500px; padding: 50px">
+                    <div class="card shadow" style="height: 500px; padding: 50px; cursor: default;">
                         <div class="row">
                             <div class="col-md-5" v-if="restaurant !== null">
                                 <div class="informationContent">
