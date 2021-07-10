@@ -5,9 +5,14 @@ var overlay = new OpenLayers.Layer.Vector('Overlay', {
         title: '${tooltip}'
     })
 });
+
 var map;
 var currentLon;
 var currentLat;
+
+var currentFeature;
+var previousFeature;
+
 OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
     defaultHandlerOptions: {
         'single': true,
@@ -42,10 +47,14 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
         .transform('EPSG:4326', 'EPSG:3857');
 
         // We add the marker with a tooltip text to the overlay
-
+        if(previousFeature != undefined){
+            overlay.removeFeatures(previousFeature);
+        }
+        currentFeature = new OpenLayers.Feature.Vector(myLocation, {tooltip: 'OpenLayers'});
         overlay.addFeatures([
-            new OpenLayers.Feature.Vector(myLocation, {tooltip: 'OpenLayers'})
+            currentFeature
         ]);
+        previousFeature = currentFeature;
     }
 
 });
