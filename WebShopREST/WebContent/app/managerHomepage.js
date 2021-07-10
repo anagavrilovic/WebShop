@@ -33,6 +33,20 @@ var app = new Vue({
         window.removeEventListener('scroll', this.handleScroll);
     },
     mounted() {
+        if(window.location.href.includes('products')){
+            this.tab = 2;
+        } else if(window.location.href.includes('orders')) {
+            this.tab = 3;
+        } else if(window.location.href.includes('buyers')) {
+            this.tab = 4;
+        } else if(window.location.href.includes('info')) {
+            this.tab = 5;
+        } else if(window.location.href.includes('comments')) {
+            this.tab = 6;
+        } else {
+            this.tab = 1;
+        }
+
         axios.get('../rest/login/loginCheck')
         .then(response => {
             let roleStr = response.data.role;

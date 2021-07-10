@@ -25,6 +25,14 @@ var app = new Vue({
         window.removeEventListener('scroll', this.handleScroll);
     },
     mounted() {
+        if(window.location.href.includes('info')){
+            this.tab = 2;
+        } else if(window.location.href.includes('comments')) {
+            this.tab = 3;
+        } else {
+            this.tab = 1;
+        }
+
         this.getRestaurant();
 
         axios.get('../rest/login/loginCheck')

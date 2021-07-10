@@ -22,6 +22,12 @@ var app = new Vue({
         window.removeEventListener('scroll', this.handleScroll);
     },
     mounted() {
+        if(window.location.href.includes('myOrders')){
+            this.tab = 2;
+        } else {
+            this.tab = 1;
+        }
+
         axios.get('../rest/login/loginCheck')
         .then(response => {
             let roleStr = response.data.role;
