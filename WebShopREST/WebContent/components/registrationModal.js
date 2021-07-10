@@ -59,9 +59,6 @@ Vue.component("registration-modal", {
                     <div class="form-group submitButton">
                       <input type="submit" class="btn btn-secondary btn-block" value="Potvrdi" id="submitButton">
                     </div>
-                    <div class="loginFromRegistrationLink">   
-                      <a href="#"> Vec imate nalog? Prijavite se</a>
-                    </div>
                     </form>
                 </div>
   
