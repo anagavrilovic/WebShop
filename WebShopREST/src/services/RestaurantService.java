@@ -29,6 +29,7 @@ import dao.LoginDAO;
 import dao.RestaurantDAO;
 import dao.UserDAO;
 import dto.Image64DTO;
+import dto.RestaurantDTO;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -149,5 +150,13 @@ public class RestaurantService {
 	public Collection<Item> getProductsByRestaurantID(@PathParam("id") String id) {
 		RestaurantDAO dao = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
 		return dao.getAllProducts(id);
+	}
+	
+	@POST
+	@Path("/addNewRestaurant")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Restaurant addNewRestaurant(RestaurantDTO restaurant) {
+		RestaurantDAO dao = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
+		return dao.addNewRestaurant(restaurant);
 	}
 }

@@ -100,7 +100,12 @@
     margin-bottom: 2px;
 }
 
-
 .red {
     background-color: #ffb5b5;
 }
+
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}
+
