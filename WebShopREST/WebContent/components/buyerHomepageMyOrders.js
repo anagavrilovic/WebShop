@@ -82,7 +82,7 @@ Vue.component('my-orders', {
                             <div class="container py-2">
                                 <div class="row">
                                     <div v-for="i in items" class="col-md-12 py-2 padding-0">
-                                        <div class="card">
+                                        <div class="card" style="cursor: default">
                                             <div class="row">
                                                 <div class="col-md-5">
                                                     <img :src="i.product.imagePath" class="card-img-top h-100 food-images" :alt="i.product.name">

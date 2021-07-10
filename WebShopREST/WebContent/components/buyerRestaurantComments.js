@@ -8,7 +8,7 @@ Vue.component("restaurant-comments", {
         `<div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <div class="card shadow pt-4" style="height: auto">
+                    <div class="card shadow pt-4" style="height: auto; cursor: default;">
 
                         <div v-for="c in comments" v-if="comments !== null">
                             <div class="row p-4">

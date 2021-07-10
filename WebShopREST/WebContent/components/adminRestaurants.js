@@ -151,6 +151,9 @@ Vue.component("admin-restaurants", {
                                                         </div>
                                                         <div class="row">
                                                             <p style="margin-top: 10px;">{{r.type}}</p>
+                                                            <p style="margin-top: -15px;">
+																{{r.location.address.streetName}} {{r.location.address.streetNumber}}, {{r.location.address.city}} {{r.location.address.postalCode}}
+															</p>
                                                             <p v-if="isWorking(r)" style="margin-top: -15px;">Otvoreno</p>
                                                             <p v-else style="margin-top: -15px;">Zatvoreno</p>
                                                         </div>
