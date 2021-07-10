@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Buyer extends User {
 
-   private int collectedPoints;
+   private double collectedPoints;
    private Boolean isDeleted = false;
    private Boolean isBlocked = false;
    
@@ -15,7 +15,7 @@ public class Buyer extends User {
 		super();
 	}
 	
-	public Buyer(int collectedPoints, Boolean isDeleted, Boolean isBlocked, BuyerType buyerType,
+	public Buyer(double collectedPoints, Boolean isDeleted, Boolean isBlocked, BuyerType buyerType,
 			ShoppingCart shoppingCart) {
 		super();
 		this.collectedPoints = collectedPoints;
@@ -25,11 +25,11 @@ public class Buyer extends User {
 		this.shoppingCart = shoppingCart;
 	}
 
-	public int getCollectedPoints() {
+	public double getCollectedPoints() {
 		return collectedPoints;
 	}
 
-	public void setCollectedPoints(int collectedPoints) {
+	public void setCollectedPoints(double collectedPoints) {
 		this.collectedPoints = collectedPoints;
 	}
 

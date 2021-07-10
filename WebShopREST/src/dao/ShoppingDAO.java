@@ -1,6 +1,8 @@
 package dao;
 
 import java.io.File;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +14,8 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import beans.Buyer;
+import beans.BuyerType;
+import beans.BuyerTypeName;
 import beans.Deliverer;
 import beans.Item;
 import beans.Order;
@@ -258,16 +262,44 @@ public class ShoppingDAO {
 			orderItems.add(new OrderItem(order.getId(), entry.getKey(), entry.getValue()));
 		}
 		
+		buyer.setShoppingCart(new ShoppingCart());
+		addPointsToBuyer(buyer, order);
+		this.updateBuyer(buyer);
+		
+		order.setPrice(order.getPrice() - order.getPrice()*buyer.getBuyerType().getDiscount());
 		this.addNewOrder(order);
 		this.addNewOrderItems(orderItems);
-		
-		buyer.setShoppingCart(new ShoppingCart());
-		this.updateBuyer(buyer);
 		
 		return order;
 	}
 	
 	
+	private void addPointsToBuyer(Buyer buyer, Order order) {
+		buyer.setCollectedPoints(buyer.getCollectedPoints() + order.getPrice()/1000 * 133);
+		BuyerType buyerType;
+		
+		if(buyer.getCollectedPoints() > 2000) {
+			switch (buyer.getBuyerType().getBuyerTypeName()) {
+			case REGULAR:
+				buyerType = new BuyerType(BuyerTypeName.BRONZE, 0.03, 2000);
+				buyer.setBuyerType(buyerType);
+				buyer.setCollectedPoints(buyer.getCollectedPoints() % 2000);
+				break;
+			case BRONZE:
+				buyerType = new BuyerType(BuyerTypeName.SILVER, 0.05, 2000);
+				buyer.setBuyerType(buyerType);
+				buyer.setCollectedPoints(buyer.getCollectedPoints() % 2000);
+				break;
+			case SILVER:
+				buyerType = new BuyerType(BuyerTypeName.GOLD, 0.1, 2000);
+				buyer.setBuyerType(buyerType);
+				buyer.setCollectedPoints(buyer.getCollectedPoints() % 2000);
+				break;
+			}
+		}
+		
+	}
+
 	public ArrayList<OrderItem> getOrderItems(){
 		ArrayList<OrderItem> items = new ArrayList<OrderItem>();
 		try {

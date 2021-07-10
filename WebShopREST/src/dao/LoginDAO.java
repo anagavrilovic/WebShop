@@ -146,7 +146,7 @@ public class LoginDAO {
 		buyer.setRole(Role.BUYER);
 		buyer.setCollectedPoints(0);
 		buyer.setShoppingCart(new ShoppingCart());
-		buyer.setBuyerType(new BuyerType(BuyerTypeName.REGULAR, 0, 1000));
+		buyer.setBuyerType(new BuyerType(BuyerTypeName.REGULAR, 0, 2000));
 		
 		saveBuyer(buyer);		
 		Credentials credentials = new Credentials(buyer.getUsername(), buyer.getPassword(), Role.BUYER, false);

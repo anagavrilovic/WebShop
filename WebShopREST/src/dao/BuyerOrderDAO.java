@@ -19,6 +19,7 @@ public class BuyerOrderDAO {
 	private ObjectMapper objectMapper = new ObjectMapper();
 	private RestaurantDAO restaurantDAO = new RestaurantDAO();
 	private ShoppingDAO shoppingDAO = new ShoppingDAO();
+	private UserDAO userDAO = new UserDAO();
 	
 	
 	public ArrayList<BuyersOrderDTO> getBuyerOrders(User user) {
@@ -64,9 +65,16 @@ public class BuyerOrderDAO {
 	public Order cancelOrder(String id) {
 		Order order = getOrderById(id);
 		order.setStatus(OrderStatus.CANCELED);
+		decreaseBuyersPoints(order);
 		return this.updateOrder(order);
 	}
 	
+	private void decreaseBuyersPoints(Order order) {
+		Buyer buyer = userDAO.getBuyerByUsername(order.getBuyersUsername());
+		buyer.setCollectedPoints(buyer.getCollectedPoints() - order.getPrice()/1000 * 133 * 4);
+		shoppingDAO.updateBuyer(buyer);
+	}
+
 	public Order getOrderById(String id) {
 		ArrayList<Order> orders = shoppingDAO.getOrders();
 		for(Order o : orders) {
