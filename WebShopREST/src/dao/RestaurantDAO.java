@@ -98,7 +98,7 @@ public class RestaurantDAO {
 		return item;
 	}
 	
-	private void saveItems(ArrayList<Item> items) {
+	public void saveItems(ArrayList<Item> items) {
 		try {
 			objectMapper.writeValue(new File("resources/restaurantItems.json"), items);
 		} catch (Exception e) {
@@ -106,7 +106,7 @@ public class RestaurantDAO {
 		} 
 	}
 	
-	private ArrayList<Item> getItems() {
+	public ArrayList<Item> getItems() {
 		ArrayList<Item> items = new ArrayList<Item>();
 		try {
 			items = new ArrayList<Item>(Arrays.asList(objectMapper.readValue(new File("resources/restaurantItems.json"), Item[].class)));
@@ -178,6 +178,18 @@ public class RestaurantDAO {
 		userDAO.saveManagers(managers);
 		
 		return newRestaurant;
+	}
+
+	public String deleteProduct(String id) {
+		ArrayList<Item> items = getItems();
+		for(Item i : items) {
+			if(i.getId().equals(id)) {
+				i.setIsDeleted(true);
+				break;
+			}
+		}
+		saveItems(items);
+		return id;
 	}
 	
 

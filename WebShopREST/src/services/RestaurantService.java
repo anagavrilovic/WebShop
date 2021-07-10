@@ -159,4 +159,12 @@ public class RestaurantService {
 		RestaurantDAO dao = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
 		return dao.addNewRestaurant(restaurant);
 	}
+	
+	@GET
+	@Path("/deleteProduct/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deleteProduct(@PathParam("id") String id) {
+		RestaurantDAO dao = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
+		return dao.deleteProduct(id);
+	}
 }

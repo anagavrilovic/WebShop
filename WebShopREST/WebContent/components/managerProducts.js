@@ -25,7 +25,7 @@ Vue.component("manager-products", {
                                 </label>
                                 <input id="file-upload" type="file" v-on:change="imagePathChanged" accept="image/*" /> 
 
-                                <button class="btn btn-over-image-delete">Izbriši proizvod</button>
+                                <button class="btn btn-over-image-delete" v-on:click="deleteProduct()">Izbriši proizvod</button>
                             </div>
                             
                         </div>
@@ -84,7 +84,7 @@ Vue.component("manager-products", {
                         <div class="card shadow pt-4" style="height: auto">
 
                             <div v-for="p in products" v-if="products !== null">
-                                <div class="row p-4" v-on:click="showEditDialog(p)">
+                                <div class="row p-4" v-on:click="showEditDialog(p)" v-if="!p.isDeleted">
                                     <div class="col-md-3">
                                         <img :src=p.imagePath alt="Product image" height="170px" style="width: 170px" class="mx-2">
                                     </div>
@@ -169,6 +169,14 @@ Vue.component("manager-products", {
                     this.updateList();
                     this.hideEditDialog();
                 });
+        },
+        deleteProduct: function(){
+            if(confirm('Da li želite da izbrišete proizvod?')){
+                axios.get('../rest/restaurants/deleteProduct/' + this.productForUpdate.id)
+                    .then(response => {
+                        console.log(response.data);
+                    })
+            }
         }
     }
 });

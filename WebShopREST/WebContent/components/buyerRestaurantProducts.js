@@ -43,9 +43,10 @@ Vue.component("restaurant-products", {
 
             <div class="container py-5 d-grid gap-5 px-5">
                 <div class="row">
-                    <div v-for="p in products" class="col-md-6 py-2" v-on:click="openModalForOrderingProduct(p)">
-                        <div class="card shadow" v-on:mouseenter="addHoverClass" v-on:mouseleave="removeHoverClass">
-                            <div class="row">
+                    <div v-for="p in products" v-on:click="openModalForOrderingProduct(p)" class="col-md-6 py-2"  v-if="!p.isDeleted">
+
+                        <div class="card shadow" v-on:mouseenter="addHoverClass" v-on:mouseleave="removeHoverClass" >
+                            <div class="row" >
                                 <div class="col-md-5">
                                     <img :src="p.imagePath" class="card-img-top food-images" style="height: 220px;" :alt="p.name">
                                 </div>
@@ -62,6 +63,7 @@ Vue.component("restaurant-products", {
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>

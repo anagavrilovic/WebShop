@@ -12,7 +12,7 @@ Vue.component("restaurant-products", {
         <div>
             <div class="container py-5 d-grid gap-5 px-5">
                 <div class="row">
-                    <div v-for="p in products" class="col-md-6 py-2">
+                    <div v-for="p in products" class="col-md-6 py-2" v-if="!p.isDeleted">
                         <div class="card shadow" style="cursor: default;" v-on:mouseenter="addHoverClass" v-on:mouseleave="removeHoverClass">
                             <div class="row">
                                 <div class="col-md-5">
