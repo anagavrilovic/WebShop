@@ -44,7 +44,7 @@ public class UserDAO {
 		new LoginDAO().saveCredentials(credentials);
 		
 		ManagerDTO m = new ManagerDTO(manager.getUsername(), manager.getFirstName(), manager.getLastName(),
-				manager.getDateOfBirth(), manager.getRole(), "", manager.getIsBlocked());
+				manager.getDateOfBirth(), manager.getRole(), "", manager.getIsBlocked(), manager.getIsDeleted());
 		RestaurantDAO restaurantDAO = new RestaurantDAO();
 		m.setRestaurantName(restaurantDAO.getRestaurantNameByID(manager.getRestaurantID()));
 		
@@ -189,7 +189,7 @@ public class UserDAO {
 		ArrayList<ManagerDTO> managersWithRestaurants = new ArrayList<ManagerDTO>();
 		
 		for(Manager m : managers) {
-			ManagerDTO manager = new ManagerDTO(m.getUsername(), m.getFirstName(), m.getLastName(), m.getDateOfBirth(), m.getRole(), "", m.getIsBlocked());
+			ManagerDTO manager = new ManagerDTO(m.getUsername(), m.getFirstName(), m.getLastName(), m.getDateOfBirth(), m.getRole(), "", m.getIsBlocked(), m.getIsDeleted());
 			RestaurantDAO restaurantDAO = new RestaurantDAO();
 			manager.setRestaurantName(restaurantDAO.getRestaurantNameByID(m.getRestaurantID()));
 			managersWithRestaurants.add(manager);
@@ -412,6 +412,53 @@ public class UserDAO {
 		}
 		
 		return freeManagers;
+	}
+
+	public User deleteUser(User user) {
+		Role role = user.getRole();
+		
+		switch(role) {
+			case MANAGER:
+				try {
+					ArrayList<Manager> users = new ArrayList<Manager>(Arrays.asList(objectMapper.readValue(new File("resources/managers.json"), Manager[].class)));
+					for(Manager u : users) {
+						if(u.getUsername().equals(user.getUsername())) {
+							u.setIsDeleted(true);
+						}
+					}
+					saveManagers(users);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
+				break;
+			case DELIVERER:
+				try {
+					ArrayList<Deliverer> users = new ArrayList<Deliverer>(Arrays.asList(objectMapper.readValue(new File("resources/deliverers.json"), Deliverer[].class)));
+					for(Deliverer u : users) {
+						if(u.getUsername().equals(user.getUsername())) {
+							u.setIsDeleted(true);
+						}
+					}
+					saveDeliverers(users);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
+				break;
+			case BUYER:
+				try {
+					ArrayList<Buyer> users = new ArrayList<Buyer>(Arrays.asList(objectMapper.readValue(new File("resources/buyers.json"), Buyer[].class)));
+					for(Buyer u : users) {
+						if(u.getUsername().equals(user.getUsername())) {
+							u.setIsDeleted(true);
+						}
+					}
+					saveBuyers(users);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
+				break;
+		}
+		return user;
 	}
 	
 

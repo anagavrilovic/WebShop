@@ -326,10 +326,9 @@ Vue.component("admin-restaurants", {
 
         deleteRestaurant: function(restaurant){
             if(confirm('Da li želite da izbrišete restoran?')){
-                restaurant.isDeleted = true;
                 axios.get('../rest/restaurants/deleteRestaurant/' + restaurant.id)
                 .then(response => {
-                    
+                    restaurant.isDeleted = true;
                 });
             }
         }

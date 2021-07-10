@@ -32,34 +32,7 @@ public class LoginDAO {
 	
 	ObjectMapper objectMapper = new ObjectMapper();
 	
-	public LoginDAO() {
-		
-		//DUMMY DATA
-		/*Address a1 = new Address("Dimitrija Tucovića", "3", "Novi Sad", "21000");
-		Address a2 = new Address("Stražilovska", "8", "Novi Sad", "21000");
-		Address a3 = new Address("Bulevar Oslobođenja", "119", "Novi Sad", "21000");
-		
-		Location l1 = new Location(45.248001756873414, 19.842227869107603, a1);
-		Location l2 = new Location(45.24886155275487, 19.848704417764406, a2);
-		Location l3 = new Location(45.244807720188916, 19.841773984451038, a3);
-		
-		WorkTime wt = new WorkTime("08:00", "22:00");
-		
-		Restaurant r1 = new Restaurant("Gyros Master", "Brza hrana", "../images/girosMasterLogo.png", "../images/girosMasterCover.jpg", l1, wt, 5.0);
-		Restaurant r2 = new Restaurant("Kuća Kobasice", "Brza hrana", "../images/kucaKobasiceLogo.png", "../images/cover.jpg", l2, wt, 4.5);
-		Restaurant r3 = new Restaurant("Walter", "Roštilj", "../images/walterLogo.png", "../images/cover.jpg", l3, wt, 4.25);
-		
-		ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
-		restaurants.add(r1);
-		restaurants.add(r2);
-		restaurants.add(r3);
-		
-		try {
-			objectMapper.writeValue(new File("resources/restaurants.json"), restaurants);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
-	}
+	public LoginDAO() {}
 
 
 	public User getUser(CredentialsDTO dto){
@@ -78,17 +51,17 @@ public class LoginDAO {
 					switch(role) {
 					case MANAGER:
 						Manager manager = (Manager)user;
-						if(manager.getIsBlocked())
+						if(manager.getIsBlocked() || manager.getIsDeleted())
 							return null;
 						break;
 					case DELIVERER:
 						Deliverer deliverer = (Deliverer)user;
-						if(deliverer.getIsBlocked())
+						if(deliverer.getIsBlocked() || deliverer.getIsDeleted())
 							return null;
 						break;
 					case BUYER:
 						Buyer buyer = (Buyer)user;
-						if(buyer.getIsBlocked())
+						if(buyer.getIsBlocked() || buyer.getIsDeleted())
 							return null;
 						break;
 					}

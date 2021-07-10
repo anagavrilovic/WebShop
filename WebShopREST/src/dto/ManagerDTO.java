@@ -11,11 +11,12 @@ public class ManagerDTO {
 	private Role role;
 	private String restaurantName;
 	private Boolean isBlocked;
+	private Boolean isDeleted;
 	
 	public ManagerDTO() {}
 
 	public ManagerDTO(String username, String firstName, String lastName, Date dateOfBirth, Role role,
-			String restaurantName, Boolean isBlocked) {
+			String restaurantName, Boolean isBlocked, Boolean isDeleted) {
 		super();
 		this.username = username;
 		this.firstName = firstName;
@@ -24,6 +25,7 @@ public class ManagerDTO {
 		this.role = role;
 		this.restaurantName = restaurantName;
 		this.isBlocked = isBlocked;
+		this.isDeleted = isDeleted;
 	}
 
 	public String getUsername() {
@@ -80,5 +82,13 @@ public class ManagerDTO {
 
 	public void setIsBlocked(Boolean isBlocked) {
 		this.isBlocked = isBlocked;
+	}
+
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 }

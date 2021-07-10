@@ -21,7 +21,7 @@ Vue.component("admin-users", {
             <div class="container">
     
                 <!-- New restaurant button -->
-                <div class="row justify-content-end">
+                <div class="row justify-content-end" style="margin-bottom: 10px;">
                     <div class="col-md-2 padding-0">
                         <button class="btn btn-primary flex" type="button" id="newManagerButton" v-on:click="onShowNewEmployee('Novi menadžer')"
                             style="background-color: #3b535f; border-color: #3b535f; color: white;"> Novi menadžer </button>	
@@ -29,10 +29,6 @@ Vue.component("admin-users", {
                     <div class="col-md-2 padding-0">
                         <button class="btn btn-primary flex" type="button" id="newDelivererButton" v-on:click="onShowNewEmployee('Novi dostavljač')"
                             style="background-color: #3b535f; border-color: #3b535f; color: white;"> Novi dostavljač </button>	
-                    </div>
-                    <div class="col-md-2 padding-0">
-                        <button class="btn btn-primary flex" type="button" id="newRestaurantButton"
-                            style="background-color: #3b535f; border-color: #3b535f; color: white;"> Izbriši </button>	
                     </div>
                 </div>
     
@@ -151,7 +147,7 @@ Vue.component("admin-users", {
                                     <div class="row">
 
                                         <div v-for="u in users" v-if="users !== null">
-                                            <div class="card shadow my-2" v-if="filterSatisfied(u)" v-bind:class="{red : u.isSuspicious}">
+                                            <div class="card shadow my-2" v-if="filterSatisfied(u) && !u.isDeleted" v-bind:class="{red : u.isSuspicious}">
                                                 <div class="row p-4 ">
                                                     <div class="col-md-2" style="padding-left: 10px; padding-right: 10px;">
                                                         <img src="../images/users.png" alt="User" class="mx-2 restaurant-images" style="height: 70px; width: 70px;">
@@ -170,9 +166,10 @@ Vue.component("admin-users", {
                                                                 <p class="text-end users-text" v-if="u.role == 'DELIVERER'"> Dostavljač </p>
                                                                 <p class="text-end users-text" v-if="u.role == 'ADMINISTRATOR'"> Administrator </p>
                                                                 <p class="text-end users-text" v-if="u.role == 'BUYER'"> Kupac </p>
-                                                                <div class="float-end" style="margin-top: 20px;" v-if="u.role != 'ADMINISTRATOR'">
+                                                                <div class="float-end" style="margin-top: 10px;" v-if="u.role != 'ADMINISTRATOR'">
                                                                     <a v-on:click="blockUser(u)" style="cursor: pointer;"><img src="../images/unblocked.png" v-if="!u.isBlocked"></a>
                                                                     <a v-on:click="unblockUser(u)" style="cursor: pointer;"><img src="../images/blocked.png" v-if="u.isBlocked"></a>
+                                                                    <img src="../images/delete.png" style="margin-left: 10px;" @click="deleteUser(u)">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -359,7 +356,19 @@ Vue.component("admin-users", {
                 return true;
             else    
                 return false;
-        } 
+        },
+
+        deleteUser: function(user) {
+            console.log(user);
+            if(confirm('Da li želite da izbrišete korisnika?')){
+                let newUser = {username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName, gender: user.gender, dateOfBirth: user.dateOfBirth, role: user.role};
+                console.log(newUser)
+                axios.post('../rest/users/deleteUser/', newUser)
+                .then(response => {
+                    user.isDeleted = true;
+                });
+            }
+        }
 
 
     },

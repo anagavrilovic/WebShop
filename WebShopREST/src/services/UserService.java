@@ -150,4 +150,12 @@ public class UserService {
 		return dao.unblockUser(user);
 	}
 	
+	@POST
+	@Path("/deleteUser")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public User deleteUser(User user) {
+		UserDAO dao = (UserDAO)ctx.getAttribute("userDAO");
+		return dao.deleteUser(user);
+	}
+	
 }
