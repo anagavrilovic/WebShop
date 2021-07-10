@@ -116,7 +116,7 @@ Vue.component('restaurants', {
                                 <div class="row">
 
                                     <div v-for="r in restaurants" v-if="restaurants !== null">
-                                        <div class="card shadow my-2" v-on:click="seeRestaurantDetails(r)" v-if="filterSatisfied(r)"
+                                        <div class="card shadow my-2" v-on:click="seeRestaurantDetails(r)" v-if="filterSatisfied(r) && !r.isDeleted"
                                             style="cursor: default">
                                             <div class="row p-4 ">
                                                 <div class="col-md-2" style="padding-left: 10px; padding-right: 10px;">

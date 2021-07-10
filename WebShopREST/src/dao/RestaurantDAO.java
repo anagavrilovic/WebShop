@@ -191,6 +191,34 @@ public class RestaurantDAO {
 		saveItems(items);
 		return id;
 	}
+
+	public void deleteRestaurant(String id) {
+		ArrayList<Restaurant> restaurants = getAll();
+		for(Restaurant r : restaurants) {
+			if(r.getId().equals(id)) {
+				r.setIsDeleted(true);
+				break;
+			}
+		}
+		saveRestaurants(restaurants);
+		
+		ArrayList<Item> items = getItems();
+		for(Item i : items) {
+			if(i.getRestaurantID().equals(id)) {
+				i.setIsDeleted(true);
+			}
+		}
+		saveItems(items);
+		
+		ArrayList<Manager> managers = userDAO.getAllManagers();
+		for(Manager m : managers) {
+			if(m.getRestaurantID().equals(id)) {
+				m.setRestaurantID("");
+				break;
+			}
+		}
+		userDAO.saveManagers(managers);
+	}
 	
 
 	
