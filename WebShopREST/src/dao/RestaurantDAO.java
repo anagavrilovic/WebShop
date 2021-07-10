@@ -23,6 +23,7 @@ import dto.RestaurantDTO;
 
 public class RestaurantDAO {
 	
+	private UserDAO userDAO = new UserDAO();
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	public RestaurantDAO() {
@@ -166,6 +167,16 @@ public class RestaurantDAO {
 		ArrayList<Restaurant> allRestaurants = getAll();
 		allRestaurants.add(newRestaurant);
 		saveRestaurants(allRestaurants);
+		
+		ArrayList<Manager> managers = userDAO.getAllManagers();
+		for(Manager m : managers) {
+			if(m.getUsername().equals(dto.getManagerUsername())) {
+				m.setRestaurantID(newRestaurant.getId());
+				break;
+			}
+		}
+		userDAO.saveManagers(managers);
+		
 		return newRestaurant;
 	}
 	

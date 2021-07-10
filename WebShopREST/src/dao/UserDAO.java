@@ -51,7 +51,7 @@ public class UserDAO {
 		return m;
 	}
 	
-	private ArrayList<Manager> getAllManagers() {
+	public ArrayList<Manager> getAllManagers() {
 		ArrayList<Manager> managers = new ArrayList<Manager>();
 		try {
 			managers = new ArrayList<Manager>(Arrays.asList(objectMapper.readValue(new File("resources/managers.json"), Manager[].class)));

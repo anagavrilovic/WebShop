@@ -191,7 +191,7 @@ Vue.component("admin-users", {
                 </div>
             </div>
     
-            <new-employee-modal v-if="showNewEmployee" @close="showNewEmployee = false" :title="newEmployeeTitle">	</new-employee-modal>
+            <new-employee-modal v-if="showNewEmployee" @close="showNewEmployee = false" @newManager="showNewEmployee = true" :title="newEmployeeTitle">	</new-employee-modal>
         </div>
         `,
     mounted() {

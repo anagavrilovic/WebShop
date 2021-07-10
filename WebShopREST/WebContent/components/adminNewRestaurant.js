@@ -82,8 +82,9 @@ Vue.component("admin-new-restaurant", {
             managerUsername: '',
             
             selectedImageFile: '',
-            selectedLogoFile: ''
-
+            selectedLogoFile: '',
+            showNewEmployee: false,
+            newEmployeeTitle: ''
         }
     },
     template:
@@ -186,10 +187,10 @@ Vue.component("admin-new-restaurant", {
                 <div class="row">
                     <div class="col-md-6"></div>
                     <div class="col-md-2">
-                        <input type="text" style="margin-bottom:2vh; margin-top:2vh" class="form-control input-field" placeholder="Geografska širina" required="required" v-model="latitude">
+                        <input type="text" style="margin-bottom:2vh; margin-top:2vh" class="form-control input-field" placeholder="Geografska širina" required="required" v-model="latitude" disabled>
                     </div>
                     <div class="col-md-2">
-                        <input type="text" style="margin-bottom:2vh; margin-top:2vh" class="form-control input-field" placeholder="Geografska dužina" required="required" v-model="longitude">
+                        <input type="text" style="margin-bottom:2vh; margin-top:2vh" class="form-control input-field" placeholder="Geografska dužina" required="required" v-model="longitude" disabled>
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-success" style="margin-top:2vh" v-on:click="refreshCoordinates"> Generiši koordinate </button>
@@ -252,7 +253,7 @@ Vue.component("admin-new-restaurant", {
                     </div> 
                     <div class="col-md-4"> </div>
                     <div class="col-md-4"> 
-                        <a href="#" style="float: right"> Ili dodajte novog menadžera? </a>
+                        <a href="#" style="float: right" @click="showNewEmployeeModal('Novi menadžer')"> Ili dodajte novog menadžera? </a>
                     </div> 
                 </div>
 
@@ -264,6 +265,8 @@ Vue.component("admin-new-restaurant", {
                 </div>
 
             </div>
+
+            <new-employee-modal v-if="showNewEmployee" @close="showNewEmployee = false" :title="newEmployeeTitle">	</new-employee-modal>
 
         </div>
 		`,
@@ -286,6 +289,12 @@ Vue.component("admin-new-restaurant", {
         .then(response => {
             this.allManagers = response.data;
             this.managers = this.allManagers.slice();
+        });
+
+        this.$root.$on('newUserAdded', (manager) => {
+            this.allManagers.push(manager);
+            this.managers.push(manager);
+            this.selectedManager = this.managers[this.managers.length - 1];
         });
     },
     methods: {
@@ -342,6 +351,12 @@ Vue.component("admin-new-restaurant", {
             });
         },
         createRestaurant: function(){
+            if(!this.name || !this.type || !this.logoPath || !this.imagePath || !this.longitude || !this.latitude
+                || !this.streetName || !this.streetNumber || !this.city || !this.postalCode || !this.selectedManager){
+                    alert('Morate popuniti sva polja!');
+                    return;
+                }
+
             let restaurant = {
                 name: this.name, 
                 type: this.type, 
@@ -370,6 +385,8 @@ Vue.component("admin-new-restaurant", {
                             .then(response => console.log(response.data));
                         }
                     );
+
+                    this.$router.push({ path: '/' });
                 })
         },
 
@@ -394,6 +411,11 @@ Vue.component("admin-new-restaurant", {
                     this.managers.push(manager);
                 
             }
+        },
+
+        showNewEmployeeModal: function(newTitle) {
+            this.showNewEmployee = true;
+            this.newEmployeeTitle = newTitle;
         }
     },
     filters: {
