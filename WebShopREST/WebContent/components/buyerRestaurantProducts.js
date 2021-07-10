@@ -139,7 +139,6 @@ Vue.component("restaurant-products", {
 			else{
 				return false;
 			}
-
 		},
     }
 })
