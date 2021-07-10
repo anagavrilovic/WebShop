@@ -10,7 +10,7 @@ public class Order {
    private OrderStatus status;
    private String restaurantID;
    private String buyersUsername;
-   private String deliverersUsername;
+   private String deliverersUsername = "";
    
    public Order() {}
    
