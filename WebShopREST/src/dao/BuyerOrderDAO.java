@@ -7,6 +7,8 @@ import java.util.Arrays;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import beans.Buyer;
+import beans.BuyerType;
+import beans.BuyerTypeName;
 import beans.Order;
 import beans.OrderItem;
 import beans.OrderStatus;
@@ -72,6 +74,28 @@ public class BuyerOrderDAO {
 	private void decreaseBuyersPoints(Order order) {
 		Buyer buyer = userDAO.getBuyerByUsername(order.getBuyersUsername());
 		buyer.setCollectedPoints(buyer.getCollectedPoints() - order.getPrice()/1000 * 133 * 4);
+		
+		BuyerType buyerType;
+		if(buyer.getCollectedPoints() < 0) {
+			switch (buyer.getBuyerType().getBuyerTypeName()) {
+			case BRONZE:
+				buyerType = new BuyerType(BuyerTypeName.REGULAR, 0.0, 2000);
+				buyer.setBuyerType(buyerType);
+				buyer.setCollectedPoints(2000 + buyer.getCollectedPoints());
+				break;
+			case SILVER:
+				buyerType = new BuyerType(BuyerTypeName.BRONZE, 0.03, 2000);
+				buyer.setBuyerType(buyerType);
+				buyer.setCollectedPoints(2000 + buyer.getCollectedPoints());
+				break;
+			case GOLD:
+				buyerType = new BuyerType(BuyerTypeName.SILVER, 0.05, 2000);
+				buyer.setBuyerType(buyerType);
+				buyer.setCollectedPoints(2000 + buyer.getCollectedPoints());
+				break;
+			}
+		}
+		
 		shoppingDAO.updateBuyer(buyer);
 	}
 
