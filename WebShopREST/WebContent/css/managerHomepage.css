@@ -167,10 +167,14 @@ input[type="file"] {
     margin-top: 50px;
     height: 400px;
     width: 650px;
+    padding-top: 50px;
 }
 
 .food-images {
     padding: 15px;
 }
 
-
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}

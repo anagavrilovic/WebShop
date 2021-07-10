@@ -1,3 +1,11 @@
+var overlay = new OpenLayers.Layer.Vector('Overlay', {
+    styleMap: new OpenLayers.StyleMap({
+        externalGraphic: '../images/marker.png',
+        graphicWidth: 20, graphicHeight: 24, graphicYOffset: -24,
+        title: '${tooltip}'
+    })
+});
+
 Vue.component("manager-restaurant-information", {
     data: function() {
         return {
@@ -8,9 +16,9 @@ Vue.component("manager-restaurant-information", {
     template: 
         `<div class="container py-5" style="padding-left: 100px; padding-right: 100px;">
             <div class="row">
-                    <div class="card shadow" style="height: 500px">
+                    <div class="card shadow" style="height: 500px; padding: 50px">
                         <div class="row">
-                            <div class="col-md-5 pt-5" v-if="restaurant !== null">
+                            <div class="col-md-5" v-if="restaurant !== null">
                                 <div class="informationContent">
                                     <img src="../images/restaurantType.png">
                                     <span class="informationTextBig">&ensp;{{restaurant.type}}</span>
@@ -31,14 +39,15 @@ Vue.component("manager-restaurant-information", {
                                     <span>{{restaurant.location.address.city}} {{restaurant.location.address.postalCode}}</span>
                                 </div>
                                 <div class="informationContentAddress">
-                                    <span>{{restaurant.location.longitude}}, {{restaurant.location.latitude}}</span>
+                                    <span>{{Number(restaurant.location.latitude).toFixed(4)}}, {{Number(restaurant.location.longitude).toFixed(4)}}</span>
                                 </div>
                                 <div class="informationContent">
                                     <img src="../images/star2.png">
                                     <span class="informationTextMark">&ensp;{{restaurant.mark}}</span>
                                 </div>
                             </div>
-                            <div id="map" class="col-md-7 map">
+                            </br>
+                            <div id="map" class="col-md-7 map" @mouseover="mapScroll" @mouseleave="enableScroll">
                                 
                             </div>
                         </div>
@@ -47,34 +56,27 @@ Vue.component("manager-restaurant-information", {
             </div>
         </div>`,
     mounted() {
-        this.map = new ol.Map({
-            target: 'map',
-            layers: [
-                new ol.layer.Tile({
-                    source: new ol.source.OSM()
-                })
-            ],
-            view: new ol.View({
-                center: ol.proj.fromLonLat([19.83, 45.25]),
-                zoom: 13
-            })
-        });
+
+        this.map = new OpenLayers.Map( 'map');
+        let layer = new OpenLayers.Layer.OSM( "Simple OSM Map");
+        this.map.addLayers([layer, overlay]);
+        this.map.setCenter(
+            new OpenLayers.LonLat(19.833, 45.255).transform(
+                new OpenLayers.Projection("EPSG:4326"),
+                this.map.getProjectionObject()
+            ), 12
+        ); 
 
         axios.get('../rest/restaurants/managersRestaurant')
         .then(response => {
             this.restaurant = response.data;
+            var myLocation = new OpenLayers.Geometry.Point(this.restaurant.location.latitude, this.restaurant.location.longitude)
+                .transform('EPSG:4326', 'EPSG:3857');
 
-            var layer = new ol.layer.Vector({
-                source: new ol.source.Vector({
-                    features: [
-                        new ol.Feature({
-                            geometry: new ol.geom.Point(ol.proj.fromLonLat
-                                ([this.restaurant.location.latitude, this.restaurant.location.longitude]))
-                        })
-                    ]
-                })
-            });
-            this.map.addLayer(layer);
+            // We add the marker with a tooltip text to the overlay
+            overlay.addFeatures([
+                new OpenLayers.Feature.Vector(myLocation, {tooltip: 'OpenLayers'})
+            ]);
         });
     },
     methods: {
@@ -95,6 +97,12 @@ Vue.component("manager-restaurant-information", {
 			}
 
 		},
+        mapScroll: function(event){
+            document.body.classList.add("stop-scrolling");
+        },
+        enableScroll: function(event){
+            document.body.classList.remove("stop-scrolling");
+        }
     }
 });
 
