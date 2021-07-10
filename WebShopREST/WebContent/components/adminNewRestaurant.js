@@ -1,3 +1,34 @@
+OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
+    defaultHandlerOptions: {
+        'single': true,
+        'double': false,
+        'pixelTolerance': 0,
+        'stopSingle': false,
+        'stopDouble': false
+    },
+
+    initialize: function(options) {
+        this.handlerOptions = OpenLayers.Util.extend(
+            {}, this.defaultHandlerOptions
+        );
+        OpenLayers.Control.prototype.initialize.apply(
+            this, arguments
+        ); 
+        this.handler = new OpenLayers.Handler.Click(
+            this, {
+                'click': this.trigger
+            }, this.handlerOptions
+        );
+    }, 
+
+    trigger: function(e) {
+        var lonlat = map.getLonLatFromPixel(e.xy);
+        alert("You clicked near " + lonlat.lat + " N, " +
+                                  + lonlat.lon + " E");
+    }
+
+});
+
 Vue.component("admin-new-restaurant", {
     data: function() {
         return {
@@ -125,18 +156,28 @@ Vue.component("admin-new-restaurant", {
         </div>
 		`,
     mounted() {
-        map = new ol.Map({
+        /*this.map = new OpenLayers.Map({
             target: 'map',
             layers: [
-              new ol.layer.Tile({
-                source: new ol.source.OSM()
+              new OpenLayers.layer.Tile({
+                source: new OpenLayers.source.OSM()
               })
             ],
-            view: new ol.View({
-              center: ol.proj.fromLonLat([20.46,44.80]),
+            view: new OpenLayers.View({
+              center: OpenLayers.proj.fromLonLat([20.46,44.80]),
               zoom: 10
             })
-          });
+          });*/
+          this.map = new OpenLayers.Map('map');
+          var ol_wms = new OpenLayers.Layer.WMS( "OpenLayers WMS",
+                    "http://vmap0.tiles.osgeo.org/wms/vmap0?", {layers: 'basic'} );
+
+
+                this.map.addLayers([ol_wms]);
+
+          var click = new OpenLayers.Control.Click();
+            this.map.addControl(click);
+            click.activate();
     },
     methods: {
         imagePathChanged: function (e) {
