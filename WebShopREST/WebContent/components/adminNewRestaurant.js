@@ -63,14 +63,30 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
 Vue.component("admin-new-restaurant", {
     data: function() {
         return {
-            imagePath: '',
+
             managers: [
                 {name: 'Slavko',  surname: 'Slavković', dateOfBirth: '11.02.1990', username: 'slavko_car', restaurant: 'Mali Balkan'},
                 {name: 'Branko',  surname: 'Branković',  dateOfBirth: '21.02.1980', username: 'branko_brat', restaurant: 'Mali Anagram'},
                 {name: 'Smiljka',  surname: 'Smiljković', dateOfBirth: '16.02.1973', username: 'smiljka_hraniteljka', restaurant: 'Mali Slavko'},
                 {name: 'Gavrilo',  surname: 'Gavrić', dateOfBirth: '11.02.1965', username: 'gavrilo_princip', restaurant: 'Mali Milojica'}
             ],
-            map: undefined
+            map: undefined,
+
+            name: '',
+            type: '',
+            logoPath: '',
+            imagePath: '',
+            longitude: undefined,
+            latitude: undefined,
+            streetName: '',
+            streetNumber: '',
+            city: '',
+            postalCode: '',
+            managerUsername: '',
+            
+            selectedImageFile: '',
+            selectedLogoFile: ''
+
         }
     },
     template:
@@ -78,45 +94,109 @@ Vue.component("admin-new-restaurant", {
         <!-- Main body -->
         <div class="container">
             <div class="row">
-                <h2 style="margin-bottom:5vh; margin-top:10vh"> Novi restoran </h2>
+                <div class="col-md-6"> 
+                    <h1 style="margin-bottom:0vh; margin-top:10vh"> Novi restoran </h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6"> 
+                   
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4"> 
+                            <h5 style="margin-bottom:1vh; margin-top:10vh"> Označite lokaciju </h5> 
+                        </div> 
+                    </div>
+                    
+                </div>
+                
             </div>
 
             <div class="row" style="margin-bottom:10vh">
                 <div class="col-md-6"> 
                     <div class="row"> 
                         <div class="form-group input-field">
-                            <input type="text" class="form-control input-field" placeholder="Naziv" required="required">
+                            <input type="text" class="form-control input-field" placeholder="Naziv" required="required" v-model="name">
                         </div>
                     </div>
                     <div class="row"> 
                         <div class="form-group input-field">
-                            <input type="text" class="form-control input-field" placeholder="Tip" required="required">
+                            <input type="text" class="form-control input-field" placeholder="Tip" required="required" v-model="type">
                         </div>
                     </div>
                     <div class="row">
                         <div> 
-                            <label for="file-upload" class="btn btn-primary custom-file-upload">
+                            <label for="image-upload" class="btn btn-primary custom-file-upload">
                             Izaberite logo restorana
                             </label>
-                            <input id="file-upload" type="file" v-on:change="imagePathChanged" accept="image/*" /> 
-                            <input id="uploadFile" placeholder="File Name here" disabled="disabled" v-model="imagePath" class="input-field" style="width: 437px; height: 35px;"/>
+                            <input id="image-upload" type="file" v-on:change="logoPathChanged" accept="image/*" /> 
+                            <input id="uploadImage" placeholder="File Name here" disabled="disabled" v-model="logoPath" class="input-field" style="width: 437px; height: 35px;"/>
                         </div>
                     </div>
 
                     <div class="row">
                         <div> 
-                            <label for="file-upload" class="btn btn-primary custom-file-upload">
+                            <label for="logo-upload" class="btn btn-primary custom-file-upload">
                             Izaberite sliku restorana
                             </label>
-                            <input id="file-upload" type="file" v-on:change="imagePathChanged" accept="image/*" /> 
-                            <input id="uploadFile" placeholder="File Name here" disabled="disabled" v-model="imagePath" class="input-field" style="width: 437px; height: 35px;"/>
+                            <input id="logo-upload" type="file" v-on:change="imagePathChanged" accept="image/*" /> 
+                            <input id="uploadLogo" placeholder="File Name here" disabled="disabled" v-model="imagePath" class="input-field" style="width: 437px; height: 35px;"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="row"> 
+                                <div class="form-group input-field">
+                                    <input type="text" class="form-control input-field" placeholder="Grad" required="required" v-model="city">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row"> 
+                                <div class="form-group input-field">
+                                    <input type="text" class="form-control input-field" placeholder="Poštanski broj" required="required" v-model="postalCode">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-8 pr-0">
+                            <div class="row"> 
+                                <div class="form-group input-field">
+                                    <input type="text" class="form-control input-field" placeholder="Ulica" required="required" v-model="streetName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row"> 
+                                <div class="form-group input-field">
+                                    <input type="text" class="form-control input-field" placeholder="Broj" required="required" v-model="streetNumber">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                 </div>
 
-                <div class="col-md-6" id="map" style="min-height: 300px" @mouseover="mapScroll" @mouseleave="enableScroll"> 
+                <div class="col-md-6" id="map" style="min-height: 300px" @mouseover="mapScroll" @mouseleave="enableScroll" > 
                     
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-2">
+                        <input type="text" style="margin-bottom:2vh; margin-top:2vh" class="form-control input-field" placeholder="Geografska širina" required="required" v-model="latitude">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" style="margin-bottom:2vh; margin-top:2vh" class="form-control input-field" placeholder="Geografska dužina" required="required" v-model="longitude">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-success" style="margin-top:2vh" v-on:click="refreshCoordinates"> Generiši koordinate </button>
+                    </div>
                 </div>                
                 
             </div>
@@ -177,7 +257,7 @@ Vue.component("admin-new-restaurant", {
 
                 <div class="row justify-content-center">
                     <div class="col-md-4" style="margin-bottom:30px"> 
-                        <button class="btn btn-primary" style="width: 100px; margin-right:20px; margin-top:30px"> Potvrdi </button>
+                        <button class="btn btn-primary" style="width: 100px; margin-right:20px; margin-top:30px" v-on:click="createRestaurant"> Potvrdi </button>
                         <button class="btn btn-primary" style="width: 100px; margin-right:20px; margin-top:30px"> Odustani </button>
                     </div> 
                 </div>
@@ -209,16 +289,81 @@ Vue.component("admin-new-restaurant", {
             var files = e.target.files || e.dataTransfer.files;
             try{
                 this.imagePath = files[0].name;
+                console.log(files[0]);
+                this.selectedImageFile = files[0];
+            
+
             }
             catch(err){
                 this.imagePath = 'Error loading image';
             }
         },
+
+        logoPathChanged: function (e) {
+            var files = e.target.files || e.dataTransfer.files;
+            try{
+                this.logoPath = files[0].name;
+                console.log(files[0]);
+                this.selectedLogoFile = files[0];
+
+            }
+            catch(err){
+                this.logoPath = 'Error loading image';
+            }
+        },
+
+
         mapScroll: function(event){
             document.body.classList.add("stop-scrolling");
         },
         enableScroll: function(event){
             document.body.classList.remove("stop-scrolling");
+        },
+        refreshCoordinates: function(event){
+            this.latitude = currentLat;
+            this.longitude = currentLon;
+            console.log('Klik:');
+            console.log(this.latitude);
+            console.log(this.longitude);
+        },
+        getBase64: function(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        },
+        createRestaurant: function(){
+            let restaurant = {
+                name: this.name, 
+                type: this.type, 
+                logoPath: '../images/' + this.logoPath,
+                imagePath: '../images/' + this.imagePath,
+                longitude: this.longitude,
+                latitude: this.latitude,
+                streetName: this.streetName,
+                streetNumber: this.streetNumber,
+                city: this.city,
+                postalCode: this.postalCode,
+                managerUsername: this.managerUsername
+            }
+            axios.post('../rest/restaurants/addNewRestaurant', restaurant)
+                .then(response => {
+                    console.log(response.data);
+                    this.getBase64(this.selectedImageFile).then(
+                        data => {
+                          axios.post('../rest/restaurants/uploadImage', {data64: data, fileName: this.imagePath})
+                            .then(response => console.log(response.data));
+                        }
+                    );
+                    this.getBase64(this.selectedLogoFile).then(
+                        data => {
+                            axios.post('../rest/restaurants/uploadImage', {data64: data, fileName: this.logoPath})
+                            .then(response => console.log(response.data));
+                        }
+                    );
+                })
         }
     }
 })

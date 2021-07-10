@@ -19,6 +19,7 @@ import beans.Buyer;
 import beans.Item;
 import beans.Manager;
 import beans.Restaurant;
+import dto.RestaurantDTO;
 
 public class RestaurantDAO {
 	
@@ -159,6 +160,15 @@ public class RestaurantDAO {
 		saveItems(allItems);
 		return item;
 	}
+
+	public Restaurant addNewRestaurant(RestaurantDTO dto) {
+		Restaurant newRestaurant = new Restaurant(dto);
+		ArrayList<Restaurant> allRestaurants = getAll();
+		allRestaurants.add(newRestaurant);
+		saveRestaurants(allRestaurants);
+		return newRestaurant;
+	}
+	
 
 	
 }

@@ -2,6 +2,8 @@ package beans;
 
 import java.util.*;
 
+import dto.RestaurantDTO;
+
 public class Restaurant {
 
     private String id;
@@ -86,6 +88,18 @@ public class Restaurant {
 		this.workTime = workTime;
 		this.mark = mark;
 		
+		this.isDeleted = false;
+		this.id = UUID.randomUUID().toString();
+	}
+	
+	public Restaurant(RestaurantDTO dto) {
+		this.name = dto.getName();
+		this.type = dto.getType();
+		this.logoPath = dto.getLogoPath();
+		this.imagePath = dto.getImagePath();
+		this.location = new Location(dto.getLongitude(), dto.getLatitude(), new Address(dto.getStreetName(), dto.getStreetNumber(), dto.getCity(), dto.getPostalCode()));
+		this.workTime = new WorkTime("08:00", "22:00");
+		this.mark = 0.0;
 		this.isDeleted = false;
 		this.id = UUID.randomUUID().toString();
 	}
