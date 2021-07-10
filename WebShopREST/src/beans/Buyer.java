@@ -1,12 +1,11 @@
 package beans;
 
-import java.util.*;
-
 public class Buyer extends User {
 
    private double collectedPoints;
    private Boolean isDeleted = false;
    private Boolean isBlocked = false;
+   private Boolean isSuspicious = false;
    
    private BuyerType buyerType;
    private ShoppingCart shoppingCart;
@@ -63,5 +62,13 @@ public class Buyer extends User {
 
 	public void setShoppingCart(ShoppingCart shoppingCart) {
 		this.shoppingCart = shoppingCart;
+	}
+
+	public Boolean getIsSuspicious() {
+		return isSuspicious;
+	}
+
+	public void setIsSuspicious(Boolean isSuspicious) {
+		this.isSuspicious = isSuspicious;
 	}
 }

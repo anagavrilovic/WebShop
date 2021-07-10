@@ -65,19 +65,19 @@ Vue.component("admin-users", {
                                 </button>
                                 <ul class="list-group flex" v-if="userRoleDropdownOpen">
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Administrator" v-model="checkedUserRoles">
+                                        <input class="form-check-input me-1" type="checkbox" value="ADMINISTRATOR" v-model="checkedUserRoles">
                                         Administrator
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Menadžer" v-model="checkedUserRoles">
+                                        <input class="form-check-input me-1" type="checkbox" value="MANAGER" v-model="checkedUserRoles">
                                         Menadžer
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Dostavljač" v-model="checkedUserRoles">
+                                        <input class="form-check-input me-1" type="checkbox" value="DELIVERER" v-model="checkedUserRoles">
                                         Dostavljač
                                     </label>
                                     <label class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="Kupac" v-model="checkedUserRoles">
+                                        <input class="form-check-input me-1" type="checkbox" value="BUYER" v-model="checkedUserRoles">
                                         Kupac
                                     </label>
                                     
@@ -115,7 +115,7 @@ Vue.component("admin-users", {
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-check checkbox-style rounded" style="padding-left: 35px">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" v-model="onlySuspiciousUsers">
                                     <label class="form-check-label" for="flexCheckDefault">
                                     Sumnjivi korisnici
                                     </label>
@@ -151,7 +151,7 @@ Vue.component("admin-users", {
                                     <div class="row">
 
                                         <div v-for="u in users" v-if="users !== null">
-                                            <div class="card shadow my-2" v-if="filterSatisfied(u)">
+                                            <div class="card shadow my-2" v-if="filterSatisfied(u)" v-bind:class="{red : u.isSuspicious}">
                                                 <div class="row p-4 ">
                                                     <div class="col-md-2" style="padding-left: 10px; padding-right: 10px;">
                                                         <img src="../images/users.png" alt="User" class="mx-2 restaurant-images" style="height: 70px; width: 70px;">
@@ -349,14 +349,16 @@ Vue.component("admin-users", {
             if(this.checkedBuyerTypes.length == 0) {
                 return true;
             }
-            return user.role == 'BUYER' && this.checkedBuyerTypes.indexOf(user.buyerType.buyerTypeName) > -1;
+            return user.role == "BUYER" && this.checkedBuyerTypes.indexOf(user.buyerType.buyerTypeName) > -1;
         },
         suspiciousUsersFilterSatisfied: function(user) {
             if(!this.onlySuspiciousUsers)
                 return true;
 
-            // dodati logiku za sumnjive korisnike
-            return true;
+            if(user.isSuspicious)
+                return true;
+            else    
+                return false;
         } 
 
 

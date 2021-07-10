@@ -3,6 +3,7 @@ package dao;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -13,6 +14,7 @@ import beans.Order;
 import beans.OrderItem;
 import beans.OrderStatus;
 import beans.User;
+import dto.BuyerCancellationTimeDTO;
 import dto.BuyersOrderDTO;
 import dto.CartItemDTO;
 
@@ -68,9 +70,10 @@ public class BuyerOrderDAO {
 		Order order = getOrderById(id);
 		order.setStatus(OrderStatus.CANCELED);
 		decreaseBuyersPoints(order);
+		saveCancellation(order.getBuyersUsername());
 		return this.updateOrder(order);
 	}
-	
+
 	private void decreaseBuyersPoints(Order order) {
 		Buyer buyer = userDAO.getBuyerByUsername(order.getBuyersUsername());
 		buyer.setCollectedPoints(buyer.getCollectedPoints() - order.getPrice()/1000 * 133 * 4);
@@ -99,6 +102,26 @@ public class BuyerOrderDAO {
 		shoppingDAO.updateBuyer(buyer);
 	}
 
+	
+	private void saveCancellation(String buyersUsername) {
+		ArrayList<BuyerCancellationTimeDTO> cancellations = new ArrayList<BuyerCancellationTimeDTO>();
+		try {
+			cancellations = new ArrayList<BuyerCancellationTimeDTO>(Arrays.asList
+					(objectMapper.readValue(new File("resources/buyerCancellationTime.json"), BuyerCancellationTimeDTO[].class)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+		cancellations.add(new BuyerCancellationTimeDTO(buyersUsername, new Date()));
+		
+		try {
+			objectMapper.writeValue(new File("resources/buyerCancellationTime.json"), cancellations);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+	}
+	
 	public Order getOrderById(String id) {
 		ArrayList<Order> orders = shoppingDAO.getOrders();
 		for(Order o : orders) {

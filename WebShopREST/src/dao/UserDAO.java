@@ -3,7 +3,9 @@ package dao;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,6 +17,7 @@ import beans.Deliverer;
 import beans.Manager;
 import beans.Role;
 import beans.User;
+import dto.BuyerCancellationTimeDTO;
 import dto.ManagerDTO;
 
 public class UserDAO {
@@ -136,9 +139,41 @@ public class UserDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
+		
+		setSuspiciousBuyers(buyers);
+		
 		return buyers;
 	}
 	
+	private void setSuspiciousBuyers(ArrayList<Buyer> buyers) {
+		ArrayList<BuyerCancellationTimeDTO> cancellations = new ArrayList<BuyerCancellationTimeDTO>();
+		try {
+			cancellations = new ArrayList<BuyerCancellationTimeDTO>(Arrays.asList
+					(objectMapper.readValue(new File("resources/buyerCancellationTime.json"), BuyerCancellationTimeDTO[].class)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.MONTH, -1);
+		Date oneMonthAgo = calendar.getTime();
+		
+		for(Buyer b : buyers) {
+			int numberOfCanellations = 0;
+			
+			for(BuyerCancellationTimeDTO bct : cancellations) {
+				if(bct.getUsername().equals(b.getUsername()) && bct.getCancellationTime().after(oneMonthAgo)) {
+					numberOfCanellations++;
+				}
+			}
+			
+			if(numberOfCanellations > 5) {
+				b.setIsSuspicious(true);
+			}
+		}
+		
+	}
+
 	public ArrayList<Administrator> getAllAdministrators() {
 		ArrayList<Administrator> administrators = new ArrayList<Administrator>();
 		try {
