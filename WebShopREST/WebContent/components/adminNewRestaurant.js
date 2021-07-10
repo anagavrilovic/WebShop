@@ -1,3 +1,10 @@
+var overlay = new OpenLayers.Layer.Vector('Overlay', {
+    styleMap: new OpenLayers.StyleMap({
+        externalGraphic: '../images/marker.png',
+        graphicWidth: 20, graphicHeight: 24, graphicYOffset: -24,
+        title: '${tooltip}'
+    })
+});
 var map;
 var currentLon;
 var currentLat;
@@ -30,6 +37,15 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
         console.log(position);
         currentLat = position.lat;
         currentLon = position.lon;
+
+        var myLocation = new OpenLayers.Geometry.Point(currentLon, currentLat)
+        .transform('EPSG:4326', 'EPSG:3857');
+
+        // We add the marker with a tooltip text to the overlay
+
+        overlay.addFeatures([
+            new OpenLayers.Feature.Vector(myLocation, {tooltip: 'OpenLayers'})
+        ]);
     }
 
 });
@@ -162,32 +178,22 @@ Vue.component("admin-new-restaurant", {
         </div>
 		`,
     mounted() {
-        /*this.map = new OpenLayers.Map({
-            target: 'map',
-            layers: [
-              new OpenLayers.layer.Tile({
-                source: new OpenLayers.source.OSM()
-              })
-            ],
-            view: new OpenLayers.View({
-              center: OpenLayers.proj.fromLonLat([20.46,44.80]),
-              zoom: 10
-            })
-          });*/
-          map = new OpenLayers.Map( 'map');
-            let layer = new OpenLayers.Layer.OSM( "Simple OSM Map");
-            map.addLayer(layer);
-            map.setCenter(
-                new OpenLayers.LonLat(19.833, 45.255).transform(
-                    new OpenLayers.Projection("EPSG:4326"),
-                    map.getProjectionObject()
-                ), 12
-            ); 
 
 
-            var click = new OpenLayers.Control.Click();
-            map.addControl(click);
-            click.activate();
+        map = new OpenLayers.Map( 'map');
+        let layer = new OpenLayers.Layer.OSM( "Simple OSM Map");
+        map.addLayers([layer, overlay]);
+        map.setCenter(
+            new OpenLayers.LonLat(19.833, 45.255).transform(
+                new OpenLayers.Projection("EPSG:4326"),
+                map.getProjectionObject()
+            ), 12
+        ); 
+
+
+        var click = new OpenLayers.Control.Click();
+        map.addControl(click);
+        click.activate();
     },
     methods: {
         imagePathChanged: function (e) {
