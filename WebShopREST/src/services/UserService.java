@@ -92,6 +92,14 @@ public class UserService {
 	}
 	
 	@GET
+	@Path("/freeManagers")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Manager> getFreeManagers() {
+		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		return dao.getFreeManagers();
+	}
+	
+	@GET
 	@Path("/getDeliverers")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Deliverer> getAllDeliverers() {

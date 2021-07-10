@@ -401,6 +401,19 @@ public class UserDAO {
 		return user;
 	}
 	
+	public Collection<Manager> getFreeManagers() {
+		ArrayList<Manager> managers = getAllManagers();
+		ArrayList<Manager> freeManagers = new ArrayList<Manager>();
+		
+		for(Manager m : managers) {
+			if(m.getRestaurantID().equals("")) {
+				freeManagers.add(m);
+			}
+		}
+		
+		return freeManagers;
+	}
+	
 
 
 }

@@ -109,3 +109,7 @@
     overflow: hidden;
 }
 
+.selected {
+    background-color: #c3ddee;
+}
+

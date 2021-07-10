@@ -63,14 +63,11 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
 Vue.component("admin-new-restaurant", {
     data: function() {
         return {
-
-            managers: [
-                {name: 'Slavko',  surname: 'Slavković', dateOfBirth: '11.02.1990', username: 'slavko_car', restaurant: 'Mali Balkan'},
-                {name: 'Branko',  surname: 'Branković',  dateOfBirth: '21.02.1980', username: 'branko_brat', restaurant: 'Mali Anagram'},
-                {name: 'Smiljka',  surname: 'Smiljković', dateOfBirth: '16.02.1973', username: 'smiljka_hraniteljka', restaurant: 'Mali Slavko'},
-                {name: 'Gavrilo',  surname: 'Gavrić', dateOfBirth: '11.02.1965', username: 'gavrilo_princip', restaurant: 'Mali Milojica'}
-            ],
+            searchParam: '',
+            allManagers: null,
+            managers: null,
             map: undefined,
+            selectedManager: null,
 
             name: '',
             type: '',
@@ -209,7 +206,8 @@ Vue.component("admin-new-restaurant", {
 
                     <div class="col-md-6"> 
                         <div class="input-group rounded">
-                            <input type="search" class="form-control rounded search-bar" placeholder="Search" aria-label="Search"/>
+                            <input type="search" class="form-control rounded search-bar" placeholder="Search" aria-label="Search"
+                                v-model="searchParam" @keyup="search"/>
                             <span class="input-group-text border-0" id="search-addon">
                                 <i class="fa fa-search"></i>
                             </span>
@@ -227,16 +225,15 @@ Vue.component("admin-new-restaurant", {
                                 <th scope="col">Prezime</th>
                                 <th scope="col">Datum rođenja</th>
                                 <th scope="col">Korisničko ime</th>
-                                <th scope="col">Restoran</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="m in managers">
-                                <td scope="row">{{m.name}}</td>
-                                <td>{{m.surname}}</td>
-                                <td>{{m.dateOfBirth}}</td>
+                            <tr v-for="m in managers" @click="selectManager(m)"
+                                v-bind:class="{selected : selectedManager == m}">
+                                <td scope="row">{{m.firstName}}</td>
+                                <td>{{m.lastName}}</td>
+                                <td>{{m.dateOfBirth | dateFormat('DD.MM.YYYY.')}}</td>
                                 <td>{{m.username}}</td>
-                                <td>{{m.restaurant}}</td>
                             </tr>
                             
                             </tbody>
@@ -247,7 +244,11 @@ Vue.component("admin-new-restaurant", {
 
                 <div class="row">
                     <div class="col-md-4"> 
-                        <p> Odabrani menadzer: </p>
+                        <p> Odabrani menadzer: 
+                            <span v-if="selectedManager !== null">
+                                {{selectedManager.firstName}} {{selectedManager.lastName}}
+                            </span>
+                        </p>
                     </div> 
                     <div class="col-md-4"> </div>
                     <div class="col-md-4"> 
@@ -267,8 +268,6 @@ Vue.component("admin-new-restaurant", {
         </div>
 		`,
     mounted() {
-
-
         map = new OpenLayers.Map( 'map');
         let layer = new OpenLayers.Layer.OSM( "Simple OSM Map");
         map.addLayers([layer, overlay]);
@@ -279,10 +278,15 @@ Vue.component("admin-new-restaurant", {
             ), 12
         ); 
 
-
         var click = new OpenLayers.Control.Click();
         map.addControl(click);
         click.activate();
+
+        axios.get('../rest/users/freeManagers')
+        .then(response => {
+            this.allManagers = response.data;
+            this.managers = this.allManagers.slice();
+        });
     },
     methods: {
         imagePathChanged: function (e) {
@@ -312,6 +316,9 @@ Vue.component("admin-new-restaurant", {
             }
         },
 
+        selectManager: function(manager) {
+            this.selectedManager = manager;
+        },
 
         mapScroll: function(event){
             document.body.classList.add("stop-scrolling");
@@ -346,7 +353,7 @@ Vue.component("admin-new-restaurant", {
                 streetNumber: this.streetNumber,
                 city: this.city,
                 postalCode: this.postalCode,
-                managerUsername: this.managerUsername
+                managerUsername: this.selectedManager.username
             }
             axios.post('../rest/restaurants/addNewRestaurant', restaurant)
                 .then(response => {
@@ -364,6 +371,35 @@ Vue.component("admin-new-restaurant", {
                         }
                     );
                 })
+        },
+
+        search: function() {
+            while(this.managers.length)
+                this.managers.pop();
+
+            let searchParams = this.searchParam.split(' ');
+            for(let manager of this.allManagers) {
+                let result = true;
+
+                for(let s of searchParams) {
+                    if(!manager.firstName.toLowerCase().includes(s.toLowerCase()) &&
+                        !manager.lastName.toLowerCase().includes(s.toLowerCase()) &&
+                        !manager.username.toLowerCase().includes(s.toLowerCase())) {
+                            result = false;
+                            break;
+                        }
+                }
+
+                if(result)
+                    this.managers.push(manager);
+                
+            }
+        }
+    },
+    filters: {
+        dateFormat: function(value, format) {
+            var parsed = moment(value);
+            return parsed.format(format);
         }
     }
 })
