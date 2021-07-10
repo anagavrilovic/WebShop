@@ -1,3 +1,6 @@
+var map;
+var currentLon;
+var currentLat;
 OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
     defaultHandlerOptions: {
         'single': true,
@@ -22,12 +25,15 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
     }, 
 
     trigger: function(e) {
-        var lonlat = map.getLonLatFromPixel(e.xy);
-        alert("You clicked near " + lonlat.lat + " N, " +
-                                  + lonlat.lon + " E");
+        var toProjection = new OpenLayers.Projection("EPSG:4326");
+        var position = map.getLonLatFromPixel(e.xy).transform(map.getProjectionObject(), toProjection);
+        console.log(position);
+        currentLat = position.lat;
+        currentLon = position.lon;
     }
 
 });
+
 
 Vue.component("admin-new-restaurant", {
     data: function() {
@@ -84,7 +90,7 @@ Vue.component("admin-new-restaurant", {
 
                 </div>
 
-                <div class="col-md-6" id="map" style="min-height: 300px"> 
+                <div class="col-md-6" id="map" style="min-height: 300px" @mouseover="mapScroll" @mouseleave="enableScroll"> 
                     
                 </div>                
                 
@@ -168,15 +174,19 @@ Vue.component("admin-new-restaurant", {
               zoom: 10
             })
           });*/
-          this.map = new OpenLayers.Map('map');
-          var ol_wms = new OpenLayers.Layer.WMS( "OpenLayers WMS",
-                    "http://vmap0.tiles.osgeo.org/wms/vmap0?", {layers: 'basic'} );
+          map = new OpenLayers.Map( 'map');
+            let layer = new OpenLayers.Layer.OSM( "Simple OSM Map");
+            map.addLayer(layer);
+            map.setCenter(
+                new OpenLayers.LonLat(19.833, 45.255).transform(
+                    new OpenLayers.Projection("EPSG:4326"),
+                    map.getProjectionObject()
+                ), 12
+            ); 
 
 
-                this.map.addLayers([ol_wms]);
-
-          var click = new OpenLayers.Control.Click();
-            this.map.addControl(click);
+            var click = new OpenLayers.Control.Click();
+            map.addControl(click);
             click.activate();
     },
     methods: {
@@ -188,6 +198,12 @@ Vue.component("admin-new-restaurant", {
             catch(err){
                 this.imagePath = 'Error loading image';
             }
+        },
+        mapScroll: function(event){
+            document.body.classList.add("stop-scrolling");
+        },
+        enableScroll: function(event){
+            document.body.classList.remove("stop-scrolling");
         }
     }
 })

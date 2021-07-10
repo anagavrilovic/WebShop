@@ -99,3 +99,8 @@
     margin-top: 2px;
     margin-bottom: 2px;
 }
+
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}
