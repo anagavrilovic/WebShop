@@ -222,21 +222,29 @@ Vue.component('open-orders', {
             if(this.searchParams.priceTo == undefined)
                 this.searchParams.priceTo = Number.POSITIVE_INFINITY;
 
-            if(this.searchParams.dateFrom == undefined)
+            if(this.searchParams.dateFrom == undefined) {
                 this.searchParams.dateFrom = new Date(-8640000000000000);
-            else 
-                this.searchParams.dateFrom = Date.parse(this.searchParams.dateFrom);
+            }
+            else {
+                this.searchParams.dateFrom = new Date(this.searchParams.dateFrom);
+                this.searchParams.dateFrom.setHours(0,0,0,0);
+            }
+                
 
-            if(this.searchParams.dateTo == undefined)
+            if(this.searchParams.dateTo == undefined){
                 this.searchParams.dateTo = new Date(8640000000000000);
+                this.searchParams.dateTo.setHours(0,0,0,0);
+            } 
             else{
-                this.searchParams.dateTo = Date.parse(this.searchParams.dateTo);
-                this.searchParams.dateTo = this.searchParams.dateTo + 86400000;
+                this.searchParams.dateTo = new Date(this.searchParams.dateTo);
+                this.searchParams.dateTo.setHours(0,0,0,0);
             }
                 
 
             for(let order of this.allOrders){
-                if(order.time >= this.searchParams.dateFrom && order.time <= this.searchParams.dateTo){
+                let orderDate = new Date(order.time).setHours(0,0,0,0);
+
+                if(orderDate >= this.searchParams.dateFrom && orderDate <= this.searchParams.dateTo){
                     if(order.price >= this.searchParams.priceFrom && order.price <= this.searchParams.priceTo){
                         if(order.restaurantName.toLowerCase().includes(this.searchParams.restaurantName.toLowerCase())){
                             this.orders.push(order);
